@@ -20,13 +20,20 @@
                         <caption>{{ $contact_lenses_exam->created_at->format('d. m. Y.') }}&nbsp;Kontaktna sočiva recept</caption>
                         <thead>
                         <tr>
-                            <th>Right eye sphere</th>
-                            <th>Right eye cylinder</th>
-                            <th>Right eye axis</th>
+                            <th colspan="3">Right Eye</th>
                             <th></th>
-                            <th>Left eye Sphere</th>
-                            <th>Left eye cylinder</th>
-                            <th>Left eye axis</th>
+                            <th colspan="3">Left Eye</th>
+                            <th></th>
+                            <th colspan="4"></th>
+                        </tr>
+                        <tr>
+                            <th>Sphere</th>
+                            <th>Cylinder</th>
+                            <th>Axis</th>
+                            <th></th>
+                            <th>Sphere</th>
+                            <th>Cylinder</th>
+                            <th>Axis</th>
                             <th></th>
                             <th>Producer</th>
                             <th>Type</th>

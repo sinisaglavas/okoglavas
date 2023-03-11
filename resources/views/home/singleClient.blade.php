@@ -20,15 +20,22 @@
                    <caption>{{ $distance->created_at->format('d. m. Y.') }}&nbsp;Distance</caption>
                    <thead>
                    <tr>
-                       <th>Right eye sphere</th>
-                       <th>Right eye cylinder</th>
-                       <th>Right eye axis</th>
-                       <th>Right eye pd</th>
+                       <th colspan="4">Right Eye</th>
                        <th></th>
-                       <th>Left eye Sphere</th>
-                       <th>Left eye cylinder</th>
-                       <th>Left eye axis</th>
-                       <th>Left eye pd</th>
+                       <th colspan="4">Left Eye</th>
+                       <th></th>
+                       <th colspan="4"></th>
+                   </tr>
+                   <tr>
+                       <th>Sphere</th>
+                       <th>Cylinder</th>
+                       <th>Axis</th>
+                       <th>Pd</th>
+                       <th></th>
+                       <th>Sphere</th>
+                       <th>Cylinder</th>
+                       <th>Axis</th>
+                       <th>Pd</th>
                        <th></th>
                        <th>Total pd</th>
                        <th>Exam</th>
@@ -66,15 +73,22 @@
                         <caption>{{ $proximity->created_at->format('d. m. Y.') }}&nbsp;Proximity</caption>
                         <thead>
                         <tr>
-                            <th>Right eye sphere</th>
-                            <th>Right eye cylinder</th>
-                            <th>Right eye axis</th>
-                            <th>Right eye pd</th>
+                            <th colspan="4">Right Eye</th>
                             <th></th>
-                            <th>Left eye Sphere</th>
-                            <th>Left eye cylinder</th>
-                            <th>Left eye axis</th>
-                            <th>Left eye pd</th>
+                            <th colspan="4">Left Eye</th>
+                            <th></th>
+                            <th colspan="4"></th>
+                        </tr>
+                        <tr>
+                            <th>Sphere</th>
+                            <th>Cylinder</th>
+                            <th>Axis</th>
+                            <th>Pd</th>
+                            <th></th>
+                            <th>Sphere</th>
+                            <th>Cylinder</th>
+                            <th>Axis</th>
+                            <th>Pd</th>
                             <th></th>
                             <th>Total pd</th>
                             <th>Exam</th>

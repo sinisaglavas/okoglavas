@@ -179,7 +179,7 @@
                                 <input type="text" name="article" class="form-control" id="search" placeholder="Artikal ili opis artikla" required>
                                 <ul id="list" class="border m-0 p-0" style="display: none"></ul>
                             </td>
-                            <td><input type="number" name="pcs" min="1" max="10" class="form-control" id="pcs" required>
+                            <td><input type="number" name="pcs" min="1" max="10" class="form-control" id="pcs" disabled required>
                                 <input type="hidden" name="search_date" value="{{ $search_date }}">
                             </td>
                             <td><input type="number" name="price" class="form-control" id="price" readonly required></td>
@@ -353,6 +353,7 @@
                 document.getElementById('list').style.display = 'none';
             } else {
                 document.getElementById('list').style.display = 'block';
+                document.getElementById('pcs').disabled = false;
             }
             for (let i = 0; i < array.length; i++) {
                 document.getElementById('list').innerHTML += '<li data-article_id = "' + array[i].id + '" data-article = "' + array[i].article + '" data-describe = "' + array[i].describe + '" data-material = "' + array[i].material + '" data-installation_type = "' + array[i].installation_type + '" data-selling_price = "' + array[i].selling_price + '">' + array[i].article + ' , ' + array[i].describe + ' , '
