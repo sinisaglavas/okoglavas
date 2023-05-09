@@ -4,8 +4,8 @@
     <div class="container">
         <div class="row">
             <div class="col-3">
-                <a href="{{ route('home.allDebtors') }}" class="btn btn-secondary form-control m-2">Home/Debtors</a>
-                <a href="{{ route('homeGlasses') }}" class="btn btn-primary form-control m-2">Home/Glasses</a>
+                <a href="{{ route('home.allDebtors') }}" class="btn btn-primary form-control m-2">Svi Klijenti / Dužnici</a>
+                <a href="{{ route('homeGlasses') }}" class="btn btn-primary form-control m-2">Svi klijenti</a>
             </div>
             <div class="col-1"></div>
             <div class="col-5 border-bottom">
@@ -13,8 +13,8 @@
                 <table class="table table-hover table-bordered text-center m-3">
                     <thead>
                     <tr class="table-primary">
-                        <th>Debit</th>
-                        <th>Created at</th>
+                        <th>Zaduženje</th>
+                        <th>Kreirano</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -29,17 +29,6 @@
             </div>
 
             <div class="col-3 border-bottom">
-{{--                <form action="{{ route('saveAddDebtorForm',['id'=>$debtor->id]) }}" method="POST" class="m-3">--}}
-{{--                    @csrf--}}
-{{--                    <label for="debit">Add</label>--}}
-{{--                    <input type="number" name="debit" class="form-control" id="debit" required><br>--}}
-{{--                    <button class="btn btn-primary">Save</button>--}}
-{{--                </form>--}}
-{{--                @if(session()->has('message'))--}}
-{{--                    <div class="alert alert-success">--}}
-{{--                        {{ session()->get('message') }}--}}
-{{--                    </div>--}}
-{{--                @endif--}}
             </div>
         </div>
         <div class="row">
@@ -48,8 +37,8 @@
                     <table class="table table-bordered text-center m-3">
                         <thead>
                         <tr class="table-primary">
-                            <th>Payment</th>
-                            <th>Created at</th>
+                            <th>Plaćanja</th>
+                            <th>Kreirano</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -63,29 +52,23 @@
                     </table><br>
                     <div class="row">
                         <div class="col-6">
-                            <h5 class="fw-bold text-center text-bg-primary">Ukupno uplaceno: {{ \App\Models\Payment::where('debtor_id', $debtor->id)->sum('payment') }}</h5>
+                            <h5 class="btn btn-outline-primary form-control form-control-sm">Ukupno uplaćeno: {{ \App\Models\Payment::where('debtor_id', $debtor->id)->sum('payment') }}</h5>
                         </div>
                         <div class="col-6">
-                            <h5 class="fw-bold text-center text-bg-danger">Trenutno zaduzenje: {{ $debtor->debit - \App\Models\Payment::where('debtor_id', $debtor->id)->sum('payment') }}</h5>
-
+                            @if($debtor->debit - \App\Models\Payment::where('debtor_id', $debtor->id)->sum('payment') > 0)
+                            <h5 class="btn btn-outline-danger form-control form-control-sm">Trenutno zaduženje: {{ $debtor->debit - \App\Models\Payment::where('debtor_id', $debtor->id)->sum('payment') }}</h5>
+                            @elseif($debtor->debit - \App\Models\Payment::where('debtor_id', $debtor->id)->sum('payment') == 0)
+                            <h5 class="btn btn-outline-success form-control form-control-sm">Trenutno zaduženje: {{ $debtor->debit - \App\Models\Payment::where('debtor_id', $debtor->id)->sum('payment') }}</h5>
+                            @endif
                         </div>
                     </div>
-{{--                    {{ $users = User::with(['books.payments'])--}}
-{{--        ->whereHas('books.payments')--}}
-{{--        ->get()->toJson() }}--}}
-{{--                    {{ $sum = \App\Models\Payment::where('debtor.id', $->id)--}}
-{{--        ->join('orders', 'orders.book_id', '=', 'books.id')--}}
-{{--        ->join('payments', 'payments.order_id', '=', 'orders.id')--}}
-{{--        ->groupBy('books.id')--}}
-{{--        ->selectRaw('books.id, SUM(payments.amount) AS sum')--}}
-{{--        ->first()->sum }}--}}
                 </div>
                 <div class="col-3">
                     <form action="{{ route('home.savePaymentForm',['id'=>$debtor->id]) }}" method="POST" class="m-3">
                         @csrf
-                        <label for="payment">Payment</label>
+                        <label for="payment">Uplaćeno:</label>
                         <input type="number" name="payment" class="form-control" id="payment" required><br>
-                        <button class="btn btn-primary">Save</button>
+                        <button class="btn btn-primary form-control">Zapamti</button>
                     </form>
                 </div>
         </div>

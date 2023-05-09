@@ -13,13 +13,19 @@ class ContactLensesClientController extends Controller
     {
         $all_clients = Contact_lenses_client::all();
         $request = request()->name;
-        if (Contact_lenses_client::where('name','like','%'.request()->name.'%')->exists() && $request != ""){
-            $search_clients = Contact_lenses_client::where('name','like','%'.request()->name.'%')->get();//carobna linija koda
+        $name_exists = Contact_lenses_client::where('name','like','%'.$request.'%')->exists();
+        $phone_exists = Contact_lenses_client::where('phone','like','%'.$request.'%')->exists();
+
+        if ($name_exists && $request != ""){
+            $search_clients = Contact_lenses_client::where('name','like','%'.$request.'%')->get();//carobna linija koda
+            return view('homeContactLenses', compact('search_clients', 'all_clients'));
+        }elseif ($phone_exists){
+            $search_clients = Contact_lenses_client::where('phone','like','%'.$request.'%')->get();//carobna linija koda
             return view('homeContactLenses', compact('search_clients', 'all_clients'));
         }elseif ($request == ""){
             return view('homeContactLenses', compact('all_clients'));
         }
-        elseif (Contact_lenses_client::where('name','like','%'.request()->name.'%')->exists() == false){
+        elseif (Contact_lenses_client::where('name','like','%'.$request.'%')->exists() == false){
             return view('homeContactLenses', compact('all_clients'));
 
         }
@@ -67,6 +73,34 @@ class ContactLensesClientController extends Controller
         return redirect()->action([HomeController::class,'showContactLensesExaminationForm'],['id'=>$contact_lenses_client->id])->
         with('message','New data sent');
 
+    }
+
+    public function edit($id)
+    {
+        $client = Contact_lenses_client::find($id);
+
+        return view('editContactLensesClient', compact('client'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $client = Contact_lenses_client::find($id);
+
+        $pureData = $request->validate([
+            'name'=>'required',
+            'phone'=>'required | max:14'],
+            ['phone.max'=>'Ne mozete uneti vise od 14 cifara'
+            ]);
+
+        $client->name = $request->name;
+        $client->date_of_birth = (!is_null($request->date_of_birth) ? $request->date_of_birth : "");
+        $client->address = (!is_null($request->address) ? $request->address : "");//ako nema unosa ostavi prazno polje
+        $client->city = (!is_null($request->city) ? $request->city : "");
+        $client->phone = $request->phone;
+        $client->identity_card = $request->identity_card;
+        $client->update();
+
+        return redirect('/home-contact-lenses');
     }
 
 

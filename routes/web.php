@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Resources\UserResource;
+use App\Models\User;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -34,6 +35,9 @@ Route::get('/home/single-client/{id}',[App\Http\Controllers\HomeController::clas
 name('home.singleClient');
 Route::get('/home/single-contact-lenses-client/{id}',[App\Http\Controllers\HomeController::class,'showSingleContactLensesClient'])->
 name('home.singleContactLensesClient');
+Route::get('/all-stock', [App\Http\Controllers\HomeController::class, 'showStock'])->name('allStock');
+
+
 
 //home.debtors
 Route::get('/home/debtors', [App\Http\Controllers\DebtorController::class,'index'])->name('home.allDebtors');
@@ -53,9 +57,36 @@ Route::get('/show-all-debits',[App\Http\Controllers\PaymentController::class,'sh
 name('showAllDebits');
 Route::get('/show-single-debtor-contact-lenses/{id}', [App\Http\Controllers\DebtorsContactLensesController::class,'showSingleDebtorContactLenses'])->
 name('showSingleDebtorContactLenses');
-Route::get('suitable-contact-lenses/{id}/{client_id}',[App\Http\Controllers\ContactLensesController::class,'suitableContactLenses'])->
+Route::get('/suitable-contact-lenses/{id}/{client_id}',[App\Http\Controllers\ContactLensesController::class,'suitableContactLenses'])->
 name('suitableContactLenses');
+Route::get('/show-stock-form',[App\Http\Controllers\StockController::class,'showStockForm'])->
+name('showStockForm');
+Route::get('/turnover-by-days',[App\Http\Controllers\Turnover_by_dayController::class, 'index'])->name('turnoverByDays');
+Route::get('/show-daily-turnover',[App\Http\Controllers\DailyTurnoverController::class, 'index'])->name('showDailyTurnover');
+Route::get('/daily-turnover', [App\Http\Controllers\DailyTurnoverController::class, 'showDailyTurnover'])->name('dailyTurnover'); // ruta za JS
+Route::get('/total-per-day', [App\Http\Controllers\Turnover_by_dayController::class, 'totalPerDay'])->name('totalPerDay'); // ruta za JS
+Route::get('/requested/{turnover_by_day}/day', [App\Http\Controllers\Turnover_by_dayController::class, 'displayTurnover'])->name('displayTurnover');
+Route::get('/update/{id}/{stock_id}/{search_date}/{sum}/before-delete', [App\Http\Controllers\DailyTurnoverController::class, 'updateBeforeDelete'])->name('updateBeforeDelete');
 
+//update
+Route::put('/client/{id}/edit', [App\Http\Controllers\ClientController::class, 'update'])->name('update');
+Route::put('/contact-lenses-client/{id}/edit', [App\Http\Controllers\ContactLensesClientController::class, 'update'])->name('updateCL');
+Route::put('/client-examination/{id}/edit', [App\Http\Controllers\ClientController::class, 'updateExamination'])->name('updateExamination');
+Route::put('/stock/{id}/edit', [App\Http\Controllers\StockController::class, 'updateStock'])->name('updateStock');
+Route::put('/user/{id}/edit', [App\Http\Controllers\UserController::class, 'updateUser'])->name('updateUser');
+Route::put('/home/edit-distance-form/{id}',[App\Http\Controllers\HomeController::class,'updateDistance'])->name('updateDistance');
+Route::put('/home/edit-proximity-form/{id}',[App\Http\Controllers\HomeController::class,'updateProximity'])->name('updateProximity');
+Route::put('/home/edit-contact-lenses-exam-form/{id}',[App\Http\Controllers\HomeController::class,'updateContactLensesExam'])->name('updateContactLensesExam');
+
+//edit
+Route::get('/client/{id}/edit', [App\Http\Controllers\ClientController::class, 'edit'])->name('edit');
+Route::get('/contact-lenses-client/{id}/edit', [App\Http\Controllers\ContactLensesClientController::class, 'edit'])->name('editCL');
+Route::get('/distance-form/{distance_id}/edit', [App\Http\Controllers\ClientController::class, 'editDistanceForm']);
+Route::get('/proximity-form/{proximity_id}/edit', [App\Http\Controllers\ClientController::class, 'editProximityForm']);
+Route::get('/contact-lens-form/{contact_lenses_exam_id}/edit', [App\Http\Controllers\ClientController::class, 'editContactLensesExam']);
+
+Route::get('/user-edit', [App\Http\Controllers\UserController::class, 'editUser'])->name('editUser');
+Route::get('/stock/{id}/edit', [App\Http\Controllers\StockController::class, 'editStock'])->name('editStock');
 
 //home
 Route::post('/home/save-client-form',[App\Http\Controllers\HomeController::class,'saveClientForm'])->
@@ -66,9 +97,9 @@ Route::post('/home/save-client-debit-form',[App\Http\Controllers\HomeController:
 name('home.saveClientDebit');
 Route::post('/home/save-distance-form/{id}',[App\Http\Controllers\HomeController::class,'saveDistanceForm'])->
 name('home.saveDistance');
+
 Route::post('/home/save-proximity-form/{id}',[App\Http\Controllers\HomeController::class,'saveProximityForm'])->
 name('home.saveProximity');
-
 
 
 //non home
@@ -93,11 +124,17 @@ name('saveDebtorContactLensesForm');
 Route::post('/save-payment-contact-lenses-form/{id}',[App\Http\Controllers\PaymentContactLenseController::class,'savePaymentContactLensesForm'])->
 name('savePaymentContactLensesForm');
 
+Route::post('/save-stock',[App\Http\Controllers\StockController::class,'saveStock'])->name('saveStock');
+Route::post('/search-stock',[App\Http\Controllers\StockController::class,'searchStock'])->name('searchStock');
 
+Route::get('/requested-day', [App\Http\Controllers\DailyTurnoverController::class, 'requestedDay'])->name('requestedDay');
+Route::post('/daily-turnover', [App\Http\Controllers\DailyTurnoverController::class, 'saveDailyTurnover'])->name('dailyTurnover');
 
 
 
 //home.debtors
 Route::post('/home/save-payment-form/{id}',[App\Http\Controllers\PaymentController::class,'savePaymentForm'])->
 name('home.savePaymentForm');
+
+
 

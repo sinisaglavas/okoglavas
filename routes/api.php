@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Models\Stock;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,4 +17,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::get('/stock/{q}', function ($q, Request $request){
+   $all_stock = Stock::where('article', 'LIKE', '%'.$q.'%')->orWhere('describe', 'LIKE', '%'.$q.'%')->get();
+   return $all_stock;
 });

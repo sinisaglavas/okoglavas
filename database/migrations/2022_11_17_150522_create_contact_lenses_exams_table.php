@@ -15,11 +15,11 @@ class CreateContactLensesExamsTable extends Migration
     {
         Schema::create('contact_lenses_exams', function (Blueprint $table) {
             $table->id();
-            $table->decimal('right_eye_sphere',4,2);
-            $table->decimal('right_eye_cylinder',4,2);
+            $table->string('right_eye_sphere');
+            $table->string('right_eye_cylinder');
             $table->integer('right_eye_axis');
-            $table->decimal('left_eye_sphere',4,2);
-            $table->decimal('left_eye_cylinder',4,2);
+            $table->string('left_eye_sphere');
+            $table->string('left_eye_cylinder');
             $table->integer('left_eye_axis');
             $table->string('producer');
             $table->string('type');

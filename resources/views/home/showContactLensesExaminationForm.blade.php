@@ -4,8 +4,8 @@
     <div class="container">
         <div class="row">
             <div class="col-4">
-                <a href="{{ route('homeContactLenses') }}" class="btn btn-primary form-control m-2">Home/Contact Lenses</a>
-                <a href="{{ url('/home/single-contact-lenses-client',['id'=>$single_client->id])}}" class="btn btn-light form-control m-2">Client: {{ $single_client->name }}</a>
+                <a href="{{ route('homeContactLenses') }}" class="btn btn-danger form-control m-2">Svi klijenti</a>
+                <a href="{{ url('/home/single-contact-lenses-client',['id'=>$single_client->id])}}" class="btn btn-light form-control m-2">Klijent: {{ $single_client->name }}</a>
                 @if(session()->has('message'))
                     <div class="alert alert-info form-control m-2 text-center text-uppercase">
                         {{ session()->get('message') }}
@@ -19,7 +19,7 @@
             </div>
             @if(isset($suitable_contact_lenses))
             <div class="col-8 p-3" style="background-color: rgb(200,200,200);">
-                <h5>Contact Lenses - Exam</h5>
+                <h5>Kontaktna sočiva - Pregled</h5>
                 <div class="row">
                 </div>
                 <form action="{{ route('saveContactLensesForm',['id'=>$single_client->id]) }}" method="POST">
@@ -29,7 +29,7 @@
                             <label for="right-eye-sphere">R sph</label>
                             <select name="right_diopter" class="form-control form-control-sm" id="right-eye-sphere">
                                 @foreach($all_diopters as $diopter)
-                                    <option name="right_eye_sphere" value="{{ $diopter->sphere_range}}">{{ $diopter->sphere_range }}</option>
+                                    <option name="right_eye_sphere" value="{{ $diopter->sphere_range}}" {{ $diopter->sphere_range == 0 ? 'selected' : '' }}>{{ $diopter->sphere_range }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -37,7 +37,7 @@
                             <label for="right-eye-cylinder">R cyl</label>
                             <select name="right_diopter2" class="form-control form-control-sm" id="right-eye-cylinder">
                                 @foreach($all_diopters as $diopter)
-                                    <option name="right_eye_cylinder" value="{{ $diopter->cylinder_range }}">{{ $diopter->cylinder_range }}</option>
+                                    <option name="right_eye_cylinder" value="{{ $diopter->cylinder_range }}" {{ $diopter->cylinder_range == 0 ? 'selected' : '' }}>{{ $diopter->cylinder_range }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -54,7 +54,7 @@
                             <label for="left-eye-sphere">L sph</label>
                             <select name="left_diopter" class="form-control form-control-sm" id="left-eye-sphere">
                                 @foreach($all_diopters as $diopter)
-                                    <option name="left_eye_sphere" value="{{ $diopter->sphere_range}}">{{ $diopter->sphere_range }}</option>
+                                    <option name="left_eye_sphere" value="{{ $diopter->sphere_range}}" {{ $diopter->sphere_range == 0 ? 'selected' : '' }}>{{ $diopter->sphere_range }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -62,7 +62,7 @@
                             <label for="left-eye-cylinder">L cyl</label>
                             <select name="left_diopter2" class="form-control form-control-sm" id="left-eye-cylinder">
                                 @foreach($all_diopters as $diopter)
-                                    <option name="left_eye_cylinder" value="{{ $diopter->cylinder_range }}">{{ $diopter->cylinder_range }}</option>
+                                    <option name="left_eye_cylinder" value="{{ $diopter->cylinder_range }}" {{ $diopter->cylinder_range == 0 ? 'selected' : '' }}>{{ $diopter->cylinder_range }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -131,13 +131,13 @@
         <div class="row">
             <div class="col-12 m-2">
                 <div class="row">
-                    <div class="col-8"><h2>All Contact lenses</h2></div>
+                    <div class="col-8"><h2>Sva kontaktna sočiva</h2></div>
                     <div class="col-4">
                         <form action="{{ route('searchContactLensesType',['id'=>$single_client->id]) }}" method="POST">
                             @csrf
                             <div class="input-group">
-                                <input type="text" name="type" class="form-control" placeholder="Search contact lenses type" aria-label="Search contact lenses type">
-                                <input type="submit" class="btn btn-outline-secondary" value="Find">
+                                <input type="text" name="type" class="form-control" placeholder="Traži tip kontaktnih sočiva (Type)" aria-label="Search contact lenses type">
+                                <input type="submit" class="btn btn-outline-secondary" value="Traži">
                             </div>
                         </form>
                     </div>
@@ -189,7 +189,7 @@
                     @foreach($contact_lenses as $cl)
                         <tr>
                             <td>{{ $cl->id }}</td>
-                            <td><a href="{{ route('suitableContactLenses',['id'=>$cl->id, 'client_id'=>$single_client->id]) }}" class="text-decoration-none fw-bold">{{ $cl->type }}</a></td>
+                            <td><a href="{{ route('suitableContactLenses',['id'=>$cl->id, 'client_id'=>$single_client->id]) }}" class="text-decoration-none text-danger">{{ $cl->type }}</a></td>
                             <td>{{ $cl->producer }}</a></td>
                             <td>{{ $cl->base_curve }}</td>
                             <td>{{ $cl->diameter }}</td>

@@ -1,5 +1,7 @@
-<nav class="navbar navbar-expand-lg navbar-light p-3" style="background-color: #e3f2fd;">
-    <a href="{{ route('welcome') }}" class="navbar-brand">Clients</a>
+
+<nav class="navbar navbar-expand-lg navbar-light p-4" style="background-color: #e3f2fd;">
+    <a href="{{ route('welcome') }}" class="navbar-brand">Client</a>
+
     <ul class="navbar-nav">
         @if(Route::has('login'))
             @auth
@@ -18,4 +20,7 @@
             @endauth
         @endif
     </ul>
+
+
+
 </nav>
