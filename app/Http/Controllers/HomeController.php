@@ -17,6 +17,7 @@ use App\Models\Stock;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
 class HomeController extends Controller
@@ -355,10 +356,46 @@ class HomeController extends Controller
         });
         $cl_sum = Stock::where('item_type', 'KS')->sum('quantity');
         $glasses_sum = Stock::where('item_type', 'Ram')->sum('quantity');
-        return view('stock', compact('all_stocks', 'total', 'cl_sum', 'glasses_sum'));
+        $dl_sum = Stock::where('item_type', 'DS')->sum('quantity');
+
+        return view('stock', compact('all_stocks', 'total', 'cl_sum', 'glasses_sum', 'dl_sum'));
     }
 
+    public function showNewTypeContactLensForm()
+    {
+        $all_contact_lenses = Contact_lense::all();
 
+        return view('home.showNewTypeContactLensForm', compact('all_contact_lenses'));
+    }
+
+    public function saveContactLensTypeForm(Request $request)
+    {
+        $request->validate([
+            'producer'=>'required',
+            'type'=>'required',
+            'base_curve'=>'required',
+            'diameter'=>'required',
+            'material'=>'required',
+            'packaging'=>'required',
+            'maximum_use'=>'required'
+        ]);
+
+        $new_type_contact_lens = new Contact_lense();
+        $new_type_contact_lens->producer = $request->producer;
+        $new_type_contact_lens->type = $request->type;
+        $new_type_contact_lens->base_curve = $request->base_curve;
+        $new_type_contact_lens->diameter = $request->diameter;
+        $new_type_contact_lens->material = $request->material;
+        $new_type_contact_lens->packaging = $request->packaging;
+        $new_type_contact_lens->maximum_use = $request->maximum_use;
+        $new_type_contact_lens->save();
+
+        $all_contact_lenses = Contact_lense::all();
+        Session::flash('message','Podaci su snimljeni');
+
+        return view('home.showNewTypeContactLensForm', compact('all_contact_lenses'));
+
+    }
 
 
 

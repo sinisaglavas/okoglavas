@@ -3,13 +3,16 @@
 @section('content')
     <div class="container">
         <div class="row mb-4">
-            <div class="col-4">
+            <div class="col">
                 <a href="{{ route('home.showContactLensesForm') }}" class="btn btn-danger form-control m-2">Novi klijent</a>
             </div>
-            <div class="col-4">
+            <div class="col">
                 <a href="{{ route('allDebtorsContactLenses') }}" class="btn btn-danger form-control m-2">Svi klijenti / Dužnici</a>
             </div>
-            <div class="col-4">
+            <div class="col">
+                <a href="/home/show-new-type-contact-lens-form" class="btn btn-danger form-control m-2">Unesi novi tip Kontaktnih sočiva</a>
+            </div>
+            <div class="col">
                 <a href="#" class="btn btn-outline-danger form-control m-2">Ukupno klijenata: {{ \Illuminate\Support\Facades\DB::table('contact_lenses_clients')->select('id')->count('id') }}</a>
             </div>
         </div>

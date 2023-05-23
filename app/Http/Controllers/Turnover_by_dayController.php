@@ -27,12 +27,12 @@ class Turnover_by_dayController extends Controller
         return $total_per_day;
     }
 
-    public function displayTurnover($turnover_by_day) {
-        $the_data = Daily_turnover::where('created_at', $turnover_by_day)->get();
-        $sum = DB::table('daily_turnovers')->where('created_at', $turnover_by_day)
+    public function displayTurnover($search_date) {
+        $search_data = Daily_turnover::where('created_at', $search_date)->get();
+        $sum = DB::table('daily_turnovers')->where('created_at', $search_date)
             ->select('total')->sum('total');
 
-        return view('requestedDay', compact('the_data', 'turnover_by_day', 'sum'));
+        return view('requestedDay', compact('search_data', 'search_date', 'sum'));
 
     }
 

@@ -19,7 +19,7 @@
             </div>
 
             <div class="col-4 p-4 m-1" style="background-color: rgb(200,200,200)">
-                <h2>Distance</h2>
+                <h2>Daljina</h2>
                 <form action="{{ route('home.saveDistance',['id'=>$single_client->id]) }}" method="POST">
                     @csrf
                     <div class="row mb-3">
@@ -95,13 +95,13 @@
                     <label for="note">Note:</label>
                     <textarea name="note" id="note" cols="10" rows="4" class="form-control mb-4" placeholder="Unos nije obavezan, max 100 karaktera"></textarea>
 
-                    <button name="green" value="green" class="btn btn-success form-control">By optometry Glavas</button>
+                    <button name="green" value="green" class="btn btn-success form-control">Od optometrije Glavaš</button>
                     <br><br>
-                    <button name="red" value="red" class="btn btn-danger form-control">By prescription</button>
+                    <button name="red" value="red" class="btn btn-danger form-control">Po receptu</button>
                 </form>
             </div>
             <div class="col-4 border p-4 m-1">
-                <h2>Proximity</h2>
+                <h2>Blizina</h2>
                 <form action="{{ route('home.saveProximity',['id'=>$single_client->id]) }}" method="POST">
                     @csrf
                     <div class="row mb-3">
@@ -177,9 +177,9 @@
                     <label for="note">Note:</label>
                     <textarea name="note" id="note" cols="10" rows="4" class="form-control mb-4" placeholder="Unos nije obavezan, max 100 karaktera"></textarea>
 
-                    <button name="green" value="green" class="btn btn-success form-control">By optometry Glavas</button>
+                    <button name="green" value="green" class="btn btn-success form-control">Od optometrije Glavaš</button>
                     <br><br>
-                    <button name="red" value="red" class="btn btn-danger form-control">By prescription</button>
+                    <button name="red" value="red" class="btn btn-danger form-control">Po receptu</button>
                 </form>
             </div>
         </div>

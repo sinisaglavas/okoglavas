@@ -3,19 +3,13 @@
 @section('content')
     <div class="container">
         <div class="row mb-4">
-            <div class="col-2">
+            <div class="col">
                 <a href="{{ route('turnoverByDays') }}" class="btn btn-secondary form-control m-2">Promet po danima</a>
             </div>
-            <div class="col-2">
+            <div class="col">
                 <a href="{{ route('showStockForm') }}" class="btn btn-secondary form-control m-2">Novi artikal</a>
             </div>
-            <div class="col-2">
-                <button class="btn btn-warning form-control m-2">KS: <span class="fw-bold">{{ $cl_sum }} kom.</span></button>
-            </div>
-            <div class="col-2">
-                <button class="btn btn-warning form-control m-2">Ramovi: <span class="fw-bold">{{ $glasses_sum }} kom.</span></button>
-            </div>
-            <div class="col-4">
+            <div class="col">
                 <button class="btn btn-warning form-control m-2">Ukupno na lageru: <span class="fw-bold">{{ $total }} dinara</span>
                 </button>
             </div>
@@ -23,10 +17,20 @@
         <div class="row">
             <div class="col-12">
                 <div class="row">
-                    <div class="col-7">
-                        <h2>Svi artikli - LAGER</h2>
+                    <div class="col-8">
+                        <div class="row">
+                            <div class="col">
+                                <button class="btn btn-warning form-control">KS: <span class="fw-bold">{{ $cl_sum }} kom.</span></button>
+                            </div>
+                            <div class="col">
+                                <button class="btn btn-warning form-control">Ramovi: <span class="fw-bold">{{ $glasses_sum }} kom.</span></button>
+                            </div>
+                            <div class="col">
+                                <button class="btn btn-warning form-control">Diop. Sočiva: <span class="fw-bold">{{ $dl_sum }} kom.</span></button>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-5">
+                    <div class="col-4">
                         <form action="{{route('searchStock')}}" method="POST">
                             @csrf
                             <div class="input-group">
@@ -36,6 +40,11 @@
                                 <input type="submit" class="btn btn-outline-secondary" value="Traži">
                             </div>
                         </form>
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col">
+                        <h2 class="text-center">L A G E R</h2>
                     </div>
                 </div>
                 @if(isset($search_stocks))

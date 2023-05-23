@@ -15,7 +15,7 @@
             </div>
             <div class="col-1"></div>
             <div class="col-3 p-2 m-1" style="background-color: rgb(200,200,200)">
-                <h4 class="text-center">CL - Examination change</h4>
+                <h4 class="text-center">KS - Promena parametara</h4>
                 <form action="{{ route('updateContactLensesExam',['id'=>$contact_lenses_exam->id]) }}" method="POST">
                     @csrf
                     @method('put')
@@ -84,9 +84,9 @@
                         </div>
                     </div>
                     <br>
-                    <button name="green" value="green" class="btn btn-success form-control">By optometry Glavas</button>
+                    <button name="green" value="green" class="btn btn-success form-control">Od optometrije Glavaš</button>
                     <br><br>
-                    <button name="red" value="red" class="btn btn-danger form-control">By prescription</button>
+                    <button name="red" value="red" class="btn btn-danger form-control">Po receptu</button>
                 </form>
             </div>
         </div>

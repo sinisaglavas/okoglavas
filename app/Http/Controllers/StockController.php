@@ -51,25 +51,29 @@ class StockController extends Controller
         $material_exists = Stock::where('material','like','%'.$request.'%')->exists();
         $describe_exists = Stock::where('describe','like','%'.$request.'%')->exists();
 
+        $cl_sum = Stock::where('item_type', 'KS')->sum('quantity');
+        $glasses_sum = Stock::where('item_type', 'Ram')->sum('quantity');
+        $dl_sum = Stock::where('item_type', 'DS')->sum('quantity');
+
         if ($article_exists && $request != "")
         {
             $search_stocks = Stock::where('article','like','%'.$request.'%')->get();//carobna linija koda
-            return view('stock', compact('search_stocks', 'all_stocks', 'total'));
+            return view('stock', compact('search_stocks', 'all_stocks', 'total', 'cl_sum', 'glasses_sum', 'dl_sum'));
         }
         elseif ($selling_price_exists && $request != "")
         {
             $search_stocks = Stock::where('selling_price','like','%'.$request.'%')->get();//carobna linija koda
-            return view('stock', compact('search_stocks', 'all_stocks', 'total'));
+            return view('stock', compact('search_stocks', 'all_stocks', 'total', 'cl_sum', 'glasses_sum', 'dl_sum'));
         }elseif ($describe_exists && $request != "")
         {
             $search_stocks = Stock::where('describe','like','%'.$request.'%')->get();
-            return view('stock', compact('search_stocks', 'all_stocks', 'total'));
+            return view('stock', compact('search_stocks', 'all_stocks', 'total', 'cl_sum', 'glasses_sum', 'dl_sum'));
         }elseif ($request == "")
         {
-            return view('stock', compact('all_stocks', 'total'));
+            return view('stock', compact('all_stocks', 'total', 'cl_sum', 'glasses_sum', 'dl_sum'));
         }
         elseif ($article_exists == false || $selling_price_exists == false || $material_exists == false){
-            return view('stock', compact('all_stocks', 'total'));
+            return view('stock', compact('all_stocks', 'total', 'cl_sum', 'glasses_sum', 'dl_sum'));
         }
 
     }

@@ -36,7 +36,7 @@ name('home.singleClient');
 Route::get('/home/single-contact-lenses-client/{id}',[App\Http\Controllers\HomeController::class,'showSingleContactLensesClient'])->
 name('home.singleContactLensesClient');
 Route::get('/all-stock', [App\Http\Controllers\HomeController::class, 'showStock'])->name('allStock');
-
+Route::get('/home/show-new-type-contact-lens-form', [App\Http\Controllers\HomeController::class, 'showNewTypeContactLensForm']);
 
 
 //home.debtors
@@ -67,6 +67,7 @@ Route::get('/daily-turnover', [App\Http\Controllers\DailyTurnoverController::cla
 Route::get('/total-per-day', [App\Http\Controllers\Turnover_by_dayController::class, 'totalPerDay'])->name('totalPerDay'); // ruta za JS
 Route::get('/requested/{turnover_by_day}/day', [App\Http\Controllers\Turnover_by_dayController::class, 'displayTurnover'])->name('displayTurnover');
 Route::get('/update/{id}/{stock_id}/{search_date}/{sum}/before-delete', [App\Http\Controllers\DailyTurnoverController::class, 'updateBeforeDelete'])->name('updateBeforeDelete');
+
 
 //update
 Route::put('/client/{id}/edit', [App\Http\Controllers\ClientController::class, 'update'])->name('update');
@@ -101,6 +102,8 @@ name('home.saveDistance');
 Route::post('/home/save-proximity-form/{id}',[App\Http\Controllers\HomeController::class,'saveProximityForm'])->
 name('home.saveProximity');
 
+Route::post('/home/save-contact-lens-type-form', [App\Http\Controllers\HomeController::class, 'saveContactLensTypeForm'])->
+name('home.saveContactLensTypeForm');
 
 //non home
 Route::post('/save-debtor-form',[App\Http\Controllers\DebtorController::class,'saveDebtorForm'])->
