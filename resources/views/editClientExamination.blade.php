@@ -11,54 +11,178 @@
                         {{ session()->get('message') }}
                     </div>
                 @endif
-                @if(session()->has('message1'))
-                    <div class="alert alert-info form-control m-2 text-center text-uppercase">
-                        {{ session()->get('message1') }}
-                    </div>
-                @endif
             </div>
             <div class="col-1"></div>
-
-            <div class="col-3 p-2 m-1" style="background-color: rgb(200,200,200)">
+            @if(isset($single_distance))
+            <div class="col-4 p-4 m-1" style="background-color: rgb(200,200,200)">
                 <h2>Distance</h2>
-                <form action="{{ route('home.saveDistance',['id'=>$single_client->id]) }}" method="POST">
+                <form action="{{ route('updateDistance',['id'=>$single_distance->id]) }}" method="POST">
                     @csrf
-                    <label for="right-eye-sphere">Right eye sphere</label>
-                    <input type="text" name="right_eye_sphere" id="right-eye-sphere" class="form-control" value="{{ $single_distance->right_eye_sphere }}">
-                    <div class="row">
+                    @method('put')
+                    <div class="row mb-2">
                         <div class="col-6">
-                            <label for="right-eye-cylinder">Right eye cylinder</label>
-                            <input type="text" name="right_eye_cylinder" id="right-eye-cylinder" class="form-control" value="{{ $single_distance->right_eye_cylinder }}">
+                            <div>Right Eye</div>
+                            <hr class="mt-1">
+                            <label for="right-eye-sphere">Sphere</label>
+                            <select name="right_diopter" class="form-control" id="right-eye-sphere">
+                                @foreach($all_diopters as $diopter)
+                                    <option name="right_eye_sphere" value="{{$diopter->sphere_range }}" {{ $diopter->sphere_range == $single_distance->right_eye_sphere ? 'selected' : '' }}>{{ $diopter->sphere_range }}</option>
+                                @endforeach
+                            </select>
+                            <div class="row">
+                                <div class="col-6">
+                                    <label for="right-eye-cylinder">Cylinder</label>
+                                    <select name="right_diopter2" class="form-control" id="right-eye-cylinder">
+                                        @foreach($all_diopters as $diopter)
+                                            <option name="right_eye_cylinder" value="{{$diopter->cylinder_range }}" {{ $diopter->cylinder_range == $single_distance->right_eye_cylinder ? 'selected' : '' }}>{{ $diopter->cylinder_range }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-6">
+                                    <label for="right-eye-axis">Axis</label>
+                                    <select name="right_axis" class="form-control" id="right-eye-axis">
+                                        @foreach($all_diopters as $diopter)
+                                            <option name="right_eye_axis" value="{{ $diopter->axis_range }}" {{ $diopter->axis_range == $single_distance->right_eye_axis ? 'selected' : '' }}>{{ $diopter->axis_range }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <label for="right-eye-pd">Pd</label>
+                            <select name="right_pd" class="form-control" id="right-eye-pd">
+                                @foreach($all_pd as $pd)
+                                    <option name="right_eye_pd" value="{{ $pd->pd_range }}" {{ $pd->pd_range == $single_distance->right_eye_pd ? 'selected' : '' }}>{{ $pd->pd_range }}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="col-6">
-                            <label for="right-eye-axis">Right eye axis</label>
-                            <input type="number" name="right_eye_axis" id="right-eye-axis" class="form-control" min="0" max="180" value="{{ $single_distance->right_eye_axis }}">
+                            <div>Left Eye</div>
+                            <hr class="mt-1">
+                            <label for="left-eye-sphere">Sphere</label>
+                            <select name="left_diopter" class="form-control" id="left-eye-sphere">
+                                @foreach($all_diopters as $diopter)
+                                    <option name="left_eye_sphere" value="{{$diopter->sphere_range }}" {{ $diopter->sphere_range == $single_distance->left_eye_sphere ? 'selected' : '' }}>{{ $diopter->sphere_range }}</option>
+                                @endforeach
+                            </select>
+                            <div class="row">
+                                <div class="col-6">
+                                    <label for="left-eye-cylinder">Cylinder</label>
+                                    <select name="left_diopter2" class="form-control" id="left-eye-cylinder">
+                                        @foreach($all_diopters as $diopter)
+                                            <option name="left_eye_cylinder" value="{{$diopter->cylinder_range }}" {{ $diopter->cylinder_range == $single_distance->left_eye_cylinder ? 'selected' : '' }}>{{ $diopter->cylinder_range }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-6">
+                                    <label for="left-eye-axis">Axis</label>
+                                    <select name="left_axis" class="form-control" id="left-eye-axis">
+                                        @foreach($all_diopters as $diopter)
+                                            <option name="left_eye_axis" value="{{ $diopter->axis_range }}" {{ $diopter->axis_range == $single_distance->left_eye_axis ? 'selected' : '' }}>{{ $diopter->axis_range }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <label for="left-eye-pd">Pd</label>
+                            <select name="left_pd" class="form-control" id="left-eye-pd">
+                                @foreach($all_pd as $pd)
+                                    <option name="right_eye_pd" value="{{ $pd->pd_range }}" {{ $pd->pd_range == $single_distance->left_eye_pd ? 'selected' : '' }}>{{ $pd->pd_range }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
-                    <label for="right-eye-pd">Right eye pd</label>
-                    <input type="number" name="right_eye_pd" id="right-eye-pd" class="form-control" min="20" max="41" value="{{ $single_distance->right_eye_pd }}">
-                    <br>
-                    <label for="left-eye-sphere">Left eye sphere</label>
-                    <input type="text" name="left_eye_sphere" id="left-eye-sphere" class="form-control" value="{{ $single_distance->left_eye_sphere }}">
-                    <div class="row">
-                        <div class="col-6">
-                            <label for="left-eye-cylinder">Left eye cylinder</label>
-                            <input type="text" name="left_eye_cylinder" id="left-eye-cylinder" class="form-control" value="{{ $single_distance->left_eye_cylinder }}">
-                        </div>
-                        <div class="col-6">
-                            <label for="left-eye-axis">Left eye axis</label>
-                            <input type="number" name="left_eye_axis" id="left-eye-axis" class="form-control" min="0" max="180" value="{{ $single_distance->left_eye_axis }}">
-                        </div>
-                    </div>
-                    <label for="left-eye-pd">Left eye pd</label>
-                    <input type="number" name="left_eye_pd" id="left-eye-pd" class="form-control" min="20" max="41" value="{{ $single_distance->left_eye_pd }}">
-                    <br>
+                    <label for="note">Note: &nbsp;&nbsp;&nbsp;(max 100 characters)</label>
+                    <textarea name="note" id="note" cols="10" rows="4" class="form-control mb-4" placeholder="Maksimum 100 karaktera">{{ $single_distance->note }}</textarea>
+
                     <button name="green" value="green" class="btn btn-success form-control">By optometry Glavas</button>
                     <br><br>
                     <button name="red" value="red" class="btn btn-danger form-control">By prescription</button>
                 </form>
             </div>
+            @endif
+            @if(isset($single_proximity))
+                <div class="col-4 border p-4 m-1">
+                    <h2>Proximity</h2>
+                    <form action="{{ route('updateProximity',['id'=>$single_proximity->id]) }}" method="POST">
+                        @csrf
+                        @method('put')
+                        <div class="row">
+                            <div class="col-6">
+                                <div>Right Eye</div>
+                                <hr class="mt-1">
+                                <label for="right-eye-sphere">Sphere</label>
+                                <select name="right_diopter" class="form-control" id="right-eye-sphere">
+                                    @foreach($all_diopters as $diopter)
+                                        <option name="right_eye_sphere" value="{{$diopter->sphere_range }}" {{ $diopter->sphere_range == $single_proximity->right_eye_sphere ? 'selected' : '' }}>{{ $diopter->sphere_range }}</option>
+                                    @endforeach
+                                </select>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <label for="right-eye-cylinder">Cylinder</label>
+                                        <select name="right_diopter2" class="form-control" id="right-eye-cylinder">
+                                            @foreach($all_diopters as $diopter)
+                                                <option name="right_eye_cylinder" value="{{$diopter->cylinder_range }}" {{ $diopter->cylinder_range == $single_proximity->right_eye_cylinder ? 'selected' : '' }}>{{ $diopter->cylinder_range }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-6">
+                                        <label for="right-eye-axis">Axis</label>
+                                        <select name="right_axis" class="form-control" id="right-eye-axis">
+                                            @foreach($all_diopters as $diopter)
+                                                <option name="right_eye_axis" value="{{ $diopter->axis_range }}" {{ $diopter->axis_range == $single_proximity->right_eye_axis ? 'selected' : '' }}>{{ $diopter->axis_range }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <label for="right-eye-pd">Pd</label>
+                                <select name="right_pd" class="form-control" id="right-eye-pd">
+                                    @foreach($all_pd as $pd)
+                                        <option name="right_eye_pd" value="{{ $pd->pd_range }}" {{ $pd->pd_range == $single_proximity->right_eye_pd ? 'selected' : '' }}>{{ $pd->pd_range }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-6">
+                                <div>Left Eye</div>
+                                <hr class="mt-1">
+                                <label for="left-eye-sphere">Sphere</label>
+                                <select name="left_diopter" class="form-control" id="left-eye-sphere">
+                                    @foreach($all_diopters as $diopter)
+                                        <option name="left_eye_sphere" value="{{$diopter->sphere_range }}" {{ $diopter->sphere_range == $single_proximity->left_eye_sphere ? 'selected' : '' }}>{{ $diopter->sphere_range }}</option>
+                                    @endforeach
+                                </select>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <label for="left-eye-cylinder">Cylinder</label>
+                                        <select name="left_diopter2" class="form-control" id="left-eye-cylinder">
+                                            @foreach($all_diopters as $diopter)
+                                                <option name="left_eye_cylinder" value="{{$diopter->cylinder_range }}" {{ $diopter->cylinder_range == $single_proximity->left_eye_cylinder ? 'selected' : '' }}>{{ $diopter->cylinder_range }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-6">
+                                        <label for="left-eye-axis">Axis</label>
+                                        <select name="left_axis" class="form-control" id="left-eye-axis">
+                                            @foreach($all_diopters as $diopter)
+                                                <option name="left_eye_axis" value="{{ $diopter->axis_range }}" {{ $diopter->axis_range == $single_proximity->left_eye_axis ? 'selected' : '' }}>{{ $diopter->axis_range }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <label for="left-eye-pd">Pd</label>
+                                <select name="left_pd" class="form-control" id="left-eye-pd">
+                                    @foreach($all_pd as $pd)
+                                        <option name="right_eye_pd" value="{{ $pd->pd_range }}" {{ $pd->pd_range == $single_proximity->left_eye_pd ? 'selected' : '' }}>{{ $pd->pd_range }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <label for="note">Note: &nbsp;&nbsp;&nbsp;(max 100 characters)</label>
+                        <textarea name="note" id="note" cols="10" rows="4" class="form-control mb-4" placeholder="Maksimum 100 karaktera">{{ $single_proximity->note }}</textarea>
 
+                        <button name="green" value="green" class="btn btn-success form-control">By optometry Glavas</button>
+                        <br><br>
+                        <button name="red" value="red" class="btn btn-danger form-control">By prescription</button>
+                    </form>
+                </div>
+            @endif
         </div>
     </div>
 @endsection

@@ -3,13 +3,13 @@
 @section('content')
     <div class="container">
         <div class="row mb-4">
-            <div class="col-4">
+            <div class="col">
                 <a href="{{ route('turnoverByDays') }}" class="btn btn-secondary form-control m-2">Promet po danima</a>
             </div>
-            <div class="col-4">
+            <div class="col">
                 <a href="{{ route('showStockForm') }}" class="btn btn-secondary form-control m-2">Novi artikal</a>
             </div>
-            <div class="col-4">
+            <div class="col">
                 <button class="btn btn-warning form-control m-2">Ukupno na lageru: <span class="fw-bold">{{ $total }} dinara</span>
                 </button>
             </div>
@@ -17,10 +17,20 @@
         <div class="row">
             <div class="col-12">
                 <div class="row">
-                    <div class="col-7">
-                        <h2>Svi artikli - LAGER</h2>
+                    <div class="col-8">
+                        <div class="row">
+                            <div class="col">
+                                <button class="btn btn-warning form-control">KS: <span class="fw-bold">{{ $cl_sum }} kom.</span></button>
+                            </div>
+                            <div class="col">
+                                <button class="btn btn-warning form-control">Ramovi: <span class="fw-bold">{{ $glasses_sum }} kom.</span></button>
+                            </div>
+                            <div class="col">
+                                <button class="btn btn-warning form-control">Diop. Sočiva: <span class="fw-bold">{{ $dl_sum }} kom.</span></button>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-5">
+                    <div class="col-4">
                         <form action="{{route('searchStock')}}" method="POST">
                             @csrf
                             <div class="input-group">
@@ -32,12 +42,18 @@
                         </form>
                     </div>
                 </div>
+                <div class="row mt-4">
+                    <div class="col">
+                        <h2 class="text-center">L A G E R</h2>
+                    </div>
+                </div>
                 @if(isset($search_stocks))
                     <table class="table text-center">
                         <thead>
                         <tr>
                             <th>Id</th>
                             <th>Artikal</th>
+                            <th>Tip</th>
                             <th>Opis artikla</th>
                             <th>Materijal</th>
                             <th>Nabavna cena</th>
@@ -53,6 +69,7 @@
                             <tr>
                                 <td>{{ $search_stock->id }}</td>
                                 <td>{{ $search_stock->article }}</a></td>
+                                <td>{{ $search_stock->item_type }}</td>
                                 <td>{{ $search_stock->describe }}</td>
                                 <td>{{ $search_stock->material }}</td>
                                 <td>{{ $search_stock->purchase_price }}</td>
@@ -74,6 +91,7 @@
                     <tr class="table table-secondary border-dark">
                         <th>Id</th>
                         <th>Artikal</th>
+                        <th>Tip</th>
                         <th>Opis artikla</th>
                         <th>Materijal</th>
                         <th>Tip ugradnje</th>
@@ -90,6 +108,7 @@
                         <tr>
                             <td>{{ $all_stock->id }}</td>
                             <td>{{ $all_stock->article }}</a></td>
+                            <td>{{ $all_stock->item_type }}</td>
                             <td>{{ $all_stock->describe }}</td>
                             <td>{{ $all_stock->material }}</td>
                             <td>{{ $all_stock->installation_type }}</td>

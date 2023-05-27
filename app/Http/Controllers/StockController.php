@@ -18,12 +18,13 @@ class StockController extends Controller
     {
         $request->validate([
             'article'=>'required',
-            'installation_type'=>'required',
+            'item_type'=>'required',
             'quantity'=>'required',
             'selling_price'=>'required'
             ]);
         $new_stock = new Stock();
         $new_stock->article = $request->article;
+        $new_stock->item_type = $request->item_type;
         $new_stock->describe = $request->describe;
         $new_stock->material = $request->material;
         $new_stock->installation_type = $request->installation_type;
@@ -49,30 +50,30 @@ class StockController extends Controller
         $selling_price_exists = Stock::where('selling_price','like','%'.$request.'%')->exists();
         $material_exists = Stock::where('material','like','%'.$request.'%')->exists();
         $describe_exists = Stock::where('describe','like','%'.$request.'%')->exists();
-        // $query = Stock::where('article','like','%'.request()->article.'%');
-        // $search_stocks = Stock::where('article','like','%'.request()->article.'%')
-        // ->orWhere('selling_price','like','%'.request()->article.'%')->get();
-        // return view('stock', compact('search_stocks', 'all_stocks', 'total'));
+
+        $cl_sum = Stock::where('item_type', 'KS')->sum('quantity');
+        $glasses_sum = Stock::where('item_type', 'Ram')->sum('quantity');
+        $dl_sum = Stock::where('item_type', 'DS')->sum('quantity');
 
         if ($article_exists && $request != "")
         {
             $search_stocks = Stock::where('article','like','%'.$request.'%')->get();//carobna linija koda
-            return view('stock', compact('search_stocks', 'all_stocks', 'total'));
+            return view('stock', compact('search_stocks', 'all_stocks', 'total', 'cl_sum', 'glasses_sum', 'dl_sum'));
         }
         elseif ($selling_price_exists && $request != "")
         {
             $search_stocks = Stock::where('selling_price','like','%'.$request.'%')->get();//carobna linija koda
-            return view('stock', compact('search_stocks', 'all_stocks', 'total'));
+            return view('stock', compact('search_stocks', 'all_stocks', 'total', 'cl_sum', 'glasses_sum', 'dl_sum'));
         }elseif ($describe_exists && $request != "")
         {
-            $search_stocks = Stock::where('describe','like','%'.$request.'%')->get();//carobna linija koda
-            return view('stock', compact('search_stocks', 'all_stocks', 'total'));
+            $search_stocks = Stock::where('describe','like','%'.$request.'%')->get();
+            return view('stock', compact('search_stocks', 'all_stocks', 'total', 'cl_sum', 'glasses_sum', 'dl_sum'));
         }elseif ($request == "")
         {
-            return view('stock', compact('all_stocks', 'total'));
+            return view('stock', compact('all_stocks', 'total', 'cl_sum', 'glasses_sum', 'dl_sum'));
         }
         elseif ($article_exists == false || $selling_price_exists == false || $material_exists == false){
-            return view('stock', compact('all_stocks', 'total'));
+            return view('stock', compact('all_stocks', 'total', 'cl_sum', 'glasses_sum', 'dl_sum'));
         }
 
     }
@@ -89,11 +90,12 @@ class StockController extends Controller
         $stock = Stock::find($id);
         $request->validate([
             'article'=>'required',
-            'installation_type'=>'required',
+            'item_type'=>'required',
             'quantity'=>'required',
             'selling_price'=>'required'
         ]);
         $stock->article = $request->article;
+        $stock->item_type = $request->item_type;
         $stock->describe = $request->describe;
         $stock->material = $request->material;
         $stock->installation_type = $request->installation_type;

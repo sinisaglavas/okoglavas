@@ -36,7 +36,7 @@ name('home.singleClient');
 Route::get('/home/single-contact-lenses-client/{id}',[App\Http\Controllers\HomeController::class,'showSingleContactLensesClient'])->
 name('home.singleContactLensesClient');
 Route::get('/all-stock', [App\Http\Controllers\HomeController::class, 'showStock'])->name('allStock');
-
+Route::get('/home/show-new-type-contact-lens-form', [App\Http\Controllers\HomeController::class, 'showNewTypeContactLensForm']);
 
 
 //home.debtors
@@ -68,18 +68,24 @@ Route::get('/total-per-day', [App\Http\Controllers\Turnover_by_dayController::cl
 Route::get('/requested/{turnover_by_day}/day', [App\Http\Controllers\Turnover_by_dayController::class, 'displayTurnover'])->name('displayTurnover');
 Route::get('/update/{id}/{stock_id}/{search_date}/{sum}/before-delete', [App\Http\Controllers\DailyTurnoverController::class, 'updateBeforeDelete'])->name('updateBeforeDelete');
 
+
 //update
 Route::put('/client/{id}/edit', [App\Http\Controllers\ClientController::class, 'update'])->name('update');
 Route::put('/contact-lenses-client/{id}/edit', [App\Http\Controllers\ContactLensesClientController::class, 'update'])->name('updateCL');
 Route::put('/client-examination/{id}/edit', [App\Http\Controllers\ClientController::class, 'updateExamination'])->name('updateExamination');
 Route::put('/stock/{id}/edit', [App\Http\Controllers\StockController::class, 'updateStock'])->name('updateStock');
 Route::put('/user/{id}/edit', [App\Http\Controllers\UserController::class, 'updateUser'])->name('updateUser');
-
+Route::put('/home/edit-distance-form/{id}',[App\Http\Controllers\HomeController::class,'updateDistance'])->name('updateDistance');
+Route::put('/home/edit-proximity-form/{id}',[App\Http\Controllers\HomeController::class,'updateProximity'])->name('updateProximity');
+Route::put('/home/edit-contact-lenses-exam-form/{id}',[App\Http\Controllers\HomeController::class,'updateContactLensesExam'])->name('updateContactLensesExam');
 
 //edit
 Route::get('/client/{id}/edit', [App\Http\Controllers\ClientController::class, 'edit'])->name('edit');
 Route::get('/contact-lenses-client/{id}/edit', [App\Http\Controllers\ContactLensesClientController::class, 'edit'])->name('editCL');
-Route::get('/distance-form/{distance_id}/edit', [App\Http\Controllers\ClientController::class, 'editDistanceForm'])->name('editDistanceForm');
+Route::get('/distance-form/{distance_id}/edit', [App\Http\Controllers\ClientController::class, 'editDistanceForm']);
+Route::get('/proximity-form/{proximity_id}/edit', [App\Http\Controllers\ClientController::class, 'editProximityForm']);
+Route::get('/contact-lens-form/{contact_lenses_exam_id}/edit', [App\Http\Controllers\ClientController::class, 'editContactLensesExam']);
+
 Route::get('/user-edit', [App\Http\Controllers\UserController::class, 'editUser'])->name('editUser');
 Route::get('/stock/{id}/edit', [App\Http\Controllers\StockController::class, 'editStock'])->name('editStock');
 
@@ -92,9 +98,12 @@ Route::post('/home/save-client-debit-form',[App\Http\Controllers\HomeController:
 name('home.saveClientDebit');
 Route::post('/home/save-distance-form/{id}',[App\Http\Controllers\HomeController::class,'saveDistanceForm'])->
 name('home.saveDistance');
+
 Route::post('/home/save-proximity-form/{id}',[App\Http\Controllers\HomeController::class,'saveProximityForm'])->
 name('home.saveProximity');
 
+Route::post('/home/save-contact-lens-type-form', [App\Http\Controllers\HomeController::class, 'saveContactLensTypeForm'])->
+name('home.saveContactLensTypeForm');
 
 //non home
 Route::post('/save-debtor-form',[App\Http\Controllers\DebtorController::class,'saveDebtorForm'])->

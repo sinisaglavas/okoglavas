@@ -17,6 +17,7 @@ use App\Models\Stock;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
 class HomeController extends Controller
@@ -151,26 +152,32 @@ class HomeController extends Controller
     public function saveDistanceForm(Request $request,$id)
     {
         $single_client = Client::find($id);
-
         $request->validate([
             'right_diopter'=>'required',
             'right_diopter2'=>'required',
             'right_axis'=>'required',
-            'right_eye_pd'=>'required',
+            'right_pd'=>'required',
             'left_diopter'=>'required',
             'left_diopter2'=>'required',
             'left_axis'=>'required',
-            'left_eye_pd'=>'required'
+            'left_pd'=>'required',
         ]);
+        if ($request->note != null)
+            $request->validate([
+                'note'=>'required|string|max:100'
+            ]);
         $new_examination = new Distance();
         $new_examination->right_eye_sphere = $request->right_diopter;
         $new_examination->right_eye_cylinder = $request->right_diopter2;
         $new_examination->right_eye_axis = $request->right_axis;
-        $new_examination->right_eye_pd = $request->right_eye_pd;
+        $new_examination->right_eye_pd = $request->right_pd;
+
         $new_examination->left_eye_sphere = $request->left_diopter;
         $new_examination->left_eye_cylinder = $request->left_diopter2;
         $new_examination->left_eye_axis = $request->left_axis;
-        $new_examination->left_eye_pd = $request->left_eye_pd;
+        $new_examination->left_eye_pd = $request->left_pd;
+        $request->note == null ? $new_examination->note = " " : $new_examination->note = $request->note;
+
         if ($request->green){
             $new_examination->exam = $request->green;
         }else{
@@ -189,6 +196,117 @@ class HomeController extends Controller
 
     }
 
+    public function updateDistance(Request $request, $distance_id)
+    {
+        $new_distance = Distance::find($distance_id);
+        $single_client = Client::find($new_distance->client_id);
+        $request->validate([
+            'right_diopter'=>'required',
+            'right_diopter2'=>'required',
+            'right_axis'=>'required',
+            'right_pd'=>'required',
+            'left_diopter'=>'required',
+            'left_diopter2'=>'required',
+            'left_axis'=>'required',
+            'left_pd'=>'required',
+            'note'=>'nullable|string|max:100'
+        ]);
+
+        $new_distance->right_eye_sphere = $request->right_diopter;
+        $new_distance->right_eye_cylinder = $request->right_diopter2;
+        $new_distance->right_eye_axis = $request->right_axis;
+        $new_distance->right_eye_pd = $request->right_pd;
+        $new_distance->left_eye_sphere = $request->left_diopter;
+        $new_distance->left_eye_cylinder = $request->left_diopter2;
+        $new_distance->left_eye_axis = $request->left_axis;
+        $new_distance->left_eye_pd = $request->left_pd;
+        $new_distance->note = $request->note;
+        if ($request->green){
+            $new_distance->exam = $request->green;
+        }else{
+            $new_distance->exam = $request->red;
+        }
+        $new_distance->client_id = $single_client->id;
+
+        $new_distance->update();
+        return redirect()->back()->with('message','Dioptrija za daljinu je izmenjena');
+
+    }
+
+    public function updateProximity(Request $request, $proximity_id)
+    {
+        $new_proximity = Proximity::find($proximity_id);
+        $single_client = Client::find($new_proximity->client_id);
+        $request->validate([
+            'right_diopter'=>'required',
+            'right_diopter2'=>'required',
+            'right_axis'=>'required',
+            'right_pd'=>'required',
+            'left_diopter'=>'required',
+            'left_diopter2'=>'required',
+            'left_axis'=>'required',
+            'left_pd'=>'required',
+            'note'=>'nullable|string|max:100'
+        ]);
+        $new_proximity->right_eye_sphere = $request->right_diopter;
+        $new_proximity->right_eye_cylinder = $request->right_diopter2;
+        $new_proximity->right_eye_axis = $request->right_axis;
+        $new_proximity->right_eye_pd = $request->right_pd;
+        $new_proximity->left_eye_sphere = $request->left_diopter;
+        $new_proximity->left_eye_cylinder = $request->left_diopter2;
+        $new_proximity->left_eye_axis = $request->left_axis;
+        $new_proximity->left_eye_pd = $request->left_pd;
+        $new_proximity->note = $request->note;
+        if ($request->green){
+            $new_proximity->exam = $request->green;
+        }else{
+            $new_proximity->exam = $request->red;
+        }
+        $new_proximity->client_id = $single_client->id;
+
+        $new_proximity->update();
+        return redirect()->back()->with('message','Dioptrija za blizinu je izmenjena');
+    }
+
+    public function updateContactLensesExam(Request $request, $contact_lenses_exam_id)
+    {
+        $change_contact_lenses_exam = Contact_lenses_exam::find($contact_lenses_exam_id);
+        $change_contact_lenses = Contact_lense::find($request->all_contact_lenses);
+        $single_client = Contact_lenses_client::find($change_contact_lenses_exam->contact_lenses_client_id);
+        $request->validate([
+            'right_diopter'=>'required',
+            'right_diopter2'=>'required',
+            'right_axis'=>'required',
+            'left_diopter'=>'required',
+            'left_diopter2'=>'required',
+            'left_axis'=>'required',
+            'all_contact_lenses'=>'required'
+        ]);
+        $change_contact_lenses_exam->right_eye_sphere = $request->right_diopter;
+        $change_contact_lenses_exam->right_eye_cylinder = $request->right_diopter2;
+        $change_contact_lenses_exam->right_eye_axis = $request->right_axis;
+        $change_contact_lenses_exam->left_eye_sphere = $request->left_diopter;
+        $change_contact_lenses_exam->left_eye_cylinder = $request->left_diopter2;
+        $change_contact_lenses_exam->left_eye_axis = $request->left_axis;
+        $change_contact_lenses_exam->producer = $change_contact_lenses->producer;
+        $change_contact_lenses_exam->type = $change_contact_lenses->type;
+        $change_contact_lenses_exam->base_curve = $change_contact_lenses->base_curve;
+        $change_contact_lenses_exam->diameter = $change_contact_lenses->diameter;
+        $change_contact_lenses_exam->material = $change_contact_lenses->material;
+        $change_contact_lenses_exam->packaging = $change_contact_lenses->packaging;
+        $change_contact_lenses_exam->maximum_use = $change_contact_lenses->maximum_use;
+        if ($request->green){
+            $change_contact_lenses_exam->exam = $request->green;
+        }else{
+            $change_contact_lenses_exam->exam = $request->red;
+        }
+        $change_contact_lenses_exam->contact_lenses_client_id = $single_client->id;
+        $change_contact_lenses_exam->update();
+
+        return redirect()->back()->with('message','Podaci su promenjeni');
+
+    }
+
     public function saveProximityForm(Request $request,$id)
     {
         $single_client = Client::find($id);
@@ -201,8 +319,10 @@ class HomeController extends Controller
             'left_diopter'=>'required',
             'left_diopter2'=>'required',
             'left_axis'=>'required',
-            'left_eye_pd'=>'required'
+            'left_eye_pd'=>'required',
+            'note'=>'nullable|string|max:100'
         ]);
+
         $new_examination = new Proximity();
         $new_examination->right_eye_sphere = $request->right_diopter;
         $new_examination->right_eye_cylinder = $request->right_diopter2;
@@ -212,6 +332,7 @@ class HomeController extends Controller
         $new_examination->left_eye_cylinder = $request->left_diopter2;
         $new_examination->left_eye_axis = $request->left_axis;
         $new_examination->left_eye_pd = $request->left_eye_pd;
+        $new_examination->note = $request->note;
         if ($request->green){
             $new_examination->exam = $request->green;
         }else{
@@ -233,11 +354,48 @@ class HomeController extends Controller
         $total = Stock::all()->reduce(function ($total, $item) {  // dobijam zbirno stanje na lageru od proizvoda dve kolone
             return $total + ($item->selling_price * $item->quantity);
         });
+        $cl_sum = Stock::where('item_type', 'KS')->sum('quantity');
+        $glasses_sum = Stock::where('item_type', 'Ram')->sum('quantity');
+        $dl_sum = Stock::where('item_type', 'DS')->sum('quantity');
 
-        return view('stock', compact('all_stocks', 'total'));
+        return view('stock', compact('all_stocks', 'total', 'cl_sum', 'glasses_sum', 'dl_sum'));
     }
 
+    public function showNewTypeContactLensForm()
+    {
+        $all_contact_lenses = Contact_lense::all();
 
+        return view('home.showNewTypeContactLensForm', compact('all_contact_lenses'));
+    }
+
+    public function saveContactLensTypeForm(Request $request)
+    {
+        $request->validate([
+            'producer'=>'required',
+            'type'=>'required',
+            'base_curve'=>'required',
+            'diameter'=>'required',
+            'material'=>'required',
+            'packaging'=>'required',
+            'maximum_use'=>'required'
+        ]);
+
+        $new_type_contact_lens = new Contact_lense();
+        $new_type_contact_lens->producer = $request->producer;
+        $new_type_contact_lens->type = $request->type;
+        $new_type_contact_lens->base_curve = $request->base_curve;
+        $new_type_contact_lens->diameter = $request->diameter;
+        $new_type_contact_lens->material = $request->material;
+        $new_type_contact_lens->packaging = $request->packaging;
+        $new_type_contact_lens->maximum_use = $request->maximum_use;
+        $new_type_contact_lens->save();
+
+        $all_contact_lenses = Contact_lense::all();
+        Session::flash('message','Podaci su snimljeni');
+
+        return view('home.showNewTypeContactLensForm', compact('all_contact_lenses'));
+
+    }
 
 
 

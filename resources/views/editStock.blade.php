@@ -8,14 +8,30 @@
             </div>
             <div class="col-4 text-center">
                 <h2>Promeni Artikal</h2>
-                    <form action="{{ route('updateStock', ['id'=>$stock->id]) }}" method="POST">
+                <form action="{{ route('updateStock', ['id'=>$stock->id]) }}" method="POST">
                     @csrf
                     @method('put')
 
-                    <label for="article">Artikal</label>
-                    <input type="text" name="article" id="article" placeholder="Unos je obavezan" class="form-control" value="{{ $stock->article }}" required>
+                    <div class="row">
+                        <div class="col">
+                            <label for="article">Artikal</label>
+                            <input type="text" name="article" id="article" placeholder="Unos je obavezan"
+                                   class="form-control" value="{{ $stock->article }}" required>
+                        </div>
+                        <div class="col">
+                            <label for="item-type">Tip artikla</label>
+                            <select name="item_type" id="item-type" class="form-control" required>
+                                <option value="{{ $stock->item_type }}" hidden>{{ $stock->item_type }}</option>
+                                <option value="KS">KS (kontaktna sočiva)</option>
+                                <option value="Ram">Ram</option>
+                                <option value="DS">DS (dioptrijsko sočivo)</option>
+                                <option value="Ostalo">Ostalo</option>
+                            </select>
+                        </div>
+                    </div>
                     <label for="describe">Opis artikla</label>
-                    <input type="text" name="describe" id="describe" class="form-control" value="{{ $stock->describe }}">
+                    <input type="text" name="describe" id="describe" class="form-control"
+                           value="{{ $stock->describe }}">
                     <label for="material">Materijal</label>
                     <select name="material" id="material" class="form-control">
                         <option value="{{ $stock->material }}" hidden>{{ $stock->material }}</option>
@@ -32,26 +48,29 @@
                         <option value="Frez">Frez</option>
                         <option value="Bušenje">Bušenje</option>
                     </select>
-                        <div class="row">
-                            <div class="col">
-                                <label for="purchase_price">Nabavna cena</label>
-                                <input type="text" name="purchase_price" id="purchase_price" class="form-control" value="{{ $stock->purchase_price }}">
-                            </div>
-                            <div class="col">
-                                <label for="selling_price">Prodajna cena</label>
-                                <input type="text" name="selling_price" id="selling_price" placeholder="Unos je obavezan" class="form-control" value="{{ $stock->selling_price }}" required>
-                            </div>
+                    <div class="row">
+                        <div class="col">
+                            <label for="purchase_price">Nabavna cena</label>
+                            <input type="text" name="purchase_price" id="purchase_price" class="form-control"
+                                   value="{{ $stock->purchase_price }}">
                         </div>
-                        <div class="row mb-3">
-                            <div class="col"></div>
-                            <div class="col">
-                                <label for="quantity">Količina</label>
-                                <input type="number" name="quantity" id="quantity" placeholder="Unos je obavezan" min="0" class="form-control" value="{{ $stock->quantity }}" required>
-                            </div>
-                            <div class="col"></div>
+                        <div class="col">
+                            <label for="selling_price">Prodajna cena</label>
+                            <input type="text" name="selling_price" id="selling_price" placeholder="Unos je obavezan"
+                                   class="form-control" value="{{ $stock->selling_price }}" required>
                         </div>
-                        <button type="submit" class="btn btn-outline-warning form-control">Promeni</button>
-                    </form>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col"></div>
+                        <div class="col">
+                            <label for="quantity">Količina</label>
+                            <input type="number" name="quantity" id="quantity" placeholder="Unos je obavezan" min="0"
+                                   class="form-control" value="{{ $stock->quantity }}" required>
+                        </div>
+                        <div class="col"></div>
+                    </div>
+                    <button type="submit" class="btn btn-outline-warning form-control">Promeni</button>
+                </form>
                 @if(session()->has('message'))
                     <div class="alert alert-success">
                         {{ session()->get('message') }}

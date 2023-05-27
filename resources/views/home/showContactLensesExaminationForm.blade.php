@@ -5,6 +5,7 @@
         <div class="row">
             <div class="col-4">
                 <a href="{{ route('homeContactLenses') }}" class="btn btn-danger form-control m-2">Svi klijenti</a>
+                <a href="/home/show-new-type-contact-lens-form" class="btn btn-danger form-control m-2">Unesi novi tip Kontaktnih sočiva</a>
                 <a href="{{ url('/home/single-contact-lenses-client',['id'=>$single_client->id])}}" class="btn btn-light form-control m-2">Klijent: {{ $single_client->name }}</a>
                 @if(session()->has('message'))
                     <div class="alert alert-info form-control m-2 text-center text-uppercase">
@@ -80,19 +81,19 @@
                         <div class="col-6">
                             <div class="row">
                                 <div class="col-3">
-                                    <label for="type">Type</label>
+                                    <label for="type">Tip</label>
                                     <input readonly name="type" class="form-control form-control-sm" id="type" value="{{ $suitable_contact_lenses->type }}">
                                 </div>
                                 <div class="col-3">
-                                    <label for="producer">Producer</label>
+                                    <label for="producer">Proizvođač</label>
                                     <input readonly name="producer" class="form-control form-control-sm" id="producer" value="{{ $suitable_contact_lenses->producer }}">
                                 </div>
                                 <div class="col-3">
-                                    <label for="base_curve">Base curve</label>
+                                    <label for="base_curve">Baz. krivina</label>
                                     <input readonly name="base_curve" class="form-control form-control-sm" id="base_curve" value="{{ $suitable_contact_lenses->base_curve }}">
                                 </div>
                                 <div class="col-3">
-                                    <label for="diameter">Diameter</label>
+                                    <label for="diameter">Dijametar</label>
                                     <input readonly name="diameter" class="form-control form-control-sm" id="diameter" value="{{ $suitable_contact_lenses->diameter }}">
                                 </div>
                             </div>
@@ -100,15 +101,15 @@
                         <div class="col-6">
                             <div class="row">
                                 <div class="col-4">
-                                    <label for="material">Material</label>
+                                    <label for="material">Materijal</label>
                                     <input readonly name="material" class="form-control form-control-sm" id="material" value="{{ $suitable_contact_lenses->material }}">
                                 </div>
                                 <div class="col-4">
-                                    <label for="packaging">Packaging</label>
+                                    <label for="packaging">Pakovanje</label>
                                     <input readonly name="packaging" class="form-control form-control-sm" id="packaging" value="{{ $suitable_contact_lenses->packaging }}">
                                 </div>
                                 <div class="col-4">
-                                    <label for="maximum_use">Max use</label>
+                                    <label for="maximum_use">Maks. upotreba</label>
                                     <input readonly name="maximum_use" class="form-control form-control-sm" id="maximum_use" value="{{ $suitable_contact_lenses->maximum_use }}">
                                 </div>
                             </div>
@@ -116,16 +117,16 @@
                     </div><br>
                     <div class="row">
                         <div class="col-6">
-                            <button name="green" value="green" class="btn btn-success form-control">By optometry Glavas</button>
+                            <button name="green" value="green" class="btn btn-success form-control">Od optometrije Glavaš</button>
                         </div>
                         <div class="col-6">
-                            <button name="red" value="red" class="btn btn-danger form-control">By prescription</button>
+                            <button name="red" value="red" class="btn btn-danger form-control">Po receptu</button>
                         </div>
                     </div>
                 </form>
             </div>
             @else
-                <div class="col-8 p-3 text-center"><h5 class="text-bg-danger">Click on the contact lens type to activate the preview form !</h5></div>
+                <div class="col-8 p-3 text-center"><h5 class="text-bg-danger">Klikni na tip kontaktnih sočiva da aktiviraš obrazac za pregled !</h5></div>
             @endif
         </div><br>
         <div class="row">
@@ -147,13 +148,13 @@
                         <thead>
                         <tr>
                             <th>Id</th>
-                            <th>Type</th>
-                            <th>Producer</th>
-                            <th>Base curve</th>
-                            <th>Diameter</th>
-                            <th>Material</th>
-                            <th>Packaging</th>
-                            <th>Maximum use</th>
+                            <th>Tip</th>
+                            <th>Proizvođač</th>
+                            <th>Bazna krivina</th>
+                            <th>Dijametar</th>
+                            <th>Materijal</th>
+                            <th>Pakovanje</th>
+                            <th>Maksimalna upotreba</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -176,13 +177,13 @@
                     <thead>
                     <tr class="table-secondary">
                         <th>Id</th>
-                        <th>Type</th>
-                        <th>Producer</th>
-                        <th>Base curve</th>
-                        <th>Diameter</th>
-                        <th>Material</th>
-                        <th>Packaging</th>
-                        <th>Maximum use</th>
+                        <th>Tip</th>
+                        <th>Proizvođač</th>
+                        <th>Bazna krivina</th>
+                        <th>Dijametar</th>
+                        <th>Materijal</th>
+                        <th>Pakovanje</th>
+                        <th>Maksimalna upotreba</th>
                     </tr>
                     </thead>
                     <tbody>

@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
+use App\Models\Contact_lense;
 use App\Models\Contact_lenses_client;
+use App\Models\Contact_lenses_exam;
 use App\Models\Diopter;
 use App\Models\Dist_pupillary;
 use App\Models\Distance;
+use App\Models\Proximity;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
@@ -79,45 +82,66 @@ class ClientController extends Controller
         return view('editClientExamination', compact('single_distance','single_client', 'all_diopters', 'all_pd'));
     }
 
-    public function updateDistanceForm(Request $request,$id)
+    public function editProximityForm($proximity_id)
     {
-        $single_client = Client::find($id);
+        $single_proximity = Proximity::find($proximity_id);
+        $single_client = Client::find($single_proximity->client_id);
+        $all_diopters = Diopter::all();
+        $all_pd = Dist_pupillary::all();
 
-        $request->validate([
-            'right_diopter'=>'required',
-            'right_diopter2'=>'required',
-            'right_axis'=>'required',
-            'right_eye_pd'=>'required',
-            'left_diopter'=>'required',
-            'left_diopter2'=>'required',
-            'left_axis'=>'required',
-            'left_eye_pd'=>'required'
-        ]);
-        $new_examination = new Distance();
-        $new_examination->right_eye_sphere = $request->right_diopter;
-        $new_examination->right_eye_cylinder = $request->right_diopter2;
-        $new_examination->right_eye_axis = $request->right_axis;
-        $new_examination->right_eye_pd = $request->right_eye_pd;
-        $new_examination->left_eye_sphere = $request->left_diopter;
-        $new_examination->left_eye_cylinder = $request->left_diopter2;
-        $new_examination->left_eye_axis = $request->left_axis;
-        $new_examination->left_eye_pd = $request->left_eye_pd;
-        if ($request->green){
-            $new_examination->exam = $request->green;
-        }else{
-            $new_examination->exam = $request->red;
-        }
-        $new_examination->client_id = $single_client->id;
-
-
-//        $new_examination->near_right_eye = (!is_null($request->near_right_eye) ? $request->near_right_eye : "");
-//        $new_examination->near_left_eye = (!is_null($request->near_left_eye) ? $request->near_left_eye : "");
-//        $new_examination->near_pd = (!is_null($request->near_pd) ? $request->near_pd : "");
-
-        $new_examination->save();
-
-        return redirect()->back()->with('message','New data sent');
-
+        return view('editClientExamination', compact('single_proximity','single_client', 'all_diopters', 'all_pd'));
     }
+
+    public function editContactLensesExam($contact_lenses_exam_id)
+    {
+        $contact_lenses_exam = Contact_lenses_exam::find($contact_lenses_exam_id);
+        $single_client = Contact_lenses_client::find($contact_lenses_exam->contact_lenses_client_id);
+        $all_diopters = Diopter::all();
+        $all_contact_lenses = Contact_lense::all();
+
+        return view('editContactLensesExam', compact('single_client', 'contact_lenses_exam', 'all_diopters', 'all_contact_lenses'));
+    }
+
+
+//    public function updateDistanceForm(Request $request,$id)
+//    {
+//        $single_client = Client::find($id);
+//
+//        $request->validate([
+//            'right_diopter'=>'required',
+//            'right_diopter2'=>'required',
+//            'right_axis'=>'required',
+//            'right_eye_pd'=>'required',
+//            'left_diopter'=>'required',
+//            'left_diopter2'=>'required',
+//            'left_axis'=>'required',
+//            'left_eye_pd'=>'required'
+//        ]);
+//        $new_examination = new Distance();
+//        $new_examination->right_eye_sphere = $request->right_diopter;
+//        $new_examination->right_eye_cylinder = $request->right_diopter2;
+//        $new_examination->right_eye_axis = $request->right_axis;
+//        $new_examination->right_eye_pd = $request->right_eye_pd;
+//        $new_examination->left_eye_sphere = $request->left_diopter;
+//        $new_examination->left_eye_cylinder = $request->left_diopter2;
+//        $new_examination->left_eye_axis = $request->left_axis;
+//        $new_examination->left_eye_pd = $request->left_eye_pd;
+//        if ($request->green){
+//            $new_examination->exam = $request->green;
+//        }else{
+//            $new_examination->exam = $request->red;
+//        }
+//        $new_examination->client_id = $single_client->id;
+//
+//
+////        $new_examination->near_right_eye = (!is_null($request->near_right_eye) ? $request->near_right_eye : "");
+////        $new_examination->near_left_eye = (!is_null($request->near_left_eye) ? $request->near_left_eye : "");
+////        $new_examination->near_pd = (!is_null($request->near_pd) ? $request->near_pd : "");
+//
+//        $new_examination->save();
+//
+//        return redirect()->back()->with('message','New data sent');
+//
+//    }
 
 }

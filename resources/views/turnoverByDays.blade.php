@@ -32,8 +32,8 @@
                     <tbody>
                     @foreach($turnover_by_days as $turnover_by_day)
                         <tr>
-                            <td>{{ Carbon\Carbon::parse($turnover_by_day->created_at)->format('d. M. Y.') }}</td>
-                            <td>{{ $turnover_by_day->sum }}</td>
+                            <td><a href="/requested/{{ $turnover_by_day->created_at }}/day" class="text-decoration-none">{{ Carbon\Carbon::parse($turnover_by_day->created_at)->format('d. M. Y.') }}</a></td>
+                            <td><a href="/requested/{{ $turnover_by_day->created_at }}/day" class="text-decoration-none">{{ $turnover_by_day->sum }}</a></td>
                         </tr>
                     @endforeach
                     </tbody>
