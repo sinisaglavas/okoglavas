@@ -17,18 +17,26 @@
         <div class="row">
             <div class="col-12">
                 <div class="row">
+                    <div class="col">
+                        <button class="btn btn-outline-secondary form-control">KS: <span class="fw-bold">{{ $cl_sum }} kom.</span>
+                        </button>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-outline-secondary form-control">Dioptr.ramovi: <span class="fw-bold">{{ $glasses_sum }} kom.</span>
+                        </button>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-outline-secondary form-control">Sunčane naočare: <span class="fw-bold">{{ $sunglasses_sum }} kom.</span>
+                        </button>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-outline-secondary form-control">Diop. Sočiva: <span class="fw-bold">{{ $dl_sum }} kom.</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="row mt-4">
                     <div class="col-8">
-                        <div class="row">
-                            <div class="col">
-                                <button class="btn btn-warning form-control">KS: <span class="fw-bold">{{ $cl_sum }} kom.</span></button>
-                            </div>
-                            <div class="col">
-                                <button class="btn btn-warning form-control">Ramovi: <span class="fw-bold">{{ $glasses_sum }} kom.</span></button>
-                            </div>
-                            <div class="col">
-                                <button class="btn btn-warning form-control">Diop. Sočiva: <span class="fw-bold">{{ $dl_sum }} kom.</span></button>
-                            </div>
-                        </div>
+                        <h2>L A G E R</h2>
                     </div>
                     <div class="col-4">
                         <form action="{{route('searchStock')}}" method="POST">
@@ -40,11 +48,6 @@
                                 <input type="submit" class="btn btn-outline-secondary" value="Traži">
                             </div>
                         </form>
-                    </div>
-                </div>
-                <div class="row mt-4">
-                    <div class="col">
-                        <h2 class="text-center">L A G E R</h2>
                     </div>
                 </div>
                 @if(isset($search_stocks))
@@ -118,7 +121,7 @@
                             <td>{{ $all_stock->selling_price * $all_stock->quantity }}</td>
                             <td>{{ $all_stock->	created_at->format('d.m.Y.') }}</td>
                             <td style="background: #babbbc;"><a href="{{ route('editStock',['id'=>$all_stock->id]) }}"
-                                   class="text-decoration-none" style="color: black">Promeni</a>
+                                                                class="text-decoration-none" style="color: black">Promeni</a>
                             </td>
                         </tr>
                     @endforeach

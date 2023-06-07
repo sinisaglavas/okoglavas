@@ -23,7 +23,8 @@
                             <select name="item_type" id="item-type" class="form-control" required>
                                 <option value="{{ $stock->item_type }}" hidden>{{ $stock->item_type }}</option>
                                 <option value="KS">KS (kontaktna sočiva)</option>
-                                <option value="Ram">Ram</option>
+                                <option value="Ram">Dioptrijski ram</option>
+                                <option value="Sunčane">Sunčane naočare</option>
                                 <option value="DS">DS (dioptrijsko sočivo)</option>
                                 <option value="Ostalo">Ostalo</option>
                             </select>

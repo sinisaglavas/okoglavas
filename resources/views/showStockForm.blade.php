@@ -16,22 +16,27 @@
                                class="form-control" required>
                     <div class="row mt-3">
                         <div class="text-center"><h5>Vrsta artikla (obavezan unos):</h5></div>
-                        <div class="col-3 mt-4">
+                        <div class="col mt-4">
                             <input type="radio" id="cl" name="item_type" value="KS" style="transform: scale(2)"
                                    required>
-                              <label for="cl" style="color: firebrick; font-weight: bold">Kontak. sočivo</label>
+                              <label for="cl" style="color: firebrick; font-weight: bold">Kont.sočivo</label>
                         </div>
-                        <div class="col-3 mt-4">
+                        <div class="col mt-4">
                             <input type="radio" id="glasses" name="item_type" value="Ram" style="transform: scale(2)"
                                    required>
                               <label for="glasses">Dioptr. ram</label>
                         </div>
-                        <div class="col-3 mt-4">
+                        <div class="col mt-4">
+                            <input type="radio" id="sunglasses" name="item_type" value="Sunčane" style="transform: scale(2)"
+                                   required>
+                              <label for="sunglasses">Sunčane n.</label>
+                        </div>
+                        <div class="col mt-4">
                             <input type="radio" id="dl" name="item_type" value="DS" style="transform: scale(2)"
                                    required>
                               <label for="dl" style="color: blue; font-weight: bold" >Dioptr.sočivo</label>
                         </div>
-                        <div class="col-3 mt-4">
+                        <div class="col mt-4">
                             <input type="radio" id="other" name="item_type" value="Ostalo" style="transform: scale(2)"
                                    required>
                               <label for="other">Ostalo</label>
