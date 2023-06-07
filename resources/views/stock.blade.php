@@ -17,29 +17,22 @@
         <div class="row">
             <div class="col-12">
                 <div class="row">
-                    <div class="col-8">
-                        <div class="row">
-                            <div class="col">
-                                <button class="btn btn-warning form-control">KS: <span class="fw-bold">{{ $cl_sum }} kom.</span></button>
-                            </div>
-                            <div class="col">
-                                <button class="btn btn-warning form-control">Ramovi: <span class="fw-bold">{{ $glasses_sum }} kom.</span></button>
-                            </div>
-                            <div class="col">
-                                <button class="btn btn-warning form-control">Diop. Sočiva: <span class="fw-bold">{{ $dl_sum }} kom.</span></button>
-                            </div>
-                        </div>
+
+                    <div class="col">
+                        <button class="btn btn-warning form-control">KS: <span class="fw-bold">{{ $cl_sum }} kom.</span>
+                        </button>
                     </div>
-                    <div class="col-4">
-                        <form action="{{route('searchStock')}}" method="POST">
-                            @csrf
-                            <div class="input-group">
-                                <input type="text" name="article" class="form-control"
-                                       placeholder="Pronađi po artiklu ili po opisu ili po prodajnoj ceni"
-                                       aria-label="Search client" required>
-                                <input type="submit" class="btn btn-outline-secondary" value="Traži">
-                            </div>
-                        </form>
+                    <div class="col">
+                        <button class="btn btn-warning form-control">Ramovi: <span class="fw-bold">{{ $glasses_sum }} kom.</span>
+                        </button>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-warning form-control">Diop. Sočiva: <span class="fw-bold">{{ $dl_sum }} kom.</span>
+                        </button>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-warning form-control">Diop. Sočiva: <span class="fw-bold">{{ $dl_sum }} kom.</span>
+                        </button>
                     </div>
                 </div>
                 <div class="row mt-4">
