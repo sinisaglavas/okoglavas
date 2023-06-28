@@ -23,9 +23,9 @@
                         <caption>{{ $contact_lenses_exam->created_at->format('d. m. Y.') }}&nbsp;Kontaktna sočiva recept</caption>
                         <thead>
                         <tr>
-                            <th colspan="3">Right Eye</th>
+                            <th colspan="4">Right Eye</th>
                             <th></th>
-                            <th colspan="3">Left Eye</th>
+                            <th colspan="4">Left Eye</th>
                             <th></th>
                             <th colspan="4"></th>
                         </tr>
@@ -33,10 +33,12 @@
                             <th>Sphere</th>
                             <th>Cylinder</th>
                             <th>Axis</th>
+                            <th>Add</th>
                             <th></th>
                             <th>Sphere</th>
                             <th>Cylinder</th>
                             <th>Axis</th>
+                            <th>Add</th>
                             <th></th>
                             <th>Producer</th>
                             <th>Type</th>
@@ -56,9 +58,11 @@
                             <td>{{ $contact_lenses_exam->right_eye_cylinder }}</td>
                             <td>{{ $contact_lenses_exam->right_eye_axis }}</td>
                             <td></td>
+                            <td></td>
                             <td>{{ $contact_lenses_exam->left_eye_sphere }}</td>
                             <td>{{ $contact_lenses_exam->left_eye_cylinder }}</td>
                             <td>{{ $contact_lenses_exam->left_eye_axis }}</td>
+                            <td></td>
                             <td></td>
                             <td>{{ $contact_lenses_exam->producer }}</td>
                             <td>{{ $contact_lenses_exam->type }}</td>
