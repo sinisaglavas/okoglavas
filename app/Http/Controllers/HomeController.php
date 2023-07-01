@@ -285,9 +285,13 @@ class HomeController extends Controller
         $change_contact_lenses_exam->right_eye_sphere = $request->right_diopter;
         $change_contact_lenses_exam->right_eye_cylinder = $request->right_diopter2;
         $change_contact_lenses_exam->right_eye_axis = $request->right_axis;
+        $change_contact_lenses_exam->right_eye_add = $request->right_add;
+
         $change_contact_lenses_exam->left_eye_sphere = $request->left_diopter;
         $change_contact_lenses_exam->left_eye_cylinder = $request->left_diopter2;
         $change_contact_lenses_exam->left_eye_axis = $request->left_axis;
+        $change_contact_lenses_exam->left_eye_add = $request->left_add;
+
         $change_contact_lenses_exam->producer = $change_contact_lenses->producer;
         $change_contact_lenses_exam->type = $change_contact_lenses->type;
         $change_contact_lenses_exam->base_curve = $change_contact_lenses->base_curve;

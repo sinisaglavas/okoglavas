@@ -48,10 +48,12 @@ class ContactLensesClientController extends Controller
         $new_cl_examination->right_eye_sphere = $request->right_diopter;
         $new_cl_examination->right_eye_cylinder = $request->right_diopter2;
         $new_cl_examination->right_eye_axis = $request->right_axis;
+        $new_cl_examination->right_eye_add = $request->right_add;
 
         $new_cl_examination->left_eye_sphere = $request->left_diopter;
         $new_cl_examination->left_eye_cylinder = $request->left_diopter2;
         $new_cl_examination->left_eye_axis = $request->left_axis;
+        $new_cl_examination->left_eye_add = $request->left_add;
 
         $new_cl_examination->producer = $request->producer;
         $new_cl_examination->type = $request->type;

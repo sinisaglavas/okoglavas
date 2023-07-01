@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <div class="row">
-            <div class="col-4">
+            <div class="col-3">
                 <a href="{{ route('homeContactLenses') }}" class="btn btn-danger form-control m-2">Svi klijenti</a>
                 <a href="/home/show-new-type-contact-lens-form" class="btn btn-danger form-control m-2">Unesi novi tip Kontaktnih sočiva</a>
                 <a href="{{ url('/home/single-contact-lenses-client',['id'=>$single_client->id])}}" class="btn btn-light form-control m-2">Klijent: {{ $single_client->name }}</a>
@@ -19,14 +19,15 @@
                 @endif
             </div>
             @if(isset($suitable_contact_lenses))
-            <div class="col-8 p-3" style="background-color: rgb(200,200,200);">
+            <div class="col-9 p-3" style="background-color: rgb(200,200,200);">
                 <h5>Kontaktna sočiva - Pregled</h5>
                 <div class="row">
                 </div>
                 <form action="{{ route('saveContactLensesForm',['id'=>$single_client->id]) }}" method="POST">
                     @csrf
                     <div class="row">
-                        <div class="col-2">
+                        <div class="col-1"></div>
+                        <div class="col-1">
                             <label for="right-eye-sphere">R sph</label>
                             <select name="right_diopter" class="form-control form-control-sm" id="right-eye-sphere">
                                 @foreach($all_diopters as $diopter)
@@ -34,7 +35,7 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-2">
+                        <div class="col-1">
                             <label for="right-eye-cylinder">R cyl</label>
                             <select name="right_diopter2" class="form-control form-control-sm" id="right-eye-cylinder">
                                 @foreach($all_diopters as $diopter)
@@ -42,7 +43,7 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-2">
+                        <div class="col-1">
                             <label for="right-eye-axis">R ax</label>
                             <select name="right_axis" class="form-control form-control-sm" id="right-eye-axis">
                                 @foreach($all_diopters as $diopter)
@@ -50,8 +51,25 @@
                                 @endforeach
                             </select>
                         </div>
-
-                        <div class="col-2">
+                        <div class="col-1">
+                            <label for="right-eye-add">R add</label>
+                            <select name="right_add" class="form-control form-control-sm" id="right-eye-add">
+                                <option name="right_eye_add" value=""></option>
+                                <option name="right_eye_add" value="0.50">0.50</option>
+                                <option name="right_eye_add" value="0.75">0.75</option>
+                                <option name="right_eye_add" value="1.00">1.00</option>
+                                <option name="right_eye_add" value="1.25">1.25</option>
+                                <option name="right_eye_add" value="1.50">1.50</option>
+                                <option name="right_eye_add" value="1.75">1.75</option>
+                                <option name="right_eye_add" value="2.00">2.00</option>
+                                <option name="right_eye_add" value="2.25">2.25</option>
+                                <option name="right_eye_add" value="2.50">2.50</option>
+                                <option name="right_eye_add" value="2.75">2.75</option>
+                                <option name="right_eye_add" value="3.00">3.00</option>
+                            </select>
+                        </div>
+                        <div class="col-2"></div>
+                        <div class="col-1">
                             <label for="left-eye-sphere">L sph</label>
                             <select name="left_diopter" class="form-control form-control-sm" id="left-eye-sphere">
                                 @foreach($all_diopters as $diopter)
@@ -59,7 +77,7 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-2">
+                        <div class="col-1">
                             <label for="left-eye-cylinder">L cyl</label>
                             <select name="left_diopter2" class="form-control form-control-sm" id="left-eye-cylinder">
                                 @foreach($all_diopters as $diopter)
@@ -67,7 +85,7 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-2">
+                        <div class="col-1">
                             <label for="left-eye-axis">L ax</label>
                             <select name="left_axis" class="form-control form-control-sm" id="left-eye-axis">
                                 @foreach($all_diopters as $diopter)
@@ -75,6 +93,24 @@
                                 @endforeach
                             </select>
                         </div>
+                        <div class="col-1">
+                            <label for="left-eye-axis">L add</label>
+                            <select name="left_add" class="form-control form-control-sm" id="left-eye-add">
+                                    <option name="left_eye_add" value=""></option>
+                                    <option name="left_eye_add" value="0.50">0.50</option>
+                                    <option name="left_eye_add" value="0.75">0.75</option>
+                                    <option name="left_eye_add" value="1.00">1.00</option>
+                                    <option name="left_eye_add" value="1.25">1.25</option>
+                                    <option name="left_eye_add" value="1.50">1.50</option>
+                                    <option name="left_eye_add" value="1.75">1.75</option>
+                                    <option name="left_eye_add" value="2.00">2.00</option>
+                                    <option name="left_eye_add" value="2.25">2.25</option>
+                                    <option name="left_eye_add" value="2.50">2.50</option>
+                                    <option name="left_eye_add" value="2.75">2.75</option>
+                                    <option name="left_eye_add" value="3.00">3.00</option>
+                            </select>
+                        </div>
+                        <div class="col-1"></div>
                     </div>
                     <hr>
                     <div class="row">

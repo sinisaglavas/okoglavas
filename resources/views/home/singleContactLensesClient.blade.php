@@ -57,12 +57,12 @@
                             <td>{{ $contact_lenses_exam->right_eye_sphere }}</td>
                             <td>{{ $contact_lenses_exam->right_eye_cylinder }}</td>
                             <td>{{ $contact_lenses_exam->right_eye_axis }}</td>
-                            <td></td>
+                            <td>{{ $contact_lenses_exam->right_eye_add }}</td>
                             <td></td>
                             <td>{{ $contact_lenses_exam->left_eye_sphere }}</td>
                             <td>{{ $contact_lenses_exam->left_eye_cylinder }}</td>
                             <td>{{ $contact_lenses_exam->left_eye_axis }}</td>
-                            <td></td>
+                            <td>{{ $contact_lenses_exam->left_eye_add }}</td>
                             <td></td>
                             <td>{{ $contact_lenses_exam->producer }}</td>
                             <td>{{ $contact_lenses_exam->type }}</td>
