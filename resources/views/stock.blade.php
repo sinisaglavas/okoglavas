@@ -19,19 +19,17 @@
                 <div class="row">
 
                     <div class="col">
-                        <button class="btn btn-warning form-control">KS: <span class="fw-bold">{{ $cl_sum }} kom.</span>
+                        <button class="btn btn-outline-secondary form-control">KS: <span class="fw-bold">{{ $cl_sum }} kom.</span>
                         </button>
                     </div>
                     <div class="col">
-                        <button class="btn btn-warning form-control">Ramovi: <span class="fw-bold">{{ $glasses_sum }} kom.</span>
+                        <button class="btn btn-outline-secondary form-control">Ramovi: <span class="fw-bold">{{ $glasses_sum }} kom.</span>
                         </button>
                     </div>
                     <div class="col">
-                        <button class="btn btn-warning form-control">Diop. Sočiva: <span class="fw-bold">{{ $dl_sum }} kom.</span>
-                        </button>
-                    </div>
+                        <button class="btn btn-outline-secondary form-control">Sunčane naočare: <span class="fw-bold">{{ $sunglasses_sum }} kom.</span>                    </div>
                     <div class="col">
-                        <button class="btn btn-warning form-control">Diop. Sočiva: <span class="fw-bold">{{ $dl_sum }} kom.</span>
+                        <button class="btn btn-outline-secondary form-control">Diop. Sočiva: <span class="fw-bold">{{ $dl_sum }} kom.</span>
                         </button>
                     </div>
 

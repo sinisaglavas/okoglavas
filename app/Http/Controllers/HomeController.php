@@ -360,10 +360,12 @@ class HomeController extends Controller
         });
         $cl_sum = Stock::where('item_type', 'KS')->sum('quantity');
         $glasses_sum = Stock::where('item_type', 'Ram')->sum('quantity');
+        $sunglasses_sum = Stock::where('item_type', 'Sunčane')->sum('quantity');
         $dl_sum = Stock::where('item_type', 'DS')->sum('quantity');
 
-        return view('stock', compact('all_stocks', 'total', 'cl_sum', 'glasses_sum', 'dl_sum'));
+        return view('stock', compact('all_stocks', 'total', 'cl_sum', 'glasses_sum', 'sunglasses_sum', 'dl_sum'));
     }
+
 
     public function showNewTypeContactLensForm()
     {
