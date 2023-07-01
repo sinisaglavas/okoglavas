@@ -14,8 +14,8 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-2"></div>
-            <div class="col-10">
+            <div class="col-1"></div>
+            <div class="col-11">
                 @foreach($all_contact_lenses_exams as $contact_lenses_exam)
 
                     <table class="table text-center table-bordered caption-top"
