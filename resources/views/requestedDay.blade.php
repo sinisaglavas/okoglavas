@@ -290,6 +290,17 @@
                     total.value = '';
                 }
             })
+            pcs.addEventListener('keyup', function () {
+                //let pcs = document.getElementById('pcs');
+                let price = document.getElementById('price');
+                let total = document.getElementById('total');
+                if (pcs.value && price.value) {
+                    total.value = pcs.value * price.value;
+                }
+                if (pcs.value === '') {
+                    total.value = '';
+                }
+            })
         }
 
         window.addEventListener('load', async function () {
@@ -316,34 +327,6 @@
                 }
             });
         });
-
-
-
-        // window.addEventListener('load', function () {
-        //     fetch('/api/stock')
-        //         .then(res => res.json())
-        //         .then(data => {
-        //             // ovde se obradjuje uspesno dobijen odgovor sa api rute
-        //             //   console.log(data);
-        //             writeDataInList(data);
-        //         })
-        //     document.getElementById('search').addEventListener('keyup', function (event) {
-        //         let query = document.getElementById('search').value;
-        //         fetch('/api/stock/' + query)
-        //             .then(res => res.json())
-        //             .then(data => {
-        //                 writeDataInList(data);
-        //             });
-        //     });
-        //    // const pcs = document.getElementById('pcs').value;
-        //     // if (pcs) {
-        //     //     document.getElementById('save-data').addEventListener('click', function (){
-        //     //         createInputData()
-        //     //     });
-        //     // }
-        //
-        //
-        // });
 
     </script>
 
