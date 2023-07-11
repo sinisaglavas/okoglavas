@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Client;
 use App\Models\Debtor;
 use App\Models\Payment;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
 class PaymentController extends Controller

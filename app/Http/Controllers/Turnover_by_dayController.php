@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Daily_turnover;
-use App\Models\Turnover_by_day;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class Turnover_by_dayController extends Controller

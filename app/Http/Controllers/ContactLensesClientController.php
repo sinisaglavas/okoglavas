@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Client;
 use App\Models\Contact_lenses_client;
 use App\Models\Contact_lenses_exam;
 use Illuminate\Http\Request;

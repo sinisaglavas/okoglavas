@@ -8,7 +8,6 @@
             </div>
             <div class="col-4"></div>
             <div class="col-4">
-{{--                <a href="{{ route('showDailyTurnover') }}" class="btn btn-secondary form-control m-2">Dnevni promet</a>--}}
             </div>
         </div>
         <div class="row pt-5">

@@ -2,12 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Client;
 use App\Models\Contact_lense;
 use App\Models\Contact_lenses_client;
 use App\Models\Diopter;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Request;
 
 class ContactLensesController extends Controller
 {

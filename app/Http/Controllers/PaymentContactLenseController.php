@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Debtor;
 use App\Models\Debtors_contact_lenses;
 use App\Models\PaymentContactLense;
 use Illuminate\Http\Request;

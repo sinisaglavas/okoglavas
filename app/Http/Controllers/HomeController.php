@@ -11,14 +11,10 @@ use App\Models\Diopter;
 use App\Models\Dist_pupillary;
 use App\Models\Distance;
 use App\Models\Examination;
-use App\Models\Payment;
 use App\Models\Proximity;
 use App\Models\Stock;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Validator;
 
 class HomeController extends Controller
 {
@@ -141,8 +137,7 @@ class HomeController extends Controller
         $single_client = Contact_lenses_client::find($id);
 
         $all_contact_lenses_exams = $single_client->contact_lenses_exams;
-        //$all_contact_lenses_exams = Contact_lenses_exam::where('contact_lenses_client_id', $id);
-        //dd($all_contact_lenses_exams);
+
         return view('home.singleContactLensesClient',compact('single_client','all_contact_lenses_exams'));
 
 
@@ -184,11 +179,6 @@ class HomeController extends Controller
             $new_examination->exam = $request->red;
         }
         $new_examination->client_id = $single_client->id;
-
-
-//        $new_examination->near_right_eye = (!is_null($request->near_right_eye) ? $request->near_right_eye : "");
-//        $new_examination->near_left_eye = (!is_null($request->near_left_eye) ? $request->near_left_eye : "");
-//        $new_examination->near_pd = (!is_null($request->near_pd) ? $request->near_pd : "");
 
         $new_examination->save();
 
@@ -344,9 +334,6 @@ class HomeController extends Controller
         }
         $new_examination->client_id = $single_client->id;
 
-//        $new_examination->near_right_eye = (!is_null($request->near_right_eye) ? $request->near_right_eye : "");
-//        $new_examination->near_left_eye = (!is_null($request->near_left_eye) ? $request->near_left_eye : "");
-//        $new_examination->near_pd = (!is_null($request->near_pd) ? $request->near_pd : "");
         $new_examination->save();
 
         return redirect()->back()->with('message1','New data sent');
