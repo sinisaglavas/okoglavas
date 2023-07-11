@@ -78,7 +78,7 @@
                                 <input type="hidden" name="search_date" value="{{ $search_date }}">
                             </td>
                             <td><input type="number" name="price" class="form-control" id="price" readonly required></td>
-                            <td><input type="number" name="total" class="form-control" id="total" required></td>
+                            <td><input type="number" name="total" class="form-control" id="total" required readonly></td>
                             <td><input type="text" name="describe" class="form-control" id="describe" readonly required></td>
                             <td><input type="text" name="material" class="form-control" id="material" readonly required></td>
                             <td><input type="text" name="installation_type" class="form-control" id="installation_type" readonly required></td>
@@ -292,33 +292,58 @@
             })
         }
 
+        window.addEventListener('load', async function () {
+            try {
+                const response = await fetch('/api/stock');
+                const data = await response.json();
+                // ovde se obradjuje uspesno dobijen odgovor sa api rute
+                // console.log(data);
+                writeDataInList(data);
+            } catch (error) {
+                // Obrada greške prilikom dohvatanja podataka
+                console.error(error);
+            }
 
-
-        window.addEventListener('load', function () {
-            fetch('/api/stock')
-                .then(res => res.json())
-                .then(data => {
-                    // ovde se obradjuje uspesno dobijen odgovor sa api rute
-                    //   console.log(data);
-                    writeDataInList(data);
-                })
-            document.getElementById('search').addEventListener('keyup', function (event) {
+            document.getElementById('search').addEventListener('keyup', async function (event) {
                 let query = document.getElementById('search').value;
-                fetch('/api/stock/' + query)
-                    .then(res => res.json())
-                    .then(data => {
-                        writeDataInList(data);
-                    });
+                try {
+                    const response = await fetch('/api/stock/' + query);
+                    const data = await response.json();
+                    writeDataInList(data);
+                } catch (error) {
+                    // Obrada greške prilikom dohvatanja podataka
+                    console.error(error);
+                }
             });
-           // const pcs = document.getElementById('pcs').value;
-            // if (pcs) {
-            //     document.getElementById('save-data').addEventListener('click', function (){
-            //         createInputData()
-            //     });
-            // }
-
-
         });
+
+
+
+        // window.addEventListener('load', function () {
+        //     fetch('/api/stock')
+        //         .then(res => res.json())
+        //         .then(data => {
+        //             // ovde se obradjuje uspesno dobijen odgovor sa api rute
+        //             //   console.log(data);
+        //             writeDataInList(data);
+        //         })
+        //     document.getElementById('search').addEventListener('keyup', function (event) {
+        //         let query = document.getElementById('search').value;
+        //         fetch('/api/stock/' + query)
+        //             .then(res => res.json())
+        //             .then(data => {
+        //                 writeDataInList(data);
+        //             });
+        //     });
+        //    // const pcs = document.getElementById('pcs').value;
+        //     // if (pcs) {
+        //     //     document.getElementById('save-data').addEventListener('click', function (){
+        //     //         createInputData()
+        //     //     });
+        //     // }
+        //
+        //
+        // });
 
     </script>
 
