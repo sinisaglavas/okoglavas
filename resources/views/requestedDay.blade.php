@@ -198,44 +198,42 @@
             })
         }
 
-        // Pratimo promene u unosu
-        const inputElement = document.getElementById("search");
-
-        inputElement.addEventListener("input", (event) => {
-            const input = event.target.value;
+        let timeoutId;
+        async function fetchData(input) {
             console.log(input);
-
+            // Proveravamo dužinu unosa pre dohvatanja podataka
             if (input.length >= 3) {
-
-                document.getElementById('search').addEventListener('keyup', async function (event) {
-                    let query = document.getElementById('search').value;
-                    try {
-                        const response = await fetch('/api/stock/' + query);
-                        const data = await response.json();
-                        writeDataInList(data);
-                    } catch (error) {
-                        // Obrada greške prilikom dohvatanja podataka
-                        console.error(error);
-                    }
-                });
-            }
-        });
-
-            window.addEventListener('load', async function () {
                 try {
-                    const response = await fetch('/api/stock');
+                    const response = await fetch('/api/stock/' + input);
                     const data = await response.json();
-                    // ovde se obradjuje uspesno dobijen odgovor sa api rute
-                    console.log(data);
                     writeDataInList(data);
                 } catch (error) {
                     // Obrada greške prilikom dohvatanja podataka
                     console.error(error);
                 }
+            }
+        }
 
+        function handleInput(input) {
+            // Pre svakog novog unosa, poništavamo prethodni timeout
+            clearTimeout(timeoutId);
 
-            });
+            if (input.length >= 3) {
+                // Postavljamo novi timeout koji će se izvršiti nakon 500ms
+                timeoutId = setTimeout(() => {
+                    // Pozivamo funkciju za dohvaćanje podataka
+                    fetchData(input);
+                }, 500);
+            }
+        }
 
+        // Pratimo promene u unosu
+        const inputElement = document.getElementById("search");
+
+        inputElement.addEventListener("input", (event) => {
+            const input = event.target.value;
+            handleInput(input);
+        });
 
     </script>
 
