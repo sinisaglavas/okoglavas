@@ -49,6 +49,7 @@
                                 <th style="width: 20%;">Artikal-Opis artikla</th>
                                 <th>Komada</th>
                                 <th>Cena</th>
+                                <th>Popust</th>
                                 <th>Ukupno</th>
                                 <th>Opis</th>
                                 <th>Materijal</th>
@@ -68,14 +69,20 @@
                                            disabled required>
                                     <input type="hidden" name="search_date" value="{{ $search_date }}">
                                 </td>
-                                <td><input type="number" name="price" class="form-control" id="price" readonly required>
+                                <td><input type="number" name="price" class="form-control" id="price" readonly required></td>
+                                <td>
+                                    <select name="discount" id="discount" class="form-control">
+                                        <option value="0">0%</option>
+                                        <option value="10">10%</option>
+                                        <option value="20">20%</option>
+                                        <option value="30">30%</option>
+                                        <option value="50">50%</option>
+                                        <option value="100">100%</option>
+                                    </select>
                                 </td>
-                                <td><input type="number" name="total" class="form-control" id="total" required readonly>
-                                </td>
-                                <td><input type="text" name="describe" class="form-control" id="describe" readonly
-                                           required></td>
-                                <td><input type="text" name="material" class="form-control" id="material" readonly
-                                           required></td>
+                                <td><input type="number" name="total" class="form-control" id="total" required readonly></td>
+                                <td><input type="text" name="describe" class="form-control" id="describe" readonly required></td>
+                                <td><input type="text" name="material" class="form-control" id="material" readonly required></td>
                                 <td><input type="text" name="installation_type" class="form-control"
                                            id="installation_type" readonly required></td>
                                 <td>
@@ -103,6 +110,7 @@
                             <th>Artikal</th>
                             <th>Komada</th>
                             <th>Cena</th>
+                            <th>Popust</th>
                             <th>Ukupno</th>
                             <th>Opis</th>
                             <th>Materijal</th>
@@ -116,6 +124,7 @@
                                 <td>{{ $data->article }}</td>
                                 <td>{{ $data->pcs }}</td>
                                 <td>{{ $data->price }}</td>
+                                <td>{{ $data->discount }}</td>
                                 <td>{{ $data->total }}</td>
                                 <td>{{ $data->describe }}</td>
                                 <td>{{ $data->material }}</td>
@@ -173,32 +182,45 @@
                     document.getElementById('price').value = sellingPrice;
                 });
             }
-            let pcs = document.getElementById('pcs');
+            var pcs = document.getElementById('pcs');
+            var price = document.getElementById('price');
+            var total = document.getElementById('total');
+            var discount = document.getElementById('discount');
             pcs.addEventListener('change', function () {
                 //let pcs = document.getElementById('pcs');
-                let price = document.getElementById('price');
-                let total = document.getElementById('total');
                 if (pcs.value && price.value) {
                     total.value = pcs.value * price.value;
                 }
                 if (pcs.value === '') {
                     total.value = '';
                 }
-            })
+            });
             pcs.addEventListener('keyup', function () {
                 //let pcs = document.getElementById('pcs');
-                let price = document.getElementById('price');
-                let total = document.getElementById('total');
                 if (pcs.value && price.value) {
                     total.value = pcs.value * price.value;
                 }
                 if (pcs.value === '') {
                     total.value = '';
                 }
-            })
+            });
+
+            discount.addEventListener('change', function () {
+                if (discount.value && pcs.value && price.value) {
+                    total.value = (pcs.value * price.value) - (discount.value / 100) * (pcs.value * price.value);
+                }
+                if (pcs.value === '') {
+                    total.value = '';
+                }
+            });
+
+
+
+
         }
 
         let timeoutId;
+
         async function fetchData(input) {
             console.log(input);
             // Proveravamo dužinu unosa pre dohvatanja podataka
@@ -221,7 +243,7 @@
             if (input.length >= 3) {
                 // Postavljamo novi timeout koji će se izvršiti nakon 500ms
                 timeoutId = setTimeout(() => {
-                    // Pozivamo funkciju za dohvaćanje podataka
+                    // Pozivamo funkciju za hvatanje podataka
                     fetchData(input);
                 }, 500);
             }

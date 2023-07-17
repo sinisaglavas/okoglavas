@@ -40,6 +40,7 @@ class DailyTurnoverController extends Controller
         $daily_turnover->installation_type = $request->installation_type;
         $daily_turnover->pcs = $request->pcs;
         $daily_turnover->price = $request->price;
+        $daily_turnover->discount = $request->discount;
         $daily_turnover->total = $request->total;
         $daily_turnover->stock_id = $request->article_id;
         $daily_turnover->user_id = auth()->user()->id;
