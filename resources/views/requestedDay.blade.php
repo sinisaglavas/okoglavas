@@ -189,7 +189,7 @@
             pcs.addEventListener('change', function () {
                 //let pcs = document.getElementById('pcs');
                 if (pcs.value && price.value) {
-                    total.value = pcs.value * price.value;
+                    total.value = (pcs.value * price.value) - (discount.value / 100) * (pcs.value * price.value);
                 }
                 if (pcs.value === '') {
                     total.value = '';
@@ -198,7 +198,7 @@
             pcs.addEventListener('keyup', function () {
                 //let pcs = document.getElementById('pcs');
                 if (pcs.value && price.value) {
-                    total.value = pcs.value * price.value;
+                    total.value = (pcs.value * price.value) - (discount.value / 100) * (pcs.value * price.value);
                 }
                 if (pcs.value === '') {
                     total.value = '';
