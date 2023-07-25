@@ -8,7 +8,7 @@
             </div>
             <div class="col-2"></div>
             <div class="col-4">
-                <h2>New Client - Contact lenses</h2>
+                <h2>Novi klijent - Kontaktna sočiva</h2>
                 <form action="{{ route('home.saveContactLensesClientForm') }}" method="POST">
                     @csrf
                     <label for="name">Ime</label>

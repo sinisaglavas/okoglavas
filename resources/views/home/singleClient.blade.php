@@ -26,7 +26,7 @@
                         <div class="col-9">
                             <table class="table text-center table-bordered caption-top"
                                    style="background-color: rgb(200,200,200)">
-                                <caption>{{ $distance->created_at->format('d. m. Y.') }}&nbsp;Distance</caption>
+                                <caption>{{ $distance->created_at->format('d. m. Y.') }}&nbsp;Daljina</caption>
                                 <thead>
                                 <tr>
                                     <th colspan="4">Right Eye</th>
@@ -90,7 +90,7 @@
                         </div>
                         <div class="col-9">
                             <table class="table text-center table-bordered caption-top">
-                                <caption>{{ $proximity->created_at->format('d. m. Y.') }}&nbsp;Proximity</caption>
+                                <caption>{{ $proximity->created_at->format('d. m. Y.') }}&nbsp;Blizina</caption>
                                 <thead>
                                 <tr>
                                     <th colspan="4">Right Eye</th>
