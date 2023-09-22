@@ -139,5 +139,5 @@ Route::post('/daily-turnover', [App\Http\Controllers\DailyTurnoverController::cl
 Route::post('/home/save-payment-form/{id}',[App\Http\Controllers\PaymentController::class,'savePaymentForm'])->
 name('home.savePaymentForm');
 
-
+Route::get('/view-monthly-turnover/{id}', [App\Http\Controllers\DailyTurnoverController::class, 'viewMonthlyTurnover']);
 

@@ -88,5 +88,24 @@ class DailyTurnoverController extends Controller
 
     }
 
+    public function viewMonthlyTurnover($id)
+    {
+        $turnover_by_days = DB::table('daily_turnovers')
+            ->select('created_at', DB::raw('SUM(total) as sum'))
+            ->groupBy('created_at')
+            ->get(); // iz dokumentacije laravel-a - ukupan promet po datumima zajedno grupisano
+
+
+
+        $monthly_turnovers = Daily_turnover::select(DB::raw('DATE(created_at) as day'), DB::raw('SUM(total) as sum'))
+            ->whereMonth('created_at', $id)
+            ->groupBy('day')
+            ->orderBy('day')
+            ->get(); // dobijamo kolekciju ukupnih prometa za sve dane trazenog meseca
+
+        return view('turnoverByDays', compact('monthly_turnovers', 'turnover_by_days'));
+
+    }
+
 
 }
