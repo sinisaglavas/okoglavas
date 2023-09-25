@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Daily_turnover;
 use App\Models\Stock;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -104,6 +105,32 @@ class DailyTurnoverController extends Controller
             ->get(); // dobijamo kolekciju ukupnih prometa za sve dane trazenog meseca
 
         return view('turnoverByDays', compact('monthly_turnovers', 'turnover_by_days'));
+
+    }
+
+    public function dateRange(Request $request)
+    {
+
+        $start_date = $request->input('start_date');
+        $end_date = $request->input('end_date');
+
+        // Upit za dohvatanje podataka o prometu za odabrani raspon datuma
+        // $total_turnover sada sadrži ukupan promet za odabrani raspon datuma
+        $total_turnover = DB::table('daily_turnovers')
+            ->whereBetween('created_at', [$start_date, $end_date])
+            ->sum('total');
+
+        $start_date = Carbon::parse($start_date);
+        $start_date = $start_date->format('d.m.Y.');
+        $end_date = Carbon::parse($end_date);
+        $end_date = $end_date->format('d.m.Y.');
+
+        $turnover_by_days = DB::table('daily_turnovers')
+            ->select('created_at', DB::raw('SUM(total) as sum'))
+            ->groupBy('created_at')
+            ->get(); // iz dokumentacije laravel-a - ukupan promet po datumima zajedno grupisano
+
+        return view('turnoverByDays', compact('turnover_by_days', 'start_date', 'end_date', 'total_turnover'));
 
     }
 

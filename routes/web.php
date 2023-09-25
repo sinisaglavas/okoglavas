@@ -141,3 +141,4 @@ name('home.savePaymentForm');
 
 Route::get('/view-monthly-turnover/{id}', [App\Http\Controllers\DailyTurnoverController::class, 'viewMonthlyTurnover']);
 
+Route::post('/home/date-range', [App\Http\Controllers\DailyTurnoverController::class, 'dateRange'])->middleware('auth')->name('dateRange');

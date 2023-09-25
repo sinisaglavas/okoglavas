@@ -5,6 +5,9 @@
         <div class="row">
             <div class="col-4">
                 <a href="{{ route('homeGlasses') }}" class="btn btn-primary form-control m-2">Svi klijenti</a>
+                @if(isset($new_client))
+                <a href="{{ route('home.showExaminationForm',['id'=>$new_client_id]) }}" class="btn btn-info m-2 form-control">Klijent: <span>{{ $new_client->name }}</span> - Novi pregled</a>
+                @endif
             </div>
             <div class="col-2"></div>
             <div class="col-4">

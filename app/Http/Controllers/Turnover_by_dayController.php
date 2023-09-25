@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Daily_turnover;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class Turnover_by_dayController extends Controller
@@ -33,6 +34,7 @@ class Turnover_by_dayController extends Controller
         return view('requestedDay', compact('search_data', 'search_date', 'sum'));
 
     }
+
 
 
 

@@ -26,6 +26,7 @@ class HomeController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+
     }
 
     /**
@@ -78,8 +79,11 @@ class HomeController extends Controller
         $new_client->phone = $request->phone;
         $new_client->identity_card = $request->identity_card;
         $new_client->save();
+        $new_client_id = Client::orderBy('id', 'desc')->first()->id;
 
-        return redirect()->back()->with('message','New client sent');
+        Session::flash('message','Novi klijent je snimljen');
+        return view('home.showClientForm', compact('new_client', 'new_client_id'));
+
     }
 
     public function saveContactLensesClientForm(Request $request)
@@ -182,7 +186,7 @@ class HomeController extends Controller
 
         $new_examination->save();
 
-        return redirect()->back()->with('message','New data sent');
+        return redirect()->back()->with('message1','Novi podaci su poslati');
 
     }
 
@@ -336,7 +340,7 @@ class HomeController extends Controller
 
         $new_examination->save();
 
-        return redirect()->back()->with('message1','New data sent');
+        return redirect()->back()->with('message2','Novi podaci su poslati');
     }
 
     public function showStock()

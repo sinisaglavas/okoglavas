@@ -6,14 +6,14 @@
             <div class="col-3">
                 <a href="{{ route('homeGlasses') }}" class="btn btn-primary form-control m-2">Svi klijenti</a>
                 <a href="{{ route('home.singleClient',['id'=>$single_client->id]) }}" class="btn btn-light form-control m-2">Klijent: {{ $single_client->name }}</a>
-                @if(session()->has('message'))
-                    <div class="alert alert-info form-control m-2 text-center text-uppercase">
-                        {{ session()->get('message') }}
-                    </div>
-                @endif
                 @if(session()->has('message1'))
                     <div class="alert alert-info form-control m-2 text-center text-uppercase">
                         {{ session()->get('message1') }}
+                    </div>
+                @endif
+                @if(session()->has('message2'))
+                    <div class="alert alert-info form-control m-2 text-center text-uppercase">
+                        {{ session()->get('message2') }}
                     </div>
                 @endif
             </div>
