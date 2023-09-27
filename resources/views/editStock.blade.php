@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row">
             <div class="col-4">
-                <a href="{{ route('allStock') }}" class="btn btn-secondary form-control m-2">Svi artikli</a>
+                <a href="{{ route('allStock') }}" class="btn btn-secondary form-control m-2">Svi artikli - LAGER</a>
             </div>
             <div class="col-4 text-center">
                 <h2>Promeni Artikal</h2>

@@ -5,35 +5,39 @@
         <div class="row">
             <div class="col-5">
                 <a href="{{ route('allStock') }}" class="btn btn-secondary form-control m-2">Svi artikli - LAGER</a>
-                <h5 class="m-3">Pronađi artikle ako postoje na Lageru:</h5>
-                    <table class="table table-bordered" id="table">
-                        <thead>
-                        <tr>
-                            <th scope="col">Id</th>
-                            <th scope="col">Artikal</th>
-                            <th scope="col">Vrsta art.</th>
-                            <th scope="col">Opis</th>
-                            <th scope="col">Mater.</th>
-                            <th scope="col">Tip ugr.</th>
-                            <th scope="col">Prod.cena</th>
-                            <th scope="col">Na lageru</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr id="trElement">
-                            {{-- JS --}}
-                        </tr>
-                        </tbody>
-                    </table>
+                <h5 class="m-3">Pronađi artikle ako postoje na Lageru (max 10 rezultata):</h5>
+                <table class="table table-bordered" id="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Artikal</th>
+                        <th scope="col">Vrsta art.</th>
+                        <th scope="col">Opis</th>
+                        <th scope="col">Mater.</th>
+                        <th scope="col">Tip ugr.</th>
+                        <th scope="col">Prod.cena</th>
+                        <th scope="col">Na lageru</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr id="trElement">
+                        {{-- JS --}}
+                    </tr>
+                    </tbody>
+                </table>
+                <div id="noResult">
+                    {{-- JS --}}
+                </div>
             </div>
             <div class="col-1"></div>
             <div class="col-6">
                 <h2>Novi Artikal</h2>
                 <form action="{{ route('saveStock') }}" method="POST">
                     @csrf
-                        <label for="article">Artikal</label>
-                        <input type="text" name="article" id="article" placeholder="Unos je obavezan - uneti najmanje tri karaktera za proveru lagera"
-                               class="form-control" required>
+                    <label for="article">Artikal &nbsp;(Ukoliko želimo pretragu lagera preporuka je uneti po OPISU)</label>
+                    <input type="text" name="article" id="article"
+                           placeholder="Unos je obavezan - uneti najmanje tri karaktera (po nazivu ili opisu) za proveru lagera"
+                           class="form-control" required>
                     <div class="row mt-3">
                         <div class="text-center"><h5>Vrsta artikla (obavezan unos):</h5></div>
                         <div class="col-3 mt-4">
@@ -49,7 +53,7 @@
                         <div class="col-3 mt-4">
                             <input type="radio" id="dl" name="item_type" value="DS" style="transform: scale(2)"
                                    required>
-                              <label for="dl" style="color: blue; font-weight: bold" >Dioptr.sočivo</label>
+                              <label for="dl" style="color: blue; font-weight: bold">Dioptr.sočivo</label>
                         </div>
                         <div class="col-3 mt-4">
                             <input type="radio" id="other" name="item_type" value="Ostalo" style="transform: scale(2)"
@@ -57,6 +61,7 @@
                               <label for="other">Ostalo</label>
                         </div>
                     </div>
+                    <br>
                     <label for="describe" class="mt-1">Opis artikla</label>
                     <input type="text" name="describe" id="describe" placeholder="Na primer: naziv rama..."
                            class="form-control mb-3">
@@ -133,36 +138,15 @@
 
     <script>
 
-        // function displayData(data) {
-        //     let tableElement = document.getElementById('table');
-        //
-        //     // Prvo, obrišite sve postojeće redove iz tabele
-        //     while (tableElement.rows.length > 1) {
-        //         tableElement.deleteRow(1);
-        //     }
-        //
-        //     for (let i = 0; i < data.length; i++) {
-        //         const row = data[i];
-        //
-        //         let columnsToDisplay = ['id', 'article', 'item_type', 'describe', 'material', 'installation_type', 'selling_price', 'quantity'];
-        //
-        //         // Kreirajte novi red (<tr>) za svaki podatak
-        //         let trElement = tableElement.insertRow(-1); // -1 dodaje novi red na kraj tabele
-        //
-        //         for (let key of columnsToDisplay) {
-        //             if (row.hasOwnProperty(key)) {
-        //                 // Kreirajte <td> element za svaku vrednost i postavite ga
-        //                 // kao tekstualni sadržaj
-        //                 let tdElement = trElement.insertCell(-1); // -1 dodaje novu ćeliju u red
-        //                 tdElement.textContent = row[key];
-        //             }
-        //         }
-        //     }
-        // }
         function displayData(data) {
+            let noResult = document.getElementById('noResult');
+            if (data.length === 0){
+                noResult.innerHTML = '<h2>Nema podataka, pokušajte ponovo!</h2>';
+            }
+
             let tableElement = document.getElementById('table');
 
-            // Prvo, obrišite sve postojeće redove iz tabele
+            // Prvo, obrišem sve postojeće redove iz tabele
             while (tableElement.rows.length > 1) {
                 tableElement.deleteRow(1);
             }
@@ -172,22 +156,29 @@
 
                 let columnsToDisplay = ['id', 'article', 'item_type', 'describe', 'material', 'installation_type', 'selling_price', 'quantity'];
 
-                // Kreirajte novi red (<tr>) za svaki podatak
+                // Kreiraj novi red (<tr>) za svaki podatak
+                // Metoda insertRow se koristi za dodavanje novog reda, a argument -1 označava da se novi red dodaje na kraj tabele
+                // -1 znači da će se novi red smestiti nakon svih postojećih redova u tabeli.
                 let trElement = tableElement.insertRow(-1); // -1 dodaje novi red na kraj tabele
 
                 for (let key of columnsToDisplay) {
                     if (row.hasOwnProperty(key)) {
-                        // Kreirajte <td> element za svaku vrednost
+                        // Kreiraj <td> element za svaku vrednost
+                        // Kreiranje i dodavanje nove ćelije (<td>) unutar trenutno kreiranog reda (<tr>) u HTML tabeli.
                         let tdElement = trElement.insertCell(-1); // -1 dodaje novu ćeliju u red
 
-                        // Ako je ključ 'article', kreirajte <a> element i postavite ga kao tekstualni sadržaj
+                        // Ako je ključ 'article', kreiraj <a> element i postavi ga kao tekstualni sadržaj
                         if (key === 'article') {
                             let aElement = document.createElement('a');
-                            let editUrl = `/stock/${row['id']}/edit`; // Generišite URL
+
+                            //${}` tretiraju se kao JavaScript izrazi i evaluiraju se
+                            //${row['id']} će biti zamenjeno sa vrednošću row['id'], što je vrednost id atributa iz trenutnog reda row
+                            //ako je row['id'] na primer 123, editUrl će dobiti vrednost /stock/123/edit
+                            let editUrl = `/stock/${row['id']}/edit`; // Generiši URL
                             aElement.href = editUrl;
                             aElement.textContent = row[key];
 
-                            // Postavite stilove za centriranje <a> elementa
+                            // Postavi stilove za centriranje <a> elementa
                             aElement.style.display = 'block';
                             aElement.style.textAlign = 'center';
                             aElement.style.textDecoration = 'none';
@@ -204,10 +195,8 @@
         }
 
 
-
-
-
         let timeoutId;
+
         async function fetchData(input) {
             console.log(input);
             // Proveravamo dužinu unosa pre dohvatanja podataka
