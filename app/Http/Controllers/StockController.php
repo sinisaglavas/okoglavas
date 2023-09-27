@@ -108,5 +108,24 @@ class StockController extends Controller
         return redirect()->back()->with('message','Artikal je izmenjen');
     }
 
+    public function checkArticleData(Request $request)
+    {
+        $articles = $request->input('articles');
+
+        return view('showStockForm', compact('articles'));
+
+//        if (empty($articles)) {
+//            // Niz $stockData je prazan
+//            return response()->json(['message' => 'Nema dostupnih podataka.']);
+//        }
+//
+//        // Ovde možete obraditi $stockData kako želite
+//
+//
+//        // Vratite odgovor
+//        return response()->json(['message' => 'Podaci su uspešno primljeni i obradjeni.']);
+
+    }
+
 
 }

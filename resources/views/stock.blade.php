@@ -121,7 +121,7 @@
                             <td>{{ $all_stock->selling_price * $all_stock->quantity }}</td>
                             <td>{{ $all_stock->	created_at->format('d.m.Y.') }}</td>
                             <td style="background: #babbbc;"><a href="{{ route('editStock',['id'=>$all_stock->id]) }}"
-                                                                class="text-decoration-none" style="color: black">Promeni</a>
+                                                                class="text-decoration-none" style="color: black;">Promeni</a>
                             </td>
                         </tr>
                     @endforeach
