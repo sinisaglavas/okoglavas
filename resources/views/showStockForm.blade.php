@@ -142,6 +142,8 @@
             let noResult = document.getElementById('noResult');
             if (data.length === 0){
                 noResult.innerHTML = '<h2>Nema podataka, pokušajte ponovo!</h2>';
+            }else {
+                noResult.innerHTML = '';
             }
 
             let tableElement = document.getElementById('table');
