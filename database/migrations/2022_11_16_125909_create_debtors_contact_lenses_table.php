@@ -16,10 +16,11 @@ class CreateDebtorsContactLensesTable extends Migration
         Schema::create('debtors_contact_lenses', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->unsignedBigInteger('client_phone');
+            //$table->unsignedBigInteger('client_phone', 20);
+            $table->string('client_phone');
             $table->integer('debit')->nullable();
             $table->unsignedBigInteger('client_id');
-            $table->foreign('client_phone')->references('phone')->on('contact_lenses_clients');
+            //$table->foreign('client_phone')->references('phone')->on('contact_lenses_clients');
             $table->foreign('client_id')->references('id')->on('contact_lenses_clients');
             $table->timestamps();
         });

@@ -4,7 +4,8 @@
     <div class="container">
         <div class="row">
             <div class="col-3">
-                <a href="{{ route('allDebtorsContactLenses') }}" class="btn btn-danger form-control m-2">Svi klijenti / Dužnici</a>
+                <a href="{{ route('allDebtorsContactLenses') }}" class="btn btn-danger form-control m-2">Svi klijenti /
+                    Dužnici</a>
                 <a href="{{ route('homeContactLenses') }}" class="btn btn-danger form-control m-2">Svi klijenti</a>
 
             </div>
@@ -20,12 +21,14 @@
                     @csrf
                     <label for="find_client">Pronađi klijenta</label>
                     <select name="client" class="form-control" id="find_client">
+                        <option value="0" id="control">Izaberi klijenta</option>
+
                         @foreach($all_clients as $single_client)
-                            <option value="{{ $single_client->id}}">{{ $single_client->name }}</option>
+                            <option value="{{ $single_client->id}}" class="client">{{ $single_client->name }}</option>
                         @endforeach
                     </select><br>
                     <label for="debit">Dug</label>
-                    <input type="number" name="debit" class="form-control" id="debit" required><br>
+                    <input type="number" name="debit" class="form-control" id="debit" disabled required><br>
                     <button class="btn btn-danger form-control">Zapamti</button>
                 </form>
                 @if(session()->has('message'))
@@ -36,6 +39,21 @@
             </div>
         </div>
     </div>
+
+    <script>
+
+            document.getElementById('find_client').addEventListener('change', function () {
+            var debitInput = document.getElementById('debit');
+            var selectedOption = this.options[this.selectedIndex];
+
+            if (selectedOption.value === '0') {
+            debitInput.disabled = true;
+        } else {
+            debitInput.disabled = false;
+        }
+        });
+            
+    </script>
 
 @endsection
 

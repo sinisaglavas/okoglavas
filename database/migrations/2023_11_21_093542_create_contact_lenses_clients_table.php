@@ -19,7 +19,7 @@ class CreateContactLensesClientsTable extends Migration
             $table->string('date_of_birth');
             $table->string('address');
             $table->string('city');
-            $table->integer('phone');
+            $table->string('phone');
             $table->integer('identity_card')->nullable();
             $table->timestamps();
         });

@@ -11,7 +11,7 @@
                 <h2>Novi klijent - Kontaktna sočiva</h2>
                 <form action="{{ route('home.saveContactLensesClientForm') }}" method="POST">
                     @csrf
-                    <label for="name">Ime</label>
+                    <label for="name">Ime i prezime</label>
                     <input type="text" name="name" id="name" class="form-control"  placeholder="Unos je obavezan" required>
                     <label for="date-of-birth">Datum rođenja</label>
                     <input type="text" name="date_of_birth" id="date-of-birth" class="form-control">
