@@ -67,7 +67,7 @@
                     <form action="{{ route('home.savePaymentForm',['id'=>$debtor->id]) }}" method="POST" class="m-3">
                         @csrf
                         <label for="payment">Uplaćeno:</label>
-                        <input type="number" name="payment" class="form-control" id="payment" required><br>
+                        <input type="number" name="payment" class="form-control" id="payment" min="0" required><br>
                         <button class="btn btn-primary form-control">Zapamti</button>
                     </form>
                 </div>

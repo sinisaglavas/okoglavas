@@ -27,7 +27,7 @@
                         @endforeach
                     </select><br>
                     <label for="debit">Iznos duga:</label>
-                    <input type="number" name="debit" class="form-control" id="debit"
+                    <input type="number" name="debit" class="form-control" id="debit" min="0"
                            placeholder="Upis duga je moguć kada odaberete klijenta" disabled required><br>
                     <button class="btn btn-primary form-control">Zapamti</button>
                 </form>
