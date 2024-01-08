@@ -15,6 +15,8 @@ use App\Models\Proximity;
 use App\Models\Stock;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\URL;
 
 class HomeController extends Controller
 {
@@ -36,6 +38,11 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $currentUrl = URL::current();
+
+        // Prosleđivanje trenutnog URL-a Blade pogledu
+        View::share('currentUrl', $currentUrl);
+
         return view('home');
     }
 
