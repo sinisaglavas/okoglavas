@@ -40,7 +40,7 @@ class HomeController extends Controller
     {
         $currentUrl = URL::current();
 
-        // Prosleđivanje trenutnog URL-a Blade pogledu
+        // Prosleđivanje trenutnog URL-a Blade pogledu da bi se slike razlikovale u svakoj optici
         View::share('currentUrl', $currentUrl);
 
         return view('home');

@@ -9,7 +9,9 @@
             <div style="background-color: #084298; padding: 20px; color: white; border-radius: 5px">
                 <h2>O&nbspptika</h2>
                 <h2>K&nbspontaktologija</h2>
-                <h2>O&nbspptometrija Glavaš</h2>
+                <h2>O&nbspptometrija</h2>
+                <hr>
+                <h2>Glavaš</h2>
             </div>
         </div>
         <div class="col-4"></div>

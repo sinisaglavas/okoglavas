@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Contact_lense;
 use App\Models\Contact_lenses_client;
 use App\Models\Diopter;
+use App\Models\Stock;
 
 class ContactLensesController extends Controller
 {
@@ -42,5 +43,7 @@ class ContactLensesController extends Controller
 
         return view('home.showContactLensesExaminationForm', compact('suitable_contact_lenses','single_client','all_diopters','contact_lenses'));
     }
+
+
 
 }

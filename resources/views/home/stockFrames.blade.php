@@ -2,37 +2,22 @@
 
 @section('content')
     <div class="container">
-        <div class="row mb-4">
+        <div class="row mb-5">
             <div class="col">
-                <a href="{{ route('turnoverByDays') }}" class="btn btn-secondary form-control m-2">Promet po danima</a>
+                <a href="{{ route('allStock') }}" class="btn btn-secondary form-control m-2">Lager</a>
             </div>
             <div class="col">
-                <a href="{{ route('showStockForm') }}" class="btn btn-secondary form-control m-2">Novi artikal</a>
-            </div>
-            <div class="col">
-                <button class="btn btn-warning form-control m-2">Ukupno na lageru: <span class="fw-bold">{{ $total }} dinara</span>
+                <button class="btn btn-warning form-control m-2">Količina Ram: <span class="fw-bold">{{ $glasses_sum }} kom.</span></button>
+            </div>            <div class="col">
+                <button class="btn btn-warning form-control m-2">Vrednost Ram: <span class="fw-bold">{{ $total }} dinara</span>
                 </button>
             </div>
         </div>
         <div class="row">
             <div class="col-12">
-                <div class="row">
-                    <div class="col">
-                        <a href="{{ route('home.stockContactLenses') }}" class="btn btn-outline-secondary form-control">KS: <span class="fw-bold">{{ $cl_sum }} kom.</span></a>
-                    </div>
-                    <div class="col">
-                        <a href="{{ route('home.stockGlasses') }}" class="btn btn-outline-secondary form-control">Ramovi: <span class="fw-bold">{{ $glasses_sum }} kom.</span></a>
-                    </div>
-                    <div class="col">
-                        <a href="{{ route('home.stockSunglasses') }}" class="btn btn-outline-secondary form-control">Sunčane naočare: <span class="fw-bold">{{ $sunglasses_sum }} kom.</span></a>
-                    </div>
-                    <div class="col">
-                        <a href="{{ route('home.stockDioptricLenses') }}" class="btn btn-outline-secondary form-control">Diop. Sočiva: <span class="fw-bold">{{ $dl_sum }} kom.</span></a>
-                    </div>
-                </div>
                 <div class="row mt-4">
                     <div class="col-8">
-                        <h2 class="text-center">L A G E R</h2>
+                        <h2 class="text-center">L A G E R &nbsp;&nbsp;Ram (Dioptrijski ramovi)</h2>
                     </div>
                     <div class="col-4">
                         <form action="{{route('searchStock')}}" method="POST">
@@ -103,20 +88,20 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($all_stocks as $all_stock)
+                    @foreach($frames as $frame)
                         <tr>
-                            <td>{{ $all_stock->id }}</td>
-                            <td>{{ $all_stock->article }}</a></td>
-                            <td>{{ $all_stock->item_type }}</td>
-                            <td>{{ $all_stock->describe }}</td>
-                            <td>{{ $all_stock->material }}</td>
-                            <td>{{ $all_stock->installation_type }}</td>
-                            <td>{{ $all_stock->purchase_price }}</td>
-                            <td>{{ $all_stock->selling_price }}</td>
-                            <td>{{ $all_stock->quantity }}</td>
-                            <td>{{ $all_stock->selling_price * $all_stock->quantity }}</td>
-                            <td>{{ $all_stock->	created_at->format('d.m.Y.') }}</td>
-                            <td style="background: #babbbc;"><a href="{{ route('editStock',['id'=>$all_stock->id]) }}"
+                            <td>{{ $frame->id }}</td>
+                            <td>{{ $frame->article }}</a></td>
+                            <td>{{ $frame->item_type }}</td>
+                            <td>{{ $frame->describe }}</td>
+                            <td>{{ $frame->material }}</td>
+                            <td>{{ $frame->installation_type }}</td>
+                            <td>{{ $frame->purchase_price }}</td>
+                            <td>{{ $frame->selling_price }}</td>
+                            <td>{{ $frame->quantity }}</td>
+                            <td>{{ $frame->selling_price * $frame->quantity }}</td>
+                            <td>{{ $frame->	created_at->format('d.m.Y.') }}</td>
+                            <td style="background: #babbbc;"><a href="{{ route('editStock',['id'=>$frame->id]) }}"
                                                                 class="text-decoration-none" style="color: black;">Promeni</a>
                             </td>
                         </tr>
@@ -127,4 +112,5 @@
         </div>
     </div>
 @endsection
+
 

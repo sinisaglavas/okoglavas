@@ -37,7 +37,14 @@ Route::get('/home/single-contact-lenses-client/{id}',[App\Http\Controllers\HomeC
 name('home.singleContactLensesClient');
 Route::get('/all-stock', [App\Http\Controllers\HomeController::class, 'showStock'])->name('allStock');
 Route::get('/home/show-new-type-contact-lens-form', [App\Http\Controllers\HomeController::class, 'showNewTypeContactLensForm']);
-
+Route::get('/home/stock-contact-lenses', [App\Http\Controllers\StockController::class, 'stockContactLenses'])->
+name('home.stockContactLenses'); // ovo je ruta za prikaz svih kontaktnih sočiva u stanju na lageru
+Route::get('/home/stock-glasses', [App\Http\Controllers\StockController::class, 'stockGlasses'])->
+name('home.stockGlasses'); // ovo je ruta za prikaz svih naočara u stanju na lageru
+Route::get('/home/stock-sunglasses', [App\Http\Controllers\StockController::class, 'stockSunglasses'])->
+name('home.stockSunglasses'); // ovo je ruta za prikaz svih sunčanih naočara u stanju na lageru
+Route::get('/home/stock-dioptric-lenses', [App\Http\Controllers\StockController::class, 'stockDioptricLenses'])->
+name('home.stockDioptricLenses'); // ovo je ruta za prikaz svih dioptrijskih sociva u stanju na lageru
 
 //home.debtors
 Route::get('/home/debtors', [App\Http\Controllers\DebtorController::class,'index'])->name('home.allDebtors');

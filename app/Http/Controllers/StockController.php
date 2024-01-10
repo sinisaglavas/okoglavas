@@ -127,5 +127,47 @@ class StockController extends Controller
 
     }
 
+    public function stockContactLenses() {
+        $contact_lenses = Stock::where('item_type', 'KS')->get();
+        $cl_sum = Stock::where('item_type', 'KS')->sum('quantity');
+        $total = Stock::where('item_type', 'KS')->get()->sum(function ($item) {
+            return $item->selling_price * $item->quantity;
+        }); // dobijam ukupnu vrednost svih kontaktnih sočiva
+        //dd($total);
+
+        return view('home.stockContactLenses', compact('contact_lenses', 'cl_sum', 'total'));
+    }
+
+    public function stockGlasses() {
+        $frames = Stock::where('item_type', 'Ram')->get();
+        $glasses_sum = Stock::where('item_type', 'Ram')->sum('quantity');
+        $total = Stock::where('item_type', 'Ram')->get()->sum(function ($item) {
+            return $item->selling_price * $item->quantity;
+        }); // dobijam ukupnu vrednost svih naocara
+        //dd($total);
+
+        return view('home.stockFrames', compact('frames', 'glasses_sum', 'total'));
+    }
+
+    public function stockSunglasses() {
+        $sunglassess = Stock::where('item_type', 'Sunčane')->get();
+        $sunglasses_sum = Stock::where('item_type', 'Sunčane')->sum('quantity');
+        $total = Stock::where('item_type', 'Sunčane')->get()->sum(function ($item) {
+            return $item->selling_price * $item->quantity;
+        }); // dobijam ukupnu vrednost svih suncanih naocara
+        //dd($total);
+
+        return view('home.stockSunglasses', compact('sunglassess', 'sunglasses_sum', 'total'));
+    }
+
+    public function stockDioptricLenses() {
+        $dioptric_lenses = Stock::where('item_type', 'DS')->get();
+        $dl_sum = Stock::where('item_type', 'DS')->sum('quantity');
+        $total = Stock::where('item_type', 'DS')->get()->sum(function ($item) {
+            return $item->selling_price * $item->quantity;
+        }); // dobijam ukupnu vrednost svih dioptrijskih stakala
+
+        return view('home.stockDioptricLenses', compact('dioptric_lenses', 'dl_sum', 'total'));
+    }
 
 }
