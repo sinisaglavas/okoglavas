@@ -92,9 +92,9 @@
                             </select>
                         </div>
                     </div>
-                    <label for="note">Note:</label>
-                    <textarea name="note" id="note" cols="10" rows="4" class="form-control mb-4" placeholder="Unos nije obavezan, max 100 karaktera"></textarea>
-
+                    <label for="note1">Note:</label>
+                    <textarea name="note" id="note1" cols="10" rows="4" class="form-control" maxlength="130" oninput="updateCharacterCount()" placeholder="Unos nije obavezan, max 130 karaktera"></textarea>
+                    <div id="characterCount1" class="mb-2">Preostalo karaktera: 130</div>
                     <button name="green" value="green" class="btn btn-success form-control">Od optometrije Glavaš</button>
                     <br><br>
                     <button name="red" value="red" class="btn btn-danger form-control">Po receptu</button>
@@ -174,9 +174,9 @@
                             </select>
                         </div>
                     </div>
-                    <label for="note">Note:</label>
-                    <textarea name="note" id="note" cols="10" rows="4" class="form-control mb-4" placeholder="Unos nije obavezan, max 100 karaktera"></textarea>
-
+                    <label for="note2">Note:</label>
+                    <textarea name="note" id="note2" cols="10" rows="4" class="form-control" maxlength="130" oninput="updateCharacterCount1()" placeholder="Unos nije obavezan, max 130 karaktera"></textarea>
+                    <div id="characterCount2" class="mb-2">Preostalo karaktera: 130</div>
                     <button name="green" value="green" class="btn btn-success form-control">Od optometrije Glavaš</button>
                     <br><br>
                     <button name="red" value="red" class="btn btn-danger form-control">Po receptu</button>
@@ -184,4 +184,42 @@
             </div>
         </div>
     </div>
+
+    <script>
+        // Opciono: Možete dodati brojač karaktera koji će prikazati koliko karaktera je ostalo za unos.
+        function updateCharacterCount() {
+            var textarea = document.getElementById('note1');
+            var characterCount = document.getElementById('characterCount1');
+            var remainingChars = 130 - textarea.value.length; // 130 je maksimalan broj karaktera minus broj unetih karaktera
+
+            characterCount.textContent = 'Preostalo karaktera: ' + remainingChars; // Prikazuje preostali broj karaktera
+
+            // Opciono: Možete dodati stilizaciju ili promeniti boju teksta kada se približite maksimalnom broju karaktera.
+            if (remainingChars < 1) {
+                characterCount.style.color = 'red';// Možete promeniti boju u crvenu kada premašite maksimalni broj karaktera.
+                characterCount.style.fontWeight = 'bold'; // Možete promeniti font kada premašite maksimalni broj karaktera.
+            } else {
+                characterCount.style.color = ''; // Vraća boju na podrazumevanu vrednost.
+                characterCount.style.fontWeight = ''; // Vraća font na podrazumevanu vrednost.
+            }
+        }
+
+        // Opciono: Možete dodati brojač karaktera koji će prikazati koliko karaktera je ostalo za unos.
+        function updateCharacterCount1() {
+            var textarea = document.getElementById('note2');
+            var characterCount = document.getElementById('characterCount2');
+            var remainingChars = 130 - textarea.value.length; // 130 je maksimalan broj karaktera minus broj unetih karaktera
+
+            characterCount.textContent = 'Preostalo karaktera: ' + remainingChars; // Prikazuje preostali broj karaktera
+
+            // Opciono: Možete dodati stilizaciju ili promeniti boju teksta kada se približite maksimalnom broju karaktera.
+            if (remainingChars < 1) {
+                characterCount.style.color = 'red';// Možete promeniti boju u crvenu kada premašite maksimalni broj karaktera.
+                characterCount.style.fontWeight = 'bold'; // Možete promeniti font kada premašite maksimalni broj karaktera.
+            } else {
+                characterCount.style.color = ''; // Vraća boju na podrazumevanu vrednost.
+                characterCount.style.fontWeight = ''; // Vraća font na podrazumevanu vrednost.
+            }
+        }
+    </script>
 @endsection

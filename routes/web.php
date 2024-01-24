@@ -78,7 +78,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/total-per-day', [App\Http\Controllers\Turnover_by_dayController::class, 'totalPerDay'])->name('totalPerDay'); // ruta za JS
     Route::get('/requested/{turnover_by_day}/day', [App\Http\Controllers\Turnover_by_dayController::class, 'displayTurnover'])->name('displayTurnover');
     Route::get('/update/{id}/{stock_id}/{search_date}/{sum}/before-delete', [App\Http\Controllers\DailyTurnoverController::class, 'updateBeforeDelete'])->name('updateBeforeDelete');
-
+    Route::get('/show-debt-company-form', [App\Http\Controllers\CompanyDebtorController::class, 'showDebtCompanyForm'])->name('showDebtCompanyForm');
+    Route::get('/view-all-companies', [App\Http\Controllers\DebtCompanyController::class, 'viewAllCompany'])->name('viewAllCompany');
+    Route::get('/view-clients-organisations', [App\Http\Controllers\CompanyDebtorController::class, 'viewClientsOrganisations'])->name('viewClientsOrganisations');
 });
 
 //update
@@ -153,7 +155,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/requested-day', [App\Http\Controllers\DailyTurnoverController::class, 'requestedDay'])->name('requestedDay');
     Route::post('/daily-turnover', [App\Http\Controllers\DailyTurnoverController::class, 'saveDailyTurnover'])->name('dailyTurnover');
 
+    Route::post('/save-new-client-company-form',[App\Http\Controllers\CompanyDebtorController::class,'saveNewClientCompany'])->name('saveNewClientCompany');
 
+    Route::post('/save-new-company',[App\Http\Controllers\DebtCompanyController::class,'saveNewCompany'])->name('saveNewCompany');
 
 //home.debtors
     Route::post('/home/save-payment-form/{id}',[App\Http\Controllers\PaymentController::class,'savePaymentForm'])->

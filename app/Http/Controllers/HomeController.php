@@ -170,7 +170,7 @@ class HomeController extends Controller
         ]);
         if ($request->note != null)
             $request->validate([
-                'note'=>'required|string|max:100'
+                'note'=>'required|string|max:130'
             ]);
         $new_examination = new Distance();
         $new_examination->right_eye_sphere = $request->right_diopter;
@@ -210,7 +210,7 @@ class HomeController extends Controller
             'left_diopter2'=>'required',
             'left_axis'=>'required',
             'left_pd'=>'required',
-            'note'=>'nullable|string|max:100'
+            'note'=>'nullable|string|max:130'
         ]);
 
         $new_distance->right_eye_sphere = $request->right_diopter;
@@ -247,7 +247,7 @@ class HomeController extends Controller
             'left_diopter2'=>'required',
             'left_axis'=>'required',
             'left_pd'=>'required',
-            'note'=>'nullable|string|max:100'
+            'note'=>'nullable|string|max:130'
         ]);
         $new_proximity->right_eye_sphere = $request->right_diopter;
         $new_proximity->right_eye_cylinder = $request->right_diopter2;
@@ -325,7 +325,7 @@ class HomeController extends Controller
             'left_diopter2'=>'required',
             'left_axis'=>'required',
             'left_eye_pd'=>'required',
-            'note'=>'nullable|string|max:100'
+            'note'=>'nullable|string|max:130'
         ]);
 
         $new_examination = new Proximity();
