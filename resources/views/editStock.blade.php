@@ -70,7 +70,7 @@
                         </div>
                         <div class="col"></div>
                     </div>
-                    <button type="submit" class="btn btn-outline-warning form-control">Promeni</button>
+                    <button type="submit" class="btn btn-outline-secondary form-control">Promeni</button>
                 </form>
                 @if(session()->has('message'))
                     <div class="alert alert-success">

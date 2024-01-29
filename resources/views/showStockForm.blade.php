@@ -125,7 +125,7 @@
                         </div>
                     </div>
                     <br>
-                    <button type="submit" class="btn btn-primary form-control">Snimi</button>
+                    <button type="submit" class="btn btn-secondary form-control">Snimi</button>
                 </form>
                 @if(session()->has('message'))
                     <div class="alert alert-success">

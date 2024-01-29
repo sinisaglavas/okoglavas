@@ -8,4 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Company_debtor extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['total_all'];
+
 }

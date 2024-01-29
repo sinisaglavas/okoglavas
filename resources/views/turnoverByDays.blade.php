@@ -68,7 +68,7 @@
                 <form action="{{ route('requestedDay') }}" method="get">
                     <label for="date">Odaberi datum</label>
                     <input type="date" name="date" value="{{ date('d.m.Y') }}" class="form-control" id="date" required>
-                    <button class="btn btn-primary form-control mt-2">Pošalji</button>
+                    <button class="btn btn-secondary form-control mt-2">Pošalji</button>
                 </form>
                 <hr>
                 <h4>Ukupan promet za period:</h4>
@@ -84,7 +84,7 @@
                     <input type="hidden" name="start_date" id="start_date">
                     <input type="hidden" name="end_date" id="end_date">
                     <!-- Dodajte dugme za slanje forme -->
-                    <button type="submit" class="btn btn-primary form-control mt-2">Izračunaj</button>
+                    <button type="submit" class="btn btn-secondary form-control mt-2">Izračunaj</button>
                 </form>
             </div>
             <div class="col-1"></div>

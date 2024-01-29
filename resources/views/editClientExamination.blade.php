@@ -89,7 +89,7 @@
                             </select>
                         </div>
                     </div>
-                    <label for="note">Note: &nbsp;&nbsp;&nbsp;(max 100 characters)</label>
+                    <label for="note">Note: &nbsp;&nbsp;&nbsp;(maks. 130 karaktera)</label>
                     <textarea name="note" id="note" cols="10" rows="4" class="form-control mb-4" placeholder="Maksimum 100 karaktera">{{ $single_distance->note }}</textarea>
 
                     <button name="green" value="green" class="btn btn-success form-control">By optometry Glavas</button>

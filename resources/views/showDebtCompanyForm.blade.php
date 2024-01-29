@@ -5,26 +5,36 @@
         <div class="row">
             <div class="col-3">
                 <a href="{{ route('viewClientsOrganisations') }}" class="btn btn-info form-control m-2">Pregled svih dužnika</a>
-                <a href="{{ route('viewAllCompany') }}" class="btn btn-info form-control m-2">Pregled unetih organizacija</a>
+                <a href="{{ route('viewAllCompany') }}" class="btn btn-info form-control m-2">Unošenje i pregled unetih organizacija</a>
             </div>
            <div class="col-6 offset-1 mt-5">
                <h3 class="mb-3">Obrazac za unošenje dužnika za plaćanje na rate</h3>
                <form action="{{ route('saveNewClientCompany') }}" method="POST" id="myForm">
                    @csrf
-                   <label for="mySelect">Ime i prezime</label>
-                   <select name="client" class="form-control" id="mySelect">
-                       <option value="no_data" id="noDataOption">Klikni ovde i odaberi klijenta</option>
-                       @foreach($all_clients as $single_client)
-                           <option value="{{ $single_client->id}}">{{ $single_client->name }}</option>
-                       @endforeach
-                   </select>
-                   <label for="mySelect1">Organizacije</label>
-                   <select name="debt_companies" class="form-control" id="mySelect1">
-                       <option value="no_data1" id="noDataOption1">Klikni ovde i odaberi organizaciju</option>
-                       @foreach($debt_companies as $debt_company)
-                           <option value="{{ $debt_company->id}}">{{ $debt_company->name_company }}</option>
-                       @endforeach
-                   </select>
+                   <div class="row">
+                       <div class="col-3">
+                           <label for="date">Datum zaduženja</label>
+                           <input type="date" name="date" id="date" class="form-control" required>
+                       </div>
+                       <div class="col">
+                           <label for="mySelect">Organizacije</label>
+                           <select name="debt_companies" class="form-control" id="mySelect">
+                               <option value="no_data1" id="noDataOption1">Klikni ovde i odaberi organizaciju</option>
+                               @foreach($debt_companies as $debt_company)
+                                   <option value="{{ $debt_company->id}}">{{ $debt_company->name_company }}</option>
+                               @endforeach
+                           </select>
+                       </div>
+                       <div class="col">
+                           <label for="mySelect1">Ime i prezime</label>
+                           <select name="client" class="form-control" id="mySelect1">
+                               <option value="no_data" id="noDataOption">Klikni ovde i odaberi klijenta</option>
+                               @foreach($all_clients as $single_client)
+                                   <option value="{{ $single_client->id}}">{{ $single_client->name }}</option>
+                               @endforeach
+                           </select>
+                       </div>
+                   </div>
                    <div class="row">
                        <div class="col-5">
                            <label for="debit">Ukupno zaduženje</label>
@@ -43,9 +53,9 @@
                        </div>
                    </div>
                    <label for="note">Dodatne beleške</label>
-                   <textarea name="note" id="note" cols="30" rows="3" maxlength="150" class="form-control" oninput="updateCharacterCount()"
-                             placeholder="Unošenje beleške nije obavezno - Maksimalan unos 150 karaktera"></textarea>
-                   <div id="characterCount">Preostalo karaktera: 150</div>
+                   <textarea name="note" id="note" cols="30" rows="3" maxlength="60" class="form-control" oninput="updateCharacterCount()"
+                             placeholder="Unošenje beleške nije obavezno - Maksimalan unos 60 karaktera"></textarea>
+                   <div id="characterCount">Preostalo karaktera: 60</div>
                    <button type="submit" class="btn btn-info form-control mt-3">Pošalji</button>
                </form>
 
@@ -62,21 +72,21 @@
         document.getElementById('noDataOption').disabled = true;
 
         document.getElementById('myForm').addEventListener('submit', function (event) {
-            var selectedOption = document.getElementById('mySelect').value;
+            var selectedOption = document.getElementById('mySelect1').value;
 
             if (selectedOption === 'no_data') {
                 event.preventDefault(); // Spriječava slanje forme ako je odabrana opcija bez slanja podataka
-                alert('Odaberite KLIJENTA');
+                alert('Odaberite ORGANIZACIJU');
             }
         });
         document.getElementById('noDataOption1').disabled = true;
 
         document.getElementById('myForm').addEventListener('submit', function (event) {
-            var selectedOption = document.getElementById('mySelect1').value;
+            var selectedOption = document.getElementById('mySelect').value;
 
             if (selectedOption === 'no_data1') {
                 event.preventDefault(); // Sprečava slanje forme ako je odabrana opcija bez slanja podataka
-                alert('Odaberite ORGANIZACIJU');
+                alert('Odaberite KLIJENTA');
             }
         });
 
@@ -84,7 +94,7 @@
         function updateCharacterCount() {
             var textarea = document.getElementById('note');
             var characterCount = document.getElementById('characterCount');
-            var remainingChars = 150 - textarea.value.length; // 200 je maksimalan broj karaktera minus broj unetih karaktera
+            var remainingChars = 60 - textarea.value.length; // 60 je maksimalan broj karaktera minus broj unetih karaktera
 
             characterCount.textContent = 'Preostalo karaktera: ' + remainingChars; // Prikazuje preostali broj karaktera
 

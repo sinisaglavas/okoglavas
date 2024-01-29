@@ -2,18 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use App\Models\Debt_company;
 use App\Models\Client;
 use App\Models\Company_debtor;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
 
 class CompanyDebtorController extends Controller
 {
-    public function showDebtCompanyForm() {
-        $all_clients = Client::all();
+    public function showDebtCompanyForm() { // imena iz dve tabele poredjana po abecednom redu
+        $all_clients = DB::table('clients')
+            ->select('id', 'name')
+            ->union(DB::table('contact_lenses_clients')->select('id', 'name'))->orderBy('name')->get();
         $debt_companies = Debt_company::all();
 
         return view('showDebtCompanyForm', compact('all_clients', 'debt_companies'));
@@ -21,6 +25,7 @@ class CompanyDebtorController extends Controller
 
     public function saveNewClientCompany(Request $request) {
         $request->validate([
+            'date'=>'required|date',
             'client'=>'required',
             'debit'=>'required',
             'installment_number'=>'required',
@@ -29,17 +34,22 @@ class CompanyDebtorController extends Controller
         ]);
         if ($request->note != null)
             $request->validate([
-                'note'=>'required|string|max:150'
+                'note'=>'required|string|max:60'
             ]);
 
         $client_name = Client::find($request->client);
         $company_name = Debt_company::find($request->debt_companies);
+        $last_total_all = Company_debtor::count() > 0 ? Company_debtor::latest('created_at')->value('total_all') : 0;
+
         $debt_company = new Company_debtor();
+        $debt_company->date = $request->date;
+        $debt_company->debt_company	 = $company_name->name_company;
         $debt_company->name = $client_name->name;
         $debt_company->debit = $request->debit;
         $debt_company->installment_number = $request->installment_number;
         $debt_company->installment_amount = $request->installment_amount;
-        $debt_company->debt_company	 = $company_name->name_company;
+        $debt_company->total_all = $last_total_all + $request->installment_amount;
+
         if ($request->note != null){
             $debt_company->note = $request->note;
         } else {
@@ -55,6 +65,18 @@ class CompanyDebtorController extends Controller
 
     public function viewClientsOrganisations() {
         $clients_organisations = Company_debtor::all();
+        // Koristimo map metod za prolazak kroz svaki element niza
+        $clients_organisations = $clients_organisations->map(function ($client) {
+            // Ako 'date' postoji i nije null, formatiraj ga koristeći Carbon
+            if ($client->date) {
+                $client->formatted_date = Carbon::parse($client->date)->format('d.m.Y');
+            } else {
+                // Ako 'date' ne postoji ili je null, postavi formatted_date na null ili željenu vrednost po potrebi
+                $client->formatted_date = null; // ili postavite neku drugu vrednost
+            }
+
+            return $client;
+        });
 
         return view('viewClientsOrganisations', compact('clients_organisations'));
     }
