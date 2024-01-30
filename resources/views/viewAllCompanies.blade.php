@@ -12,8 +12,8 @@
                     <label for="company">Organizacija</label>
                     <input type="text" name="name_company" id="company" class="form-control"  placeholder="Unos je obavezan" required>
                     <label for="other-data">Drugi podaci - adresa, telefon...</label>
-                    <textarea name="other_data" id="other-data" cols="30" rows="3" class="form-control" maxlength="150" oninput="updateCharacterCount()" placeholder="Unos nije obavezan - maksimalan unos 150 karaktera"></textarea>
-                    <div id="characterCount" class="mb-3">Preostalo karaktera: 150</div>
+                    <textarea name="other_data" id="other-data" cols="30" rows="3" class="form-control" maxlength="60" oninput="updateCharacterCount()" placeholder="Unos nije obavezan - maksimalan unos 60 karaktera"></textarea>
+                    <div id="characterCount" class="mb-3">Preostalo karaktera: 60</div>
                     <button type="submit" class="btn btn-info form-control">Zapamti</button>
                 </form>
                 @if(session()->has('message'))
@@ -52,7 +52,7 @@
         function updateCharacterCount() {
             var textarea = document.getElementById('other-data');
             var characterCount = document.getElementById('characterCount');
-            var remainingChars = 150 - textarea.value.length; // 200 je maksimalan broj karaktera minus broj unetih karaktera
+            var remainingChars = 60 - textarea.value.length; // 200 je maksimalan broj karaktera minus broj unetih karaktera
 
             characterCount.textContent = 'Preostalo karaktera: ' + remainingChars; // Prikazuje preostali broj karaktera
 

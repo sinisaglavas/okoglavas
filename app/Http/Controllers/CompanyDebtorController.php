@@ -48,7 +48,7 @@ class CompanyDebtorController extends Controller
         $debt_company->debit = $request->debit;
         $debt_company->installment_number = $request->installment_number;
         $debt_company->installment_amount = $request->installment_amount;
-        $debt_company->total_all = $last_total_all + $request->installment_amount;
+        $debt_company->total_all = $last_total_all + $request->debit;
 
         if ($request->note != null){
             $debt_company->note = $request->note;
