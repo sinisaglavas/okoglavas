@@ -64,19 +64,32 @@ class CompanyDebtorController extends Controller
     }
 
     public function viewClientsOrganisations() {
-        $clients_organisations = Company_debtor::all();
-        // Koristimo map metod za prolazak kroz svaki element niza
+        $clients_organisations = Company_debtor::orderBy('id', 'asc')->get(); // Sve klijente poredjaj po id-u u rastucem redosledu
+        // Koristimo map metod za prolazak kroz svaki element niza da bih kreirao datum (date) u odgovarajucem formatu
         $clients_organisations = $clients_organisations->map(function ($client) {
             // Ako 'date' postoji i nije null, formatiraj ga koristeći Carbon
             if ($client->date) {
-                $client->formatted_date = Carbon::parse($client->date)->format('d.m.Y');
+                $client->formatted_date = Carbon::parse($client->date)->format('d.m.Y'); // formatted_date je kreirano sada
             } else {
                 // Ako 'date' ne postoji ili je null, postavi formatted_date na null ili željenu vrednost po potrebi
                 $client->formatted_date = null; // ili postavite neku drugu vrednost
             }
 
-            return $client;
+            return $client; // Vrati element niza, da bi moglo da se doda u novi niz
         });
+
+        return view('viewClientsOrganisations', compact('clients_organisations'));
+    }
+
+    public function deleteClientOrganisation($id) {
+        $client_organisation = Company_debtor::find($id);
+        $client_organisation->delete();
+
+        $all_debit = Company_debtor::sum('debit');
+        $lastClient = Company_debtor::latest()->first();
+        $lastClient->total_all = $all_debit;
+        $lastClient->update();
+        $clients_organisations = Company_debtor::orderBy('id', 'asc')->get(); // Sve klijente poredjaj po id-u u rastucem redosledu
 
         return view('viewClientsOrganisations', compact('clients_organisations'));
     }

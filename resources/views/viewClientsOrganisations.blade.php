@@ -25,6 +25,7 @@
                         <th>Iznos rate</th>
                         <th>Ukupno za sve</th>
                         <th>Beleška</th>
+                        <th></th>
 
                     </tr>
                     </thead>
@@ -40,10 +41,16 @@
                             <td>{{ $client->installment_amount }}</td>
                             <td>{{ $client->total_all }}</td>
                             <td>{{ $client->note }}</td>
+                            <td><a href="{{ route('deleteClientOrganisation', ['id'=>$client->id]) }}"
+                                   class="btn btn-sm btn-warning"
+                                   onclick="return confirm('Da li ste sigurni?')">Obrisi</a></td>
                         </tr>
                     @endforeach
                     </tbody>
                 </table>
+                @if(session()->has('message'))
+                    <div onclick="return confirm({{ session()->get('message') }})"></div>
+                @endif
             </div>
         </div>
 

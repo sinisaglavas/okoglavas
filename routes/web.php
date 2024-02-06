@@ -81,6 +81,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/show-debt-company-form', [App\Http\Controllers\CompanyDebtorController::class, 'showDebtCompanyForm'])->name('showDebtCompanyForm');
     Route::get('/view-all-companies', [App\Http\Controllers\DebtCompanyController::class, 'viewAllCompany'])->name('viewAllCompany');
     Route::get('/view-clients-organisations', [App\Http\Controllers\CompanyDebtorController::class, 'viewClientsOrganisations'])->name('viewClientsOrganisations');
+    Route::get('/client-organisation/{id}/delete', [App\Http\Controllers\CompanyDebtorController::class, 'deleteClientOrganisation'])->name('deleteClientOrganisation');
 });
 
 //update
