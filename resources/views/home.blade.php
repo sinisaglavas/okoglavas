@@ -29,7 +29,7 @@
             <div class="col-7 d-flex flex-column justify-content-center align-items-center" style="height: 580px; background-image: url('{{ asset('images/okoglavas-ns.jpg') }}'); background-size: cover; background-position: center;">
             </div>
             @endif
-            @if($currentUrl == 'http://bp2024.optikaglavas.com/home')
+            @if($currentUrl == 'https://bp2024.optikaglavas.com/home')
                 <div class="col-7 d-flex flex-column justify-content-center align-items-center" style="height: 580px; background-image: url('{{ asset('images/okoglavasbp.jpg') }}'); background-size: cover; background-position: top;">
                 </div>
             @endif

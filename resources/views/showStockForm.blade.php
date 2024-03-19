@@ -120,7 +120,7 @@
                         </div>
                         <div class="col">
                             <label for="quantity">Količina</label>
-                            <input type="number" name="quantity" id="quantity" placeholder="Unos je obavezan" min="0"
+                            <input type="number" name="quantity" id="quantity" placeholder="Unos je obavezan" min="1"
                                    class="form-control" required>
                         </div>
                     </div>
