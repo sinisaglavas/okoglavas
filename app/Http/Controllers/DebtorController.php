@@ -62,4 +62,27 @@ class DebtorController extends Controller
         return redirect()->back()->with('message','New data sent');
     }
 
+    public function searchDebtClient()
+    {
+        $all_debtors = Debtor::all();
+        $request = request()->name;
+        $name_exists = Debtor::where('name','like','%'.$request.'%')->exists();//ako postoji ukucan termin
+        $phone_exists = Debtor::where('client_phone','like','%'.$request.'%')->exists();
+
+        if ($name_exists && $request != ""){
+            $search_clients = Debtor::where('name','like','%'.$request.'%')->get();//carobna linija koda
+            return view('home.allDebtors', compact('search_clients', 'all_debtors'));
+        }elseif ($phone_exists && $request != ""){
+            $search_clients = Debtor::where('client_phone','like','%'.$request.'%')->get();//carobna linija koda
+            return view('home.allDebtors', compact('search_clients', 'all_debtors'));
+        }elseif ($request == ""){
+            return view('home.allDebtors', compact('all_debtors'));
+        }
+        elseif ($name_exists == false || $phone_exists == false){
+            return view('home.allDebtors', compact('all_debtors'));
+
+        }
+
+    }
+
 }

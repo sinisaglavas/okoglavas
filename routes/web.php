@@ -160,6 +160,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/save-new-company',[App\Http\Controllers\DebtCompanyController::class,'saveNewCompany'])->name('saveNewCompany');
 
+    Route::post('/search-debt-form',[App\Http\Controllers\DebtorController::class,'searchDebtClient'])->name('searchDebtClient');
+
 //home.debtors
     Route::post('/home/save-payment-form/{id}',[App\Http\Controllers\PaymentController::class,'savePaymentForm'])->
     name('home.savePaymentForm');

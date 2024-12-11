@@ -10,7 +10,49 @@
             </div>
             <div class="col-1"></div>
             <div class="col-8">
-                <h2 class="text-center">Svi dužnici</h2><br>
+
+                <div class="row mb-3">
+                    <div class="col-3">
+                        <h2>Svi dužnici</h2>
+                    </div>
+                    <div class="col-3"></div>
+                    <div class="col-6">
+                        <form action="{{route('searchDebtClient')}}" method="POST">
+                            @csrf
+                            <div class="input-group">
+                                <input type="text" name="name" class="form-control" placeholder="Traži dužnika po imenu ili po broju telefona" aria-label="Search client">
+                                <input type="submit" class="btn btn-outline-secondary" value="Traži">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                @if(isset($search_clients))
+                    <table class="table text-center">
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Ime</th>
+                            <th>Telefon</th>
+                            <th>Ukupni dug</th>
+                            <th>Trenutni dug</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($search_clients as $search_client)
+                            <tr>
+                                <td>{{ $search_client->id }}</td>
+                                <td><a href="{{ route('home.showSingleDebtor',['id'=>$search_client->id]) }}" class="text-decoration-none fw-bold">{{ $search_client->name }}</a></td>
+                                <td>{{ $search_client->client_phone }}</td>
+                                <td>{{ $search_client->debit }}</td>
+                                <td>{{ $search_client->debit - \App\Models\Payment::where('debtor_id', $search_client->id)->sum('payment') }}</td>
+                                <td style="background-color: #86b7fe;"><a href="/client/{{$search_client->id}}/edit" style="text-decoration: none; color: white; display: block">Promeni</a></td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                @endif
+
                 <table class="table table-hover table-bordered text-center">
                     <thead>
                     <tr class="table-primary">
