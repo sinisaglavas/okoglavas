@@ -35,7 +35,6 @@
                             <th>Telefon</th>
                             <th>Ukupni dug</th>
                             <th>Trenutni dug</th>
-                            <th></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -46,7 +45,6 @@
                                 <td>{{ $search_client->client_phone }}</td>
                                 <td>{{ $search_client->debit }}</td>
                                 <td>{{ $search_client->debit - \App\Models\Payment::where('debtor_id', $search_client->id)->sum('payment') }}</td>
-                                <td style="background-color: #86b7fe;"><a href="/client/{{$search_client->id}}/edit" style="text-decoration: none; color: white; display: block">Promeni</a></td>
                             </tr>
                         @endforeach
                         </tbody>
