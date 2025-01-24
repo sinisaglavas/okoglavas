@@ -20,7 +20,7 @@
                 @if($currentUrl == 'https://bp2024.optikaglavas.com/home')
                     <div class="h2 d-flex flex-column justify-content-center align-items-center">2024. godina</div>
                 @endif
-                @if($currentUrl == 'https://ns2024.optikaglavas.com/home')
+                @if($currentUrl == 'https://ns-24.optikaglavas.com/home')
                     <div class="h2 d-flex flex-column justify-content-center align-items-center">2024. godina</div>
                 @endif
                 @if($currentUrl == 'https://bp2025.optikaglavas.com/home')
