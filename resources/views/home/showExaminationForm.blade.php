@@ -3,23 +3,27 @@
 @section('content')
     <div class="container">
         <div class="row mb-4">
-            <div class="col-3"></div>
+            <div class="col-2"></div>
             <div class="col-3">
                 <a href="{{ route('homeGlasses') }}" class="btn btn-primary form-control m-2">Svi klijenti</a>
             </div>
             <div class="col-3">
                 <a href="{{ route('home.singleClient',['id'=>$single_client->id]) }}" class="btn btn-light form-control border m-2">Klijent: {{ $single_client->name }}</a>
+            </div>
+            <div class="col-3">
                 @if(session()->has('message1'))
-                    <div class="alert alert-info form-control m-2 text-center text-uppercase">
+                    <div class="btn btn-info form-control m-2 text-center text-uppercase">
                         {{ session()->get('message1') }}
                     </div>
                 @endif
                 @if(session()->has('message2'))
-                    <div class="alert alert-info form-control m-2 text-center text-uppercase">
+                    <div class="btn btn-info form-control m-2 text-center text-uppercase">
                         {{ session()->get('message2') }}
                     </div>
                 @endif
             </div>
+
+
         </div>
             <div class="row">
                 <div class="col-1"></div>
@@ -161,7 +165,7 @@
                             </div>
                             <div class="col-3">
                                 <label for="proximity-right-eye-pd">Pd</label>
-                                <select name="right_pd" class="form-control" id="proximity-right-eye-pd">
+                                <select name="right_eye_pd" class="form-control" id="proximity-right-eye-pd">
                                     @foreach($all_pd as $pd)
                                         <option name="right_eye_cylinder" value="{{ $pd->pd_range }}" {{ $pd->pd_range == 30 ? 'selected' : '' }}>{{ $pd->pd_range }}</option>
                                     @endforeach
@@ -203,7 +207,7 @@
                             </div>
                             <div class="col-3">
                                 <label for="proximity-left-eye-pd">Pd</label>
-                                <select name="left_pd" class="form-control" id="proximity-left-eye-pd">
+                                <select name="left_eye_pd" class="form-control" id="proximity-left-eye-pd">
                                     @foreach($all_pd as $pd)
                                         <option name="left_eye_cylinder" value="{{ $pd->pd_range }}" {{ $pd->pd_range == 30 ? 'selected' : '' }}>{{ $pd->pd_range }}</option>
                                     @endforeach
