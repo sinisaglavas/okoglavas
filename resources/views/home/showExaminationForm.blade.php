@@ -217,9 +217,9 @@
 
                         <div class="row">
                             <div class="col-12">
-                                <label for="note1" class="fw-bold">Beleška - Note:</label>
-                                <textarea name="note" id="note1" cols="10" rows="4" class="form-control" maxlength="130" oninput="updateCharacterCount()" placeholder="Unos nije obavezan, max 130 karaktera"></textarea>
-                                <div id="characterCount1" class="mb-2">Preostalo karaktera: 130</div>
+                                <label for="note2" class="fw-bold">Beleška - Note:</label>
+                                <textarea name="note" id="note2" cols="10" rows="4" class="form-control" maxlength="130" oninput="updateCharacterCount1()" placeholder="Unos nije obavezan, max 130 karaktera"></textarea>
+                                <div id="characterCount2" class="mb-2">Preostalo karaktera: 130</div>
                                 <button name="green" value="green" class="btn btn-success form-control">Od optometrije Glavaš</button>
                                 <br><br>
                                 <button name="red" value="red" class="btn btn-danger form-control">Po receptu</button>
