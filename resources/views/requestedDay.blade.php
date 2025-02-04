@@ -84,10 +84,14 @@
                                 <td><input type="number" name="total" class="form-control" id="total" required readonly></td>
                                 <td><input type="text" name="describe" class="form-control" id="describe" readonly required></td>
                                 <td><input type="text" name="material" class="form-control" id="material" readonly required></td>
-                                <td><input type="text" name="installation_type" class="form-control"
+                                <td>
+                                    @if(isset($client_id))
+                                    <input type="hidden" name="client_id" value="{{ $client_id }}" class="form-control" readonly>
+                                    @endif
+                                    <input type="text" name="installation_type" class="form-control"
                                            id="installation_type" readonly required></td>
                                 <td>
-                                    <button type="submit" class="btn btn-secondary form-control mt-2" id="save-data">
+                                    <button type="submit" class="btn btn-secondary form-control" id="save-data">
                                         Snimi
                                     </button>
                                 </td>
@@ -97,7 +101,24 @@
                     </form>
                 </div>
             </div>
-            <div class="row mt-5">
+            <div class="row mt-1">
+                 <div class="col-12">
+                     @if(request()->has('client_id')) {{--proverava da li u URL-u postoji GET parametar client_id, bez obzira na njegovu vrednost--}}
+                     <h5><span class="fw-bold text-danger text-uppercase">Upozorenje!</span><br>
+                         Na ovoj stranici ako evidentirate bilo koju robu, posle skidanja sa lagera će biti dodatno povezana sa odabranim kupcem.
+                         Za evidentiranje robe bez kupca idite na <span class="fw-bold">'Početna'</span> pa na <span class="fw-bold">'Lager i evidencija prometa'</span> pa
+                         <span class="fw-bold">'Promet po danima'!</span>
+                     </h5>
+                     @endif
+                     @if(session('client'))
+                    <h5>Kupac: <a href="{{ route('home.singleClient',['id'=>session('client')->id]) }}" class="text-decoration-none fw-bold">
+                            {{ session('client')->name }}</a>, {{ session('client')->date_of_birth }}
+                            {{ session('client')->city }}, telefon: {{ session('client')->phone }}</h5>
+                     @endif
+                 </div>
+            </div>
+
+            <div class="row mt-3">
                 <div class="col-12">
                     <h4 style="display: inline-block">{{ Carbon\Carbon::parse($search_date)->format('l j. F Y.') }}</h4>
                     <h4 style="display:inline-block; float: right">Ukupno promet: {{ $sum }} dinara</h4>
@@ -122,7 +143,17 @@
                         <tbody>
                         @foreach($search_data as $data)
                             <tr>
-                                <td>{{ $data->article }}</td>
+                                    @if(isset($data->client->id))
+                                <td>
+                                    <a href="{{ route('clientsShow', ['id'=>$data->client->id]) }}">{{ $data->article }}</a>
+                                </td>
+                                    @endif
+
+                                    @if(empty($data->client->id)) {{-- proveravam da li je null, false, prazan string, 0-kao nula, itd.. --}}
+                                <td>
+                                    {{ $data->article }}
+                                </td>
+                                    @endif
                                 <td>{{ $data->pcs }}</td>
                                 <td>{{ $data->price }}</td>
                                 <td>{{ $data->discount }}</td>
@@ -130,11 +161,19 @@
                                 <td>{{ $data->describe }}</td>
                                 <td>{{ $data->material }}</td>
                                 <td>{{ $data->installation_type }}</td>
-                                <td>
-                                    <a href="{{ route('updateBeforeDelete', ['id'=>$data->id, 'stock_id'=>$data->stock_id, 'search_date'=>$search_date, 'sum'=>$sum]) }}"
-                                       class="btn btn-sm btn-warning"
-                                       onclick="return confirm('Da li ste sigurni?')">Obrisi</a>
-                                </td>
+                                        @if(request()->has('client_id'))
+                                            <td><a href="{{ route('updateBeforeDelete', ['id'=>$data->id, 'stock_id'=>$data->stock_id, 'search_date'=>$search_date, 'sum'=>$sum,
+                                                            'client_id' => request('client_id')]) }}" {{--// Dodavanje client_id iz URL-a --}}
+                                                            class="btn btn-sm btn-warning" onclick="return confirm('Da li ste sigurni?')">Obrisi
+                                                </a>
+                                            </td>
+                                        @endif
+                                        @if(!request()->has('client_id'))
+                                            <td><a href="{{ route('updateBeforeDelete', ['id'=>$data->id, 'stock_id'=>$data->stock_id, 'search_date'=>$search_date, 'sum'=>$sum]) }}"
+                                                   class="btn btn-sm btn-warning" onclick="return confirm('Da li ste sigurni?')">Obrisi
+                                                </a>
+                                            </td>
+                                        @endif
                             </tr>
                         @endforeach
                         </tbody>

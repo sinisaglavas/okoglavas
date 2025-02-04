@@ -9,6 +9,10 @@ class Turnover_by_day extends Model
 {
     use HasFactory;
 
-
     protected $dates = ['total'];
+
+
+
+
+
 }

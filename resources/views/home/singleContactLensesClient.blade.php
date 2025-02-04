@@ -6,11 +6,11 @@
             <div class="col-3">
                 <a href="{{ route('homeContactLenses') }}" class="btn btn-danger form-control m-2">Svi klijenti</a>
                 <a href="{{ route('home.showContactLensesExaminationForm',['id'=>$single_client->id]) }}"
-                   class="btn btn-light form-control m-2">{{ $single_client->name }} - Novi pregled</a>
+                   class="btn btn-light form-control m-2 border">{{ $single_client->name }} - Novi pregled</a>
             </div>
             <div class="col-8">
-                <h2 class="text-center m-5">{{ $single_client->name }} &nbsp; {{ $single_client->date_of_birth }}
-                    &nbsp; {{ $single_client->city }}</h2>
+                <h3 class="text-center m-2">{{ $single_client->name }} &nbsp;{{ $single_client->date_of_birth }}
+                    &nbsp;{{ $single_client->city }} &nbsp;tel:{{ $single_client->phone }}</h3>
             </div>
         </div>
         <div class="row">

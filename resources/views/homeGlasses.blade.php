@@ -40,6 +40,7 @@
                             <th>Grad</th>
                             <th>Telefon</th>
                             <th></th>
+                            <th></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -52,6 +53,7 @@
                             <td>{{ $search_client->city }}</td>
                             <td>{{ $search_client->phone }}</td>
                             <td style="background-color: #86b7fe;"><a href="/client/{{$search_client->id}}/edit" style="text-decoration: none; color: white; display: block">Promeni</a></td>
+                            <td>Kupljeno</td>
                         </tr>
                         @endforeach
                         </tbody>
@@ -63,6 +65,7 @@
                 <tr class="table-primary">
                     <th>Id</th>
                     <th>Ime</th>
+                    <th></th>
                     <th>Datum rođenja</th>
                     <th>Adresa</th>
                     <th>Grad</th>
@@ -77,13 +80,15 @@
                     <tr>
                         <td>{{ $client->id }}</td>
                         <td><a href="{{ route('home.singleClient',['id'=>$client->id]) }}" class="text-decoration-none">{{ $client->name }}</a></td>
+                        <td><button class="btn-purchases btn btn-secondary" data-client-id="{{ $client->id ?? '' }}" data-client-name="{{ $client->name }}">Kupljeno</button></td>
+                        {{--Kod iznad-ako $single_client->id postoji, koristiće se njegova vrednost.Ako ne postoji, dugme neće slati undefined vrednost, već prazan string.--}}
                         <td>{{ $client->date_of_birth }}</td>
                         <td>{{ $client->address }}</td>
                         <td>{{ $client->city }}</td>
                         <td>{{ $client->phone }}</td>
                         <td>{{ $client->identity_card }}</a></td>
                         <td>{{ $client->created_at->format('d.m.Y') }}</td>
-                        <td style="background-color: #86b7fe"><a href="/client/{{$client->id}}/edit" style="text-decoration: none; color: black; display: block">Promeni</a></td>
+                        <td><button class="btn btn-primary"><a href="/client/{{$client->id}}/edit" style="color: #fff; text-decoration: none">Promeni</a></button></td>
                     </tr>
                 @endforeach
                 </tbody>
@@ -91,4 +96,61 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.btn-purchases').forEach(button => {
+            button.addEventListener('click', function () {
+                let clientId = this.dataset.clientId;
+                let clientName = this.dataset.clientName; // Dohvatamo ime kupca
+
+                // Proveri da li modal već postoji i ukloni ga pre kreiranja novog
+                let existingModal = document.getElementById('custom-modal');
+                if (existingModal) {
+                    existingModal.remove();
+                }
+
+                fetch(`/client-purchases/${clientId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        let modalContent = `<h3>Kupac - ${clientName}:</h3>`;
+
+                        if (data.length === 0) {
+                            modalContent += '<p class="text-uppercase fw-bold">Nema podataka</p>';
+                        } else {
+                            modalContent += `<ul>`
+                            data.forEach(item => {
+                                let date = new Date(item.created_at); // Prenos u zeljeni format
+                                let formattedDate = date.toLocaleDateString('en-GB'); // Format: 04/02/2025
+                                modalContent += `<li>${item.article} ${item.describe}, ${item.pcs}x${item.price} dinara, ${formattedDate}</li>`;
+                            });
+                            modalContent += '</ul>';
+                        }
+
+                        modalContent += '</ul><button class="btn btn-secondary" id="close-modal">Zatvori</button>';
+
+                        let modal = document.createElement('div');
+                        modal.id = 'custom-modal';
+                        modal.innerHTML = modalContent;
+                        modal.style.position = 'fixed';
+                        modal.style.top = '50%';
+                        modal.style.left = '50%';
+                        modal.style.transform = 'translate(-50%, -50%)';
+                        modal.style.backgroundColor = '#f7dc43';
+                        modal.style.padding = '20px';
+                        modal.style.boxShadow = '0px 4px 6px rgba(0,0,0,0.5)';
+                        modal.style.zIndex = '1000';
+
+                        document.body.appendChild(modal);
+
+                        document.getElementById('close-modal').addEventListener('click', function () {
+                            modal.remove();
+                        });
+                    });
+            });
+        });
+    });
+</script>
+
+
 @endsection

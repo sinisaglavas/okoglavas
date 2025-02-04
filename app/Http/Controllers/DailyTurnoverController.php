@@ -43,6 +43,8 @@ class DailyTurnoverController extends Controller
         $daily_turnover->price = $request->price;
         $daily_turnover->discount = $request->discount;
         $daily_turnover->total = $request->total;
+        if (isset($request->client_id)) {
+            $daily_turnover->client_id = $request->client_id; }
         $daily_turnover->stock_id = $request->article_id;
         $daily_turnover->user_id = auth()->user()->id;
         $daily_turnover->created_at = $search_date;
@@ -56,7 +58,7 @@ class DailyTurnoverController extends Controller
 
         $sum = DB::table('daily_turnovers')->where('created_at', $request->search_date)->select('total')->sum('total');
 
-        return redirect()->route('requestedDay', ['date' => $search_date]);
+        return redirect()->route('requestedDay', ['date' => $search_date, 'client_id'=>$request->client_id]);
 
 
     }
@@ -66,16 +68,21 @@ class DailyTurnoverController extends Controller
      * update article je artikal u lageru kome povecavamo stanje tj. vracamo na stanje
      * delete_article je artikal u dnevnom prometu koji brisemo i vracamo na stanje
      */
-    public function updateBeforeDelete($id, $stock_id, $search_date, $sum)
+    public function updateBeforeDelete(Request $request, $id, $stock_id, $search_date, $sum)
     {
+        $clientId = $request->query('client_id'); // Ili $request->input('client_id')
         $update_article = Stock::find($stock_id);
         $delete_article = Daily_turnover::find($id);
 
         $update_article->quantity += $delete_article->pcs;
         $update_article->update();
         $delete_article->delete();
-
-        return redirect()->route('requestedDay', ['date' => $search_date]);
+        if ($request->client_id) { //uslov u cilju vracanja stranice sa istim url-om
+            $client_id = $request->query('client_id'); // Ili $request->input('client_id')
+            return redirect()->route('requestedDay', ['date' => $search_date, 'client_id'=>$client_id]);
+        }else {
+            return redirect()->route('requestedDay', ['date' => $search_date]);
+        }
     }
 
     public function requestedDay(Request $request)
@@ -84,9 +91,14 @@ class DailyTurnoverController extends Controller
         $search_data = Daily_turnover::where('created_at', $search_date)->get();
         $sum = DB::table('daily_turnovers')->where('created_at', $search_date)
             ->select('total')->sum('total'); // dobijamo ukupan promet na trazeni dan
+        if(isset($request->client_id))
+        {
+            $client_id = $request->client_id; // naknadno dodato zbog pracenja kupca po kupljenoj robi 31.01.2025.
 
-        return view('requestedDay', compact('search_data', 'search_date', 'sum'));
-
+            return view('requestedDay', compact('search_data', 'search_date', 'sum', 'client_id'));
+        }else {
+            return view('requestedDay', compact('search_data', 'search_date', 'sum'));
+        }
     }
 
     public function viewMonthlyTurnover($id)
@@ -133,6 +145,13 @@ class DailyTurnoverController extends Controller
         return view('turnoverByDays', compact('turnover_by_days', 'start_date', 'end_date', 'total_turnover'));
 
     }
+
+    public function getClientPurchases($client_id)
+    {
+        $purchases = Daily_turnover::where('client_id', $client_id)->get();
+        return response()->json($purchases);
+    }
+
 
 
 }

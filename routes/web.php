@@ -82,6 +82,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/view-all-companies', [App\Http\Controllers\DebtCompanyController::class, 'viewAllCompany'])->name('viewAllCompany');
     Route::get('/view-clients-organisations', [App\Http\Controllers\CompanyDebtorController::class, 'viewClientsOrganisations'])->name('viewClientsOrganisations');
     Route::get('/client-organisation/{id}/delete', [App\Http\Controllers\CompanyDebtorController::class, 'deleteClientOrganisation'])->name('deleteClientOrganisation');
+    Route::get('/clients-show/{id}', [App\Http\Controllers\ClientController::class, 'clientsShow'])->name('clientsShow');
+
+    Route::get('/client-purchases/{client_id}', [App\Http\Controllers\DailyTurnoverController::class, 'getClientPurchases'])->name('getClientPurchases');
+
+
 });
 
 //update

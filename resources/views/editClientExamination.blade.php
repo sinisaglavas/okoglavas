@@ -15,7 +15,7 @@
             <div class="col-1"></div>
             @if(isset($single_distance))
             <div class="col-4 p-4 m-1" style="background-color: rgb(200,200,200)">
-                <h2>Distance</h2>
+                <h2>Daljina - Distance</h2>
                 <form action="{{ route('updateDistance',['id'=>$single_distance->id]) }}" method="POST">
                     @csrf
                     @method('put')
@@ -90,7 +90,7 @@
                         </div>
                     </div>
                     <label for="note">Note: &nbsp;&nbsp;&nbsp;(maks. 130 karaktera)</label>
-                    <textarea name="note" id="note" cols="10" rows="4" class="form-control mb-4" placeholder="Maksimum 100 karaktera">{{ $single_distance->note }}</textarea>
+                    <textarea name="note" id="note" cols="10" rows="4" class="form-control mb-4" placeholder="Maksimum 130 karaktera">{{ $single_distance->note }}</textarea>
 
                     <button name="green" value="green" class="btn btn-success form-control">By optometry Glavas</button>
                     <br><br>
@@ -100,7 +100,7 @@
             @endif
             @if(isset($single_proximity))
                 <div class="col-4 border p-4 m-1">
-                    <h2>Proximity</h2>
+                    <h2>Blizina - Proximity</h2>
                     <form action="{{ route('updateProximity',['id'=>$single_proximity->id]) }}" method="POST">
                         @csrf
                         @method('put')
@@ -174,8 +174,8 @@
                                 </select>
                             </div>
                         </div>
-                        <label for="note">Note: &nbsp;&nbsp;&nbsp;(max 100 characters)</label>
-                        <textarea name="note" id="note" cols="10" rows="4" class="form-control mb-4" placeholder="Maksimum 100 karaktera">{{ $single_proximity->note }}</textarea>
+                        <label for="note">Note: &nbsp;&nbsp;&nbsp;(max 130 characters)</label>
+                        <textarea name="note" id="note" cols="10" rows="4" class="form-control mb-4" placeholder="Maksimum 130 karaktera">{{ $single_proximity->note }}</textarea>
 
                         <button name="green" value="green" class="btn btn-success form-control">By optometry Glavas</button>
                         <br><br>

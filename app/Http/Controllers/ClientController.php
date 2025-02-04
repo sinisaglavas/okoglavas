@@ -101,6 +101,15 @@ class ClientController extends Controller
         return view('editContactLensesExam', compact('single_client', 'contact_lenses_exam', 'all_diopters', 'all_contact_lenses'));
     }
 
+    public function clientsShow($id)
+    {
+        $client = Client::with('glasses')->findOrFail($id);  // Učitaj klijenta i naočare koje je kupio-aко клијент са тим ID-јем не постоји, баца 404 грешку (findOrFail).
+
+        return redirect()->back()->with('client', $client);
+
+        //return view('requestedDay', compact('client'));
+    }
+
 
 
 }

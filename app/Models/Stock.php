@@ -8,4 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Stock extends Model
 {
     use HasFactory;
+
+    public function dailyTurnovers()
+    {
+        return $this->hasMany(Daily_turnover::class);
+    }
 }
+
+
+
+
