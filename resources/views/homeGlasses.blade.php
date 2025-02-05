@@ -30,16 +30,19 @@
                 </div>
             </div>
                 @if(isset($search_clients))
-                    <table class="table text-center">
+                <h5 class="btn btn-secondary">Rezultat pretrage:</h5>
+                    <table class="table table-hover table-bordered text-center">
                         <thead>
-                        <tr>
+                        <tr class="table-secondary">
                             <th>Id</th>
                             <th>Ime</th>
+                            <th></th>
                             <th>Datum rođenja</th>
                             <th>Adresa</th>
                             <th>Grad</th>
                             <th>Telefon</th>
-                            <th></th>
+                            <th>Lična karta broj</th>
+                            <th>Kreirano</th>
                             <th></th>
                         </tr>
                         </thead>
@@ -48,13 +51,14 @@
                         <tr>
                             <td>{{ $search_client->id }}</td>
                             <td><a href="{{ route('home.singleClient',['id'=>$search_client->id]) }}" class="text-decoration-none fw-bold">{{ $search_client->name }}</a></td>
+                            <td><button class="btn-purchases btn btn-secondary" data-client-id="{{ $search_client->id ?? '' }}" data-client-name="{{ $search_client->name ?? '' }}">Kupljeno</button></td>
                             <td>{{ $search_client->date_of_birth }}</td>
                             <td>{{ $search_client->address }}</td>
                             <td>{{ $search_client->city }}</td>
                             <td>{{ $search_client->phone }}</td>
-                            <td style="background-color: #86b7fe;"><a href="/client/{{$search_client->id}}/edit" style="text-decoration: none; color: white; display: block">Promeni</a></td>
-                            <td>Kupljeno</td>
-                        </tr>
+                            <td>{{ $search_client->identity_card }}</a></td>
+                            <td>{{ $search_client->created_at->format('d.m.Y') }}</td>
+                            <td><button class="btn btn-primary"><a href="/client/{{$search_client->id}}/edit" style="color: #fff; text-decoration: none">Promeni</a></button></td>                        </tr>
                         @endforeach
                         </tbody>
                     </table>
@@ -80,7 +84,7 @@
                     <tr>
                         <td>{{ $client->id }}</td>
                         <td><a href="{{ route('home.singleClient',['id'=>$client->id]) }}" class="text-decoration-none">{{ $client->name }}</a></td>
-                        <td><button class="btn-purchases btn btn-secondary" data-client-id="{{ $client->id ?? '' }}" data-client-name="{{ $client->name }}">Kupljeno</button></td>
+                        <td><button class="btn-purchases btn btn-secondary" data-client-id="{{ $client->id ?? '' }}" data-client-name="{{ $client->name ?? '' }}">Kupljeno</button></td>
                         {{--Kod iznad-ako $single_client->id postoji, koristiće se njegova vrednost.Ako ne postoji, dugme neće slati undefined vrednost, već prazan string.--}}
                         <td>{{ $client->date_of_birth }}</td>
                         <td>{{ $client->address }}</td>
@@ -101,7 +105,8 @@
     document.addEventListener('DOMContentLoaded', function () {
         document.querySelectorAll('.btn-purchases').forEach(button => {
             button.addEventListener('click', function () {
-                let clientId = this.dataset.clientId;
+                console.log(this.dataset);
+                let clientId = this.dataset.clientId; //Hvatamo id kupca
                 let clientName = this.dataset.clientName; // Dohvatamo ime kupca
 
                 // Proveri da li modal već postoji i ukloni ga pre kreiranja novog

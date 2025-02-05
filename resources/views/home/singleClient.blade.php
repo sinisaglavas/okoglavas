@@ -90,7 +90,7 @@
                 @foreach($all_proximities as $proximity)
                     <div class="row">
                         <div class="col-9">
-                            <table style="background-color: rgb(247, 225, 247)" class="table text-center table-bordered border-dark caption-top">
+                            <table style="background-color: rgb(250, 250, 250)" class="table text-center table-bordered border-dark caption-top">
                                 <caption class="fw-bold">{{ $proximity->created_at->format('d. m. Y.') }}&nbsp;Blizina</caption>
                                 <thead>
                                 <tr>
@@ -155,7 +155,7 @@
                         </div>
                         <div class="col-3">
                             <label for="note">Napomena:</label>
-                            <textarea style="background-color: rgb(247, 225, 247)" id="note" cols="10" rows="5"
+                            <textarea style="background-color: rgb(250, 250, 250)" id="note" cols="10" rows="5"
                                       class="form-control mt-2" readonly>{{ $proximity->note }}</textarea>
                         </div>
                     </div>

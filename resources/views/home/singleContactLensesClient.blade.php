@@ -18,14 +18,14 @@
             <div class="col-11">
                 @foreach($all_contact_lenses_exams as $contact_lenses_exam)
 
-                    <table class="table text-center table-bordered caption-top"
-                           style="background-color: rgb(200,200,200)">
+                    <table class="table text-center table-bordered border-dark caption-top"
+                           style="background-color: rgb(252, 202, 211)">
                         <caption>{{ $contact_lenses_exam->created_at->format('d. m. Y.') }}&nbsp;Kontaktna sočiva recept</caption>
                         <thead>
                         <tr>
-                            <th colspan="4">Right Eye</th>
+                            <th colspan="4">Desno oko - Right Eye</th>
                             <th></th>
-                            <th colspan="4">Left Eye</th>
+                            <th colspan="4">Levo oko - Left Eye</th>
                             <th></th>
                             <th colspan="4"></th>
                         </tr>
