@@ -146,7 +146,7 @@ class DailyTurnoverController extends Controller
 
     }
 
-    public function getClientPurchases($client_id)
+    public function getClientPurchases($client_id) // js - za homeGlasses.blade
     {
         $purchases = Daily_turnover::where('client_id', $client_id)->get();
         return response()->json($purchases);

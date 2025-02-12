@@ -85,7 +85,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/clients-show/{id}', [App\Http\Controllers\ClientController::class, 'clientsShow'])->name('clientsShow');
 
     Route::get('/client-purchases/{client_id}', [App\Http\Controllers\DailyTurnoverController::class, 'getClientPurchases'])->name('getClientPurchases');
-
+    Route::get('/unpaid-debt', [App\Http\Controllers\DebtorController::class, 'unpaidDebt'])->name('unpaidDebt');
 
 });
 

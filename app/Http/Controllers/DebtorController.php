@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Client;
 use App\Models\Debtor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DebtorController extends Controller
 {
@@ -84,5 +85,17 @@ class DebtorController extends Controller
         }
 
     }
+
+    public function unpaidDebt()
+    {
+        $all_debtors = Debtor::all();
+        $unpaidDebtors = Debtor::select('debtors.*')
+            ->selectRaw('(SELECT COALESCE(SUM(payment), 0) FROM payments WHERE payments.debtor_id = debtors.id) as total_paid')
+            ->whereRaw('debit > (SELECT COALESCE(SUM(payment), 0) FROM payments WHERE payments.debtor_id = debtors.id)')
+            ->get(); //ovaj upit je iz chatGPT
+
+        return view('home.allDebtors', compact('all_debtors','unpaidDebtors'));
+    }
+
 
 }
