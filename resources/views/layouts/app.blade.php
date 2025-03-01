@@ -37,16 +37,16 @@
             <div class="container">
                 <div>
                     @if(Str::contains($currentUrl, 'bp2024.optikaglavas.com'))
-                        <div class="h2 d-flex flex-column justify-content-center align-items-center">01.01.-31.12. 2024.</div>
+                        <div class="navbar-brand btn btn-lg" style="font-weight: bold">01.01.-31.12. 2024.</div>
                     @endif
                     @if(Str::contains($currentUrl, 'ns-24.optikaglavas.com'))
-                        <div class="h2 d-flex flex-column justify-content-center align-items-center">01.01.-31.12. 2024.</div>
+                        <div class="navbar-brand btn btn-lg" style="font-weight: bold">01.01.-31.12. 2024.</div>
                     @endif
                         @if(Str::contains($currentUrl, 'bp2025.optikaglavas.com'))
-                        <div class="h2 d-flex flex-column justify-content-center align-items-center">01.01.-31.12. 2025.</div>
+                        <div class="navbar-brand btn btn-lg" style="font-weight: bold">01.01.-31.12. 2025.</div>
                     @endif
                         @if(Str::contains($currentUrl, 'ns2025.optikaglavas.com'))
-                        <div class="h2 d-flex flex-column justify-content-center align-items-center">01.01.-31.12. 2025.</div>
+                        <div class="navbar-brand btn btn-lg" style="font-weight: bold">01.01.-31.12. 2025.</div>
                     @endif
                 </div>
                 <a class="navbar-brand" href="{{ url('/') }}">OKO Glavaš</a>
