@@ -11,6 +11,7 @@ use App\Models\Dist_pupillary;
 use App\Models\Distance;
 use App\Models\Proximity;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class ClientController extends Controller
 {
@@ -109,6 +110,30 @@ class ClientController extends Controller
 
         //return view('requestedDay', compact('client'));
     }
+
+
+    function sendViberMessage($receiverId, $message) {
+        $apiToken = env('VIBER_API_TOKEN'); // Smesti token u .env fajl
+        $url = 'https://chatapi.viber.com/pa/send_message';
+
+        $payload = [
+            'receiver' => $receiverId,
+            'min_api_version' => 1,
+            'sender' => [
+                'name' => 'NazivBota',
+                'avatar' => 'URL_do_avatar_slike'
+            ],
+            'type' => 'text',
+            'text' => $message,
+        ];
+
+        $response = Http::withHeaders([
+            'X-Viber-Auth-Token' => $apiToken,
+        ])->post($url, $payload);
+
+        return $response->json();
+    }
+
 
 
 

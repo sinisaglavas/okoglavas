@@ -1,3 +1,10 @@
+@php
+    use Illuminate\Support\Str;
+    $currentUrl = URL::current();
+@endphp
+
+
+
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
@@ -28,12 +35,25 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
+                <div>
+                    @if(Str::contains($currentUrl, 'bp2024.optikaglavas.com'))
+                        <div class="h2 d-flex flex-column justify-content-center align-items-center">01.01.-31.12. 2024.</div>
+                    @endif
+                    @if(Str::contains($currentUrl, 'ns-24.optikaglavas.com'))
+                        <div class="h2 d-flex flex-column justify-content-center align-items-center">01.01.-31.12. 2024.</div>
+                    @endif
+                        @if(Str::contains($currentUrl, 'bp2025.optikaglavas.com'))
+                        <div class="h2 d-flex flex-column justify-content-center align-items-center">01.01.-31.12. 2025.</div>
+                    @endif
+                        @if(Str::contains($currentUrl, 'ns2025.optikaglavas.com'))
+                        <div class="h2 d-flex flex-column justify-content-center align-items-center">01.01.-31.12. 2025.</div>
+                    @endif
+                </div>
                 <a class="navbar-brand" href="{{ url('/') }}">OKO Glavaš</a>
                 <a href="{{ url('/home') }}" class="navbar-brand">Početna</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">

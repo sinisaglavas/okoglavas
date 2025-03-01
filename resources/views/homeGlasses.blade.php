@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+    <div class="container">
     <div class="row mb-4">
         <div class="col-4">
             <a href="{{ route('home.showClientForm') }}" class="btn btn-primary form-control m-2">Novi klijent</a>
@@ -50,7 +50,7 @@
                         @foreach($search_clients as $search_client)
                         <tr>
                             <td>{{ $search_client->id }}</td>
-                            <td><a href="{{ route('home.singleClient',['id'=>$search_client->id]) }}" class="text-decoration-none fw-bold">{{ $search_client->name }}</a></td>
+                            <td title="Klik na istoriju pregleda"><a href="{{ route('home.singleClient',['id'=>$search_client->id]) }}" class="text-decoration-none fw-bold">{{ $search_client->name }}</a></td>
                             <td><button class="btn-purchases btn btn-secondary" data-client-id="{{ $search_client->id ?? '' }}" data-client-name="{{ $search_client->name ?? '' }}">Kupljeno</button></td>
                             <td>{{ $search_client->date_of_birth }}</td>
                             <td>{{ $search_client->address }}</td>
@@ -77,13 +77,14 @@
                     <th>Lična karta broj</th>
                     <th>Kreirano</th>
                     <th></th>
+                    <th>Viber</th>
                 </tr>
                 </thead>
                 <tbody>
                 @foreach($all_clients as $client)
                     <tr>
                         <td>{{ $client->id }}</td>
-                        <td><a href="{{ route('home.singleClient',['id'=>$client->id]) }}" class="text-decoration-none">{{ $client->name }}</a></td>
+                        <td title="Klik na istoriju pregleda"><a href="{{ route('home.singleClient',['id'=>$client->id]) }}" class="text-decoration-none">{{ $client->name }}</a></td>
                         <td><button class="btn-purchases btn btn-secondary" data-client-id="{{ $client->id ?? '' }}" data-client-name="{{ $client->name ?? '' }}">Kupljeno</button></td>
                         {{--Kod iznad-ako $single_client->id postoji, koristiće se njegova vrednost.Ako ne postoji, dugme neće slati undefined vrednost, već prazan string.--}}
                         <td>{{ $client->date_of_birth }}</td>
@@ -93,6 +94,7 @@
                         <td>{{ $client->identity_card }}</a></td>
                         <td>{{ $client->created_at->format('d.m.Y') }}</td>
                         <td><button class="btn btn-primary"><a href="/client/{{$client->id}}/edit" style="color: #fff; text-decoration: none">Promeni</a></button></td>
+                        <td></td>
                     </tr>
                 @endforeach
                 </tbody>

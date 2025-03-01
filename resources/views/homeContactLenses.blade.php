@@ -49,7 +49,7 @@
                         @foreach($search_clients as $search_client)
                             <tr>
                                 <td>{{ $search_client->id }}</td>
-                                <td><a href="{{ route('home.singleContactLensesClient',['id'=>$search_client->id]) }}" class="text-decoration-none text-danger">{{ $search_client->name }}</a></td>
+                                <td title="Klik na istoriju pregleda"><a href="{{ route('home.singleContactLensesClient',['id'=>$search_client->id]) }}" class="text-decoration-none text-danger">{{ $search_client->name }}</a></td>
                                 <td>{{ $search_client->date_of_birth }}</td>
                                 <td>{{ $search_client->address }}</td>
                                 <td>{{ $search_client->city }}</td>
@@ -79,7 +79,7 @@
                     @foreach($all_clients as $client)
                         <tr>
                             <td>{{ $client->id }}</td>
-                            <td><a href="{{ route('home.singleContactLensesClient',['id'=>$client->id]) }}" class="text-decoration-none text-danger">{{ $client->name }}</a></td>
+                            <td title="Klik na istoriju pregleda"><a href="{{ route('home.singleContactLensesClient',['id'=>$client->id]) }}" class="text-decoration-none text-danger">{{ $client->name }}</a></td>
                             <td>{{ $client->date_of_birth }}</td>
                             <td>{{ $client->address }}</td>
                             <td>{{ $client->city }}</td>
