@@ -37,8 +37,6 @@
                     @endforeach
                     </tbody>
                 </table>
-
-
             </div>
             <div class="col">
                 <form action="{{ route('home.savePaymentForm',['id'=>$debtor->id]) }}" method="POST" class="m-3">
@@ -50,6 +48,7 @@
             </div>
         </div>
     </div>
+
 @endsection
 
 

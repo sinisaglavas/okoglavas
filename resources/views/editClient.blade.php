@@ -29,7 +29,10 @@
                     @enderror
                     <br>
                     <label for="identity_card">Lična karta broj</label>
-                    <input type="number" name="identity_card" placeholder="Unos je opcionalan" id="identity_card" class="form-control" value="{{ $client->identity_card }}"><br>
+                    <input type="number" name="identity_card" placeholder="Unos je opcionalan" id="identity_card" class="form-control" value="{{ $client->identity_card }}">
+{{--                    @error('identity_card')--}}
+{{--                    <p class="bg-warning">{{ $errors->first('identity_card') }}</p>--}}
+{{--                    @enderror--}}
                     <button type="submit" class="btn btn-outline-primary form-control">Promeni</button>
                 </form>
                 @if(session()->has('message'))

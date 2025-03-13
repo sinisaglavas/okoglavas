@@ -9,8 +9,10 @@
                    class="btn btn-light form-control m-2 border">{{ $single_client->name }} - Novi pregled</a>
             </div>
             <div class="col-8 mx-auto"> {{--mx-auto - polozaj na sredini--}}
-                <h3 class="text-center m-2 p-3 border border rounded-pill">{{ $single_client->name }} &nbsp;{{ $single_client->date_of_birth }}
-                     &nbsp;{{ $single_client->city }} &nbsp;tel:{{ $single_client->phone }}</h3>
+                <h3 class="text-center m-2 p-3 border border rounded-pill">
+                    <a class="fw-bold text-decoration-none text-uppercase text-primary" title="Klik za detalje o pacijentu" id="clientData"
+                       data-id ="{{ $single_client->id }}"
+                       href="{{ route('showClientData', ['id'=>$single_client->id]) }}">{{ $single_client->name }}</a> &nbsp; &nbsp;{{ $single_client->date_of_birth }}</h3>
             </div>
         </div>
         <div class="row mt-2">
@@ -43,9 +45,9 @@
                                     <th>Total pd</th>
                                     <th>Exam</th>
                                     <th></th>
+                                    <th>{{ $distance->created_at->format('d. m. Y.') }}</th>
                                     <th></th>
-                                    <th></th>
-                                    <th style="padding: 8px 0;">{{ $distance->created_at->format('d. m. Y.') }}</th>
+                                    <th style="padding: 8px 0;"></th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -67,14 +69,14 @@
                                         <td style="background-color:#b82830;"></td>
                                     @endif
                                     <td></td>
-                                    <td style="background-color: #ffc107;"><a
-                                            href="/distance-form/{{$distance->id}}/edit"
-                                            style="text-decoration: none; color: black; display: block" onclick="return confirm('Da li ste sigurni?')">Izmeni</a>
+                                    <td style="background-color: #0720ff">
+                                        <a href="{{ route('requestedDay', ['date'=>$distance->created_at->format('Y-m-d'), 'client_id'=>$single_client->id]) }}"
+                                            style="text-decoration: none; color: #fff; display: block" title="Povežite prodaju sa pacijentom">Prodaja</a>
                                     </td>
                                     <td></td>
-                                    <td style="background-color: #0720ff"><a
-                                            href="{{ route('requestedDay', ['date'=>$distance->created_at->format('Y-m-d'), 'client_id'=>$single_client->id]) }}"
-                                            style="text-decoration: none; color: #fff; display: block">Prodaja</a>
+                                    <td style="background-color: #e09c09;"><a
+                                            href="/distance-form/{{$distance->id}}/edit"
+                                            style="text-decoration: none; color: #fff; display: block" onclick="return confirm('Da li ste sigurni?')">Promeni</a>
                                     </td>
                                 </tr>
                                 </tbody>
@@ -114,9 +116,9 @@
                                     <th>Total pd</th>
                                     <th>Exam</th>
                                     <th></th>
-                                    <th></th>
-                                    <th></th>
                                     <th>{{ $proximity->created_at->format('d. m. Y.') }}</th>
+                                    <th></th>
+                                    <th></th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -139,15 +141,15 @@
                                         <td style="background-color:#b82830;"></td>
                                     @endif
                                     <td></td>
-                                    <td style="background-color: #ffc107;"
-                                        onclick="return confirm('Da li ste sigurni?')"><a
-                                            href="/proximity-form/{{$proximity->id}}/edit"
-                                            style="text-decoration: none; color: black; display: block">Izmeni</a>
-                                    </td>
-                                    <td></td>
                                     <td style="background-color: #0720ff"><a
                                             href="{{ route('requestedDay', ['date'=>$proximity->created_at->format('Y-m-d'), 'client_id'=>$single_client->id]) }}"
-                                            style="text-decoration: none; color: #fff; display: block">Promet</a>
+                                            style="text-decoration: none; color: #fff; display: block" title="Povežite prodaju sa pacijentom">Prodaja</a>
+                                    </td>
+                                    <td></td>
+                                    <td style="background-color: #e09c09;"
+                                        onclick="return confirm('Da li ste sigurni?')"><a
+                                            href="/proximity-form/{{$proximity->id}}/edit"
+                                            style="text-decoration: none; color: #fff; display: block" title="Izmenite unesene podatke">Promeni</a>
                                     </td>
                                 </tr>
                                 </tbody>
@@ -164,7 +166,40 @@
         </div>
     </div>
 
+    <!-- Modalni prozor -->
+    <div id="clientModal" style="display:none; position:fixed; top:30%; left:50%; transform:translate(-50%, -20%); background:dimgrey; color: white; padding:20px; border:1px solid black;">
+        <h3>Osnovni podaci o pacijentu</h3>
+        <p id="clientDetails"></p>
+        <button onclick="closeModal()">Zatvori</button>
+    </div>
 
+    <script>
 
+        document.addEventListener('DOMContentLoaded', function () {
+            let clientData = document.getElementById('clientData');
+            let clientId = clientData.getAttribute('data-id');
+
+            clientData.addEventListener('click', function (event) {
+                event.preventDefault(); // Sprečava osvežavanje stranice!Stranica se osvežava nakon klika.Ako je <a> tag ili <button> uzrokovao osvežavanje stranice, onda AJAX zahtev nestane pre nego što vidiš odgovor.
+                fetch(`/show-client-data/${clientId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data.phone);
+                        document.getElementById('clientDetails').innerHTML =
+                            `<span>Ime i prezime:</span> ${data.name} <br>
+                            <span>Rođen/a:</span> ${data.date_of_birth} <br>
+                            <span>Mesto boravka:</span> ${data.city} <br>
+                            <span>Tel:</span> ${data.phone} <br>`;
+                    })
+                let clientModal = document.getElementById('clientModal');
+                clientModal.style.display = 'block';
+            })
+
+        })
+
+        function closeModal() {
+            document.getElementById('clientModal').style.display = 'none';
+        }
+    </script>
 
 @endsection

@@ -89,9 +89,9 @@
                             </select>
                         </div>
                     </div>
-                    <label for="note">Note: &nbsp;&nbsp;&nbsp;(maks. 130 karaktera)</label>
-                    <textarea name="note" id="note" cols="10" rows="4" class="form-control mb-4" placeholder="Maksimum 130 karaktera">{{ $single_distance->note }}</textarea>
-
+                    <label for="note">Beleška:</label>
+                    <textarea name="note" id="note" cols="10" rows="4" class="form-control" oninput="updateCharacterCount()" maxlength="130" placeholder="Maksimum 130 karaktera">{{ $single_distance->note }}</textarea>
+                    <div id="characterCount" class="mb-4">Preostalo karaktera: 130</div>
                     <button name="green" value="green" class="btn btn-success form-control">By optometry Glavas</button>
                     <br><br>
                     <button name="red" value="red" class="btn btn-danger form-control">By prescription</button>
@@ -174,9 +174,9 @@
                                 </select>
                             </div>
                         </div>
-                        <label for="note">Note: &nbsp;&nbsp;&nbsp;(max 130 characters)</label>
-                        <textarea name="note" id="note" cols="10" rows="4" class="form-control mb-4" placeholder="Maksimum 130 karaktera">{{ $single_proximity->note }}</textarea>
-
+                        <label for="note">Beleška:</label>
+                        <textarea name="note" id="note" cols="10" rows="4" class="form-control" oninput="updateCharacterCount()" maxlength="130" placeholder="Maksimum 130 karaktera">{{ $single_proximity->note }}</textarea>
+                        <div id="characterCount" class="mb-4">Preostalo karaktera: 130</div>
                         <button name="green" value="green" class="btn btn-success form-control">By optometry Glavas</button>
                         <br><br>
                         <button name="red" value="red" class="btn btn-danger form-control">By prescription</button>
@@ -185,4 +185,32 @@
             @endif
         </div>
     </div>
+
+    <script>
+    // Opciono: Možete dodati brojač karaktera koji će prikazati koliko karaktera je ostalo za unos.
+    function updateCharacterCount() {
+    var textarea = document.getElementById('note');
+    var characterCount = document.getElementById('characterCount');
+    var remainingChars = 130 - textarea.value.length; // 130 je maksimalan broj karaktera minus broj unetih karaktera
+
+    characterCount.textContent = 'Preostalo karaktera: ' + remainingChars; // Prikazuje preostali broj karaktera
+
+    // Opciono: Možete dodati stilizaciju ili promeniti boju teksta kada se približite maksimalnom broju karaktera.
+    if (remainingChars < 1) {
+    characterCount.style.color = 'red';// Možete promeniti boju u crvenu kada premašite maksimalni broj karaktera.
+    characterCount.style.fontWeight = 'bold'; // Možete promeniti font kada premašite maksimalni broj karaktera.
+    } else {
+    characterCount.style.color = ''; // Vraća boju na podrazumevanu vrednost.
+    characterCount.style.fontWeight = 'bold'; // Vraća font na podrazumevanu vrednost.
+        }
+    }
+
+    var rightEyePd = document.getElementById('right-eye-pd');
+    var leftEyePd = document.getElementById('left-eye-pd');
+    // Dodajemo event listener za promenu vrednosti desnog oka
+    rightEyePd.addEventListener('input', function() {
+    // Kopiramo vrednost desnog oka u levo oko
+    leftEyePd.value = rightEyePd.value;
+    });
+    </script>
 @endsection

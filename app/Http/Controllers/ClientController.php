@@ -58,8 +58,9 @@ class ClientController extends Controller
         $pureData = $request->validate([
             'name'=>'required',
             'phone'=>'required | max:14'],
-            ['phone.max'=>'Ne mozete uneti vise od 14 cifara'
-        ]);
+            //'identity_card'=>'required | max:9'],
+            ['phone.max'=>'Ne mozete uneti vise od 14 cifara']);
+            //['identity_card.max'=>'Ne mozete uneti vise od 9 cifara']);
 
         $client->name = $request->name;
         $client->date_of_birth = (!is_null($request->date_of_birth) ? $request->date_of_birth : "");
@@ -132,6 +133,13 @@ class ClientController extends Controller
         ])->post($url, $payload);
 
         return $response->json();
+    }
+
+    public function showClientData($id) {
+        $client = Client::findOrFail($id);
+
+        return response()->json($client);
+
     }
 
 

@@ -104,5 +104,11 @@ class ContactLensesClientController extends Controller
         return redirect('/home-contact-lenses');
     }
 
+    public function showContactLensesClientData($id) {
+        $client = Contact_lenses_client::findOrFail($id);
+
+        return response()->json($client);
+    }
+
 
 }

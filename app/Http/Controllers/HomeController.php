@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
+use App\Models\Client as AppClient; // Alias za App\Models\Client za izbegavanje konflikta
 use App\Models\Contact_lens;
 use App\Models\Contact_lense;
 use App\Models\Contact_lenses_client;
@@ -13,10 +14,14 @@ use App\Models\Distance;
 use App\Models\Examination;
 use App\Models\Proximity;
 use App\Models\Stock;
+use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\URL;
+use Vonage\Client as VonageClient; // Alias za App\Models\Client za izbegavanje konflikta
+use Vonage\Client\Credentials\Basic;
+use Vonage\SMS\Message\SMS;
 
 class HomeController extends Controller
 {
@@ -34,7 +39,7 @@ class HomeController extends Controller
     /**
      * Show the application dashboard.
      *
-     * @return \Illuminate\Contracts\Support\Renderable
+     * @return Renderable
      */
 
     public function index()
@@ -47,12 +52,44 @@ class HomeController extends Controller
         return view('home');
     }
 
+    public function sendSmsToClient($phoneNumber, $message)
+    {
+        $basic = new Basic("96a77c63", "JD7oUiAhqiTXj5KD");
+        $client = new VonageClient($basic);
+
+        // Kreiraj i pošaljite SMS
+        $response = $client->sms()->send(
+            new SMS($phoneNumber, "OKO Glavas", $message)
+        );
+
+        // Vraćamo response da bismo mogli proveriti uspeh
+        return $response;
+    }
+
+    public function sendSms($id)
+    {
+        $client = Client::find($id);
+
+        if ($client) {
+            // Slanje SMS-a
+            $message = 'Poruka za klijenta ' . $client->name;
+            $response = $this->sendSmsToClient($client->phone, $message);
+            // Provera uspešnosti
+            if ($response->current()->getStatus() == 0) {
+                return redirect()->back()->with('success', 'SMS poslat');
+            } else {
+                return redirect()->back()->with('error', 'Greška');
+            }
+        }
+    }
+
     public function glassesClients()
     {
-        $all_clients = Client::all();
+        $all_clients = AppClient::all();
 
         return view('homeGlasses',compact('all_clients'));
     }
+
 
     public function contactLensesClients()
     {
@@ -79,7 +116,7 @@ class HomeController extends Controller
             ['phone.max'=>'Ne mozete uneti vise od 14 cifara'
 
         ]);
-        $new_client = new Client();
+        $new_client = new AppClient();
         $new_client->name = $request->name;
         $new_client->date_of_birth = (!is_null($request->date_of_birth) ? $request->date_of_birth : "");
         $new_client->address = (!is_null($request->address) ? $request->address : "");//ako nema unosa ostavi prazno polje
@@ -87,7 +124,7 @@ class HomeController extends Controller
         $new_client->phone = $request->phone;
         $new_client->identity_card = $request->identity_card;
         $new_client->save();
-        $new_client_id = Client::orderBy('id', 'desc')->first()->id;
+        $new_client_id = AppClient::orderBy('id', 'desc')->first()->id;
 
         Session::flash('message','Novi klijent je snimljen');
         return view('home.showClientForm', compact('new_client', 'new_client_id'));
@@ -121,7 +158,7 @@ class HomeController extends Controller
     {
         $all_diopters = Diopter::all();
         $all_pd = Dist_pupillary::all();
-        $single_client = Client::find($id);
+        $single_client = AppClient::find($id);
 
         return view('home.showExaminationForm',compact('single_client','all_diopters','all_pd'));
     }
@@ -137,7 +174,7 @@ class HomeController extends Controller
 
     public function showSingleClient($id)
     {
-        $single_client = Client::find($id);
+        $single_client = AppClient::find($id);
         $all_distances = $single_client->distances;
         $all_proximities = $single_client->proximities;
 
@@ -158,7 +195,7 @@ class HomeController extends Controller
 
     public function saveDistanceForm(Request $request,$id)
     {
-        $single_client = Client::find($id);
+        $single_client = AppClient::find($id);
         $request->validate([
             'right_diopter'=>'required',
             'right_diopter2'=>'required',
@@ -201,7 +238,7 @@ class HomeController extends Controller
     public function updateDistance(Request $request, $distance_id)
     {
         $new_distance = Distance::find($distance_id);
-        $single_client = Client::find($new_distance->client_id);
+        $single_client = AppClient::find($new_distance->client_id);
         $request->validate([
             'right_diopter'=>'required',
             'right_diopter2'=>'required',
@@ -238,7 +275,7 @@ class HomeController extends Controller
     public function updateProximity(Request $request, $proximity_id)
     {
         $new_proximity = Proximity::find($proximity_id);
-        $single_client = Client::find($new_proximity->client_id);
+        $single_client = AppClient::find($new_proximity->client_id);
         $request->validate([
             'right_diopter'=>'required',
             'right_diopter2'=>'required',
@@ -315,7 +352,7 @@ class HomeController extends Controller
 
     public function saveProximityForm(Request $request,$id)
     {
-        $single_client = Client::find($id);
+        $single_client = AppClient::find($id);
 
         $request->validate([
             'right_diopter'=>'required',

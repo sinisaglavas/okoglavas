@@ -56,6 +56,8 @@ Route::middleware(['auth'])->group(function () {
     name('home.showSingleDebtor');
     Route::get('/all-debtors-contact-lenses', [App\Http\Controllers\DebtorsContactLensesController::class,'index'])->
     name('allDebtorsContactLenses');
+    Route::get('/unpaid-debt', [App\Http\Controllers\DebtorController::class, 'unpaidDebt'])->name('unpaidDebt');
+    Route::get('/unpaid-debt-contact-lenses', [App\Http\Controllers\DebtorsContactLensesController::class, 'unpaidDebtCL'])->name('unpaidDebtCL');
 });
 
 //non home
@@ -83,10 +85,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/view-clients-organisations', [App\Http\Controllers\CompanyDebtorController::class, 'viewClientsOrganisations'])->name('viewClientsOrganisations');
     Route::get('/client-organisation/{id}/delete', [App\Http\Controllers\CompanyDebtorController::class, 'deleteClientOrganisation'])->name('deleteClientOrganisation');
     Route::get('/clients-show/{id}', [App\Http\Controllers\ClientController::class, 'clientsShow'])->name('clientsShow');
-
+    Route::get('/show-client-data/{id}', [App\Http\Controllers\ClientController::class, 'showClientData'])->name('showClientData');
+    Route::get('/show-contact-lenses-client-data/{id}', [App\Http\Controllers\ContactLensesClientController::class, 'showContactLensesClientData'])->name('showContactLensesClientData');
     Route::get('/client-purchases/{client_id}', [App\Http\Controllers\DailyTurnoverController::class, 'getClientPurchases'])->name('getClientPurchases');
-    Route::get('/unpaid-debt', [App\Http\Controllers\DebtorController::class, 'unpaidDebt'])->name('unpaidDebt');
-
 });
 
 //update
@@ -131,6 +132,7 @@ name('home.saveProximity');
 
 Route::post('/home/save-contact-lens-type-form', [App\Http\Controllers\HomeController::class, 'saveContactLensTypeForm'])->
 name('home.saveContactLensTypeForm');
+Route::post('/home/send-sms/{id}', [App\Http\Controllers\HomeController::class, 'sendSms'])->name('home.sendSms');
 
 //non home
 Route::middleware(['auth'])->group(function () {

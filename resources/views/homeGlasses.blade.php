@@ -44,6 +44,7 @@
                             <th>Lična karta broj</th>
                             <th>Kreirano</th>
                             <th></th>
+                            <th>SMS</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -58,7 +59,33 @@
                             <td>{{ $search_client->phone }}</td>
                             <td>{{ $search_client->identity_card }}</a></td>
                             <td>{{ $search_client->created_at->format('d.m.Y') }}</td>
-                            <td><button class="btn btn-primary"><a href="/client/{{$search_client->id}}/edit" style="color: #fff; text-decoration: none">Promeni</a></button></td>                        </tr>
+                            <td><button class="btn btn-primary"><a href="/client/{{$search_client->id}}/edit" style="color: #fff; text-decoration: none">Promeni</a></button></td>
+                            <td></td>
+{{--                            @if(session('success'))--}}
+{{--                                <td>--}}
+{{--                                    <form action="{{ route('home.sendSms',['id'=>$search_client->id]) }}" method="POST">--}}
+{{--                                        @csrf--}}
+{{--                                        <input type="hidden" name="id" value="{{ $search_client->id }}">--}}
+{{--                                        <button style="background: green;" type="submit">{{ session('success') }}</button></form>--}}
+{{--                                </td>--}}
+{{--                            @elseif(session('error'))--}}
+{{--                                <td>--}}
+{{--                                    <form action="{{ route('home.sendSms',['id'=>$search_client->id]) }}" method="POST">--}}
+{{--                                        @csrf--}}
+{{--                                        <input type="hidden" name="id" value="{{ $search_client->id }}">--}}
+{{--                                        <button style="background: red;" type="submit">{{ session('error') }}</button>--}}
+{{--                                    </form>--}}
+{{--                                </td>--}}
+{{--                            @else--}}
+{{--                                <td>--}}
+{{--                                    <form action="{{ route('home.sendSms',['id'=>$search_client->id]) }}" method="POST">--}}
+{{--                                        @csrf--}}
+{{--                                        <input type="hidden" name="id" value="{{ $search_client->id }}">--}}
+{{--                                        <button type="submit">Pošalji SMS</button>--}}
+{{--                                    </form>--}}
+{{--                                </td>--}}
+{{--                            @endif--}}
+                        </tr>
                         @endforeach
                         </tbody>
                     </table>
@@ -77,7 +104,7 @@
                     <th>Lična karta broj</th>
                     <th>Kreirano</th>
                     <th></th>
-                    <th>Viber</th>
+                    <th>SMS</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -95,6 +122,30 @@
                         <td>{{ $client->created_at->format('d.m.Y') }}</td>
                         <td><button class="btn btn-primary"><a href="/client/{{$client->id}}/edit" style="color: #fff; text-decoration: none">Promeni</a></button></td>
                         <td></td>
+{{--                        @if(session('success'))--}}
+{{--                            <td>--}}
+{{--                                <form action="{{ route('home.sendSms',['id'=>$client->id]) }}" method="POST">--}}
+{{--                                    @csrf--}}
+{{--                                    <input type="hidden" name="id" value="{{ $client->id }}">--}}
+{{--                                    <button style="background: green;" type="submit">{{ session('success') }}</button></form>--}}
+{{--                            </td>--}}
+{{--                        @elseif(session('error'))--}}
+{{--                            <td>--}}
+{{--                                <form action="{{ route('home.sendSms',['id'=>$client->id]) }}" method="POST">--}}
+{{--                                    @csrf--}}
+{{--                                    <input type="hidden" name="id" value="{{ $client->id }}">--}}
+{{--                                    <button style="background: red;" type="submit">{{ session('error') }}</button>--}}
+{{--                                </form>--}}
+{{--                            </td>--}}
+{{--                        @else--}}
+{{--                            <td>--}}
+{{--                                <form action="{{ route('home.sendSms',['id'=>$client->id]) }}" method="POST">--}}
+{{--                                    @csrf--}}
+{{--                                    <input type="hidden" name="id" value="{{ $client->id }}">--}}
+{{--                                    <button type="submit">Pošalji SMS</button>--}}
+{{--                                </form>--}}
+{{--                            </td>--}}
+{{--                        @endif--}}
                     </tr>
                 @endforeach
                 </tbody>

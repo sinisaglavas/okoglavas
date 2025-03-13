@@ -6,13 +6,15 @@
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
+        "ext-json": "*",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
+        "laminas/laminas-diactoros": "^3.6",
         "laravel/framework": "^8.75",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.4",
-      "ext-json": "*"
+        "vonage/client-core": "^4.3"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
@@ -26,7 +28,9 @@
         "psr-4": {
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
-            "Database\\Seeders\\": "database/seeders/"
+            "Database\\Seeders\\": "database/seeders/",
+            "Vonage\\": "vendor/vonage/client/src",
+            "Laminas\\Diactoros\\": "vendor/laminas/laminas-diactoros-3.6.x/src/"
         }
     },
     "autoload-dev": {
