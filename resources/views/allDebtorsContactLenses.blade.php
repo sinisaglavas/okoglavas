@@ -112,11 +112,19 @@
                         <tbody>
                         @foreach($unpaidDebtors as $debtor)
                             <tr>
-                                <td>{{ $debtor->id }}</td>
-                                <td><a href="{{ route('home.showSingleDebtor',['id'=>$debtor->id]) }}" class="text-decoration-none text-black">{{ $debtor->name }}</a></td>
+                                @if($debtor->debit - \App\Models\PaymentContactLense::where('debtors_contact_lenses_id', $debtor->id)->sum('payment') >= 1)
+                                    <td style="background-color: rgb(252, 194, 189);">{{ $debtor->id }}</td>
+                                @else
+                                    <td>{{ $debtor->id }}</td>
+                                @endif
+                                <td><a href="{{ route('showSingleDebtorContactLenses',['id'=>$debtor->id]) }}" class="text-decoration-none text-danger">{{ $debtor->name }}</a></td>
                                 <td>{{ $debtor->client_phone }}</td>
                                 <td >{{ $debtor->debit }}</td>
-                                <td style="background-color: rgb(204, 39, 58); color: #fff;">{{ $debtor->debit - $debtor->total_paid }}</td>
+                                @if($debtor->debit - \App\Models\PaymentContactLense::where('debtors_contact_lenses_id', $debtor->id)->sum('payment') > 1)
+                                    <td style="background-color: rgb(252, 194, 189);">{{ $debtor->debit - \App\Models\PaymentContactLense::where('debtors_contact_lenses_id', $debtor->id)->sum('payment') }}</td>
+                                @else
+                                    <td>{{ $debtor->debit - \App\Models\PaymentContactLense::where('debtors_contact_lenses_id', $debtor->id)->sum('payment') }}</td>
+                                @endif
                                 <td>{{ $debtor->created_at->format('d.m.Y.') }}</td>
                             </tr>
                         @endforeach

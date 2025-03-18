@@ -29,17 +29,17 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($debtors as $debtor)
+                    @foreach($payments as $payment)
                         <tr>
-                            <td>{{ $debtor->debit }}</td>
-                            <td>{{ $debtor->created_at->format('d.m.Y.') }}</td>
+                            <td>{{ $payment->payment }}</td>
+                            <td>{{ $payment->created_at->format('d.m.Y.') }}</td>
                         </tr>
                     @endforeach
                     </tbody>
                 </table>
             </div>
             <div class="col">
-                <form action="{{ route('home.savePaymentForm',['id'=>$debtor->id]) }}" method="POST" class="m-3">
+                <form action="{{ route('savePaymentContactLensesForm',['id'=>$debtor->id]) }}" method="POST" class="m-3">
                     @csrf
                     <label for="payment">Uplaćeno:</label>
                     <input type="number" name="payment" class="form-control" id="payment" min="0" required><br>
