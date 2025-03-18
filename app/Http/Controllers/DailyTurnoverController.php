@@ -32,7 +32,7 @@ class DailyTurnoverController extends Controller
             'total' => 'required'
         ]);
 
-        $search_data = Daily_turnover::where('created_at', $request->search_date)->get();
+        $search_data = Daily_turnover::where('created_at', $request->search_date)->orderBy('id', 'ASC')->get();
         $search_date = $request->search_date;
         $daily_turnover = new Daily_turnover();
         $daily_turnover->article = $request->article;
@@ -57,6 +57,8 @@ class DailyTurnoverController extends Controller
         $update->update();
 
         $sum = DB::table('daily_turnovers')->where('created_at', $request->search_date)->select('total')->sum('total');
+        //session()->flash('from_method', 'saveDailyTurnover');
+        session()->put('from_method', 'saveDailyTurnover'); //koristimo za uslov u requestedDay.blade
 
         return redirect()->route('requestedDay', ['date' => $search_date, 'client_id'=>$request->client_id]);
 
@@ -88,9 +90,11 @@ class DailyTurnoverController extends Controller
     public function requestedDay(Request $request)
     {
         $search_date = $request->date;
-        $search_data = Daily_turnover::where('created_at', $search_date)->get();
+        $search_data = Daily_turnover::where('created_at', $search_date)->orderBy('id', 'ASC')->get();
         $sum = DB::table('daily_turnovers')->where('created_at', $search_date)
             ->select('total')->sum('total'); // dobijamo ukupan promet na trazeni dan
+       // session()->flash('from_method', 'requestedDay');
+        session()->put('from_method', 'requestedDay'); //koristimo za uslov u requestedDay.blade
         if(isset($request->client_id))
         {
             $client_id = $request->client_id; // naknadno dodato zbog pracenja kupca po kupljenoj robi 31.01.2025.
@@ -99,6 +103,17 @@ class DailyTurnoverController extends Controller
         }else {
             return view('requestedDay', compact('search_data', 'search_date', 'sum'));
         }
+    }
+
+    public function descendingArticle($search_date)
+    {
+        $search_data = Daily_turnover::where('created_at', $search_date)->orderBy('id', 'DESC')->get();
+        $sum = DB::table('daily_turnovers')->where('created_at', $search_date)
+            ->select('total')->sum('total'); // dobijamo ukupan promet na trazeni dan
+        // session()->flash('search_date', $search_date); // flash() - posle dva klika nestaju podaci jer su samo prosleđeni u view() ali nisu sačuvani u sesiji
+        session()->put('from_method', 'descendingArticle'); //koristimo za uslov u requestedDay - umesto flash() koristimo put() tako da podaci ostanu u sesiji dok se ručno ne obrišu
+
+        return view('requestedDay', compact('search_data', 'search_date', 'sum'));
     }
 
     public function viewMonthlyTurnover($id)

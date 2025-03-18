@@ -38,8 +38,8 @@
                     <input type="text" name="article" id="article"
                            placeholder="Unos je obavezan - uneti najmanje tri karaktera (po nazivu ili opisu) za proveru lagera"
                            class="form-control" required>
-                    <div class="row mt-3">
-                        <div class="text-center"><h5>Vrsta artikla (obavezan unos):</h5></div>
+                    <div class="row mt-3 border p-2" style="background: #bebebf;">
+                        <div class="text-center"><h5>Vrsta artikla (Unos je obavezan):</h5></div>
                         <div class="col-3 mt-4">
                             <input type="radio" id="cl" name="item_type" value="KS" style="transform: scale(2)"
                                    required>
@@ -62,11 +62,20 @@
                         </div>
                     </div>
                     <br>
-                    <label for="describe" class="mt-1">Opis artikla</label>
-                    <input type="text" name="describe" id="describe" placeholder="Na primer: naziv rama..."
-                           class="form-control mb-3">
-                    <div class="row mb-3">
-                        <div class="text-center pb-3"><h5>Materijal:</h5></div>
+                    <div class="row">
+                        <div class="col-6">
+                            <label for="describe" class="mt-1">Opis artikla</label>
+                            <input type="text" name="describe" id="describe" placeholder="Unos nije obavezan"
+                                   class="form-control mb-3">
+                        </div>
+                        <div class="col-6">
+                            <label for="barcode" class="mt-1">Uneti Bar kod</label>
+                            <input type="text" name="barcode" id="barcode" placeholder="Unos nije obavezan"
+                                   class="form-control mb-3">
+                        </div>
+                    </div>
+                    <div class="row mb-3 border p-2" style="background: #bebebf;">
+                        <div class="text-center pb-3"><h5>Materijal (Unos nije obavezan):</h5></div>
                         <div class="col-1"></div>
                         <div class="col">
                             <input type="radio" id="metal" name="material" value="Metal" style="transform: scale(2)">
@@ -88,9 +97,8 @@
                               <label for="silicon">Silikon</label>
                         </div>
                     </div>
-                    <hr>
-                    <div class="row mb-3">
-                        <div class="text-center pb-3"><h5>Tip ugradnje:</h5></div>
+                    <div class="row mb-3 border p-2" style="background: #bebebf;">
+                        <div class="text-center pb-3"><h5>Tip ugradnje (Unos nije obavezan):</h5></div>
                         <div class="col-2"></div>
                         <div class="col">
                             <input type="radio" id="full-frame" name="installation_type" value="Pun ram"
@@ -111,16 +119,17 @@
                     <div class="row">
                         <div class="col">
                             <label for="purchase_price">Nabavna cena</label>
-                            <input type="text" name="purchase_price" id="purchase_price" class="form-control">
+                            <input type="number" name="purchase_price" id="purchase_price" placeholder="Unos nije obavezan" min="0"
+                                   class="form-control">
                         </div>
                         <div class="col">
                             <label for="selling_price">Prodajna cena</label>
-                            <input type="text" name="selling_price" id="selling_price" placeholder="Unos je obavezan"
+                            <input type="number" name="selling_price" id="selling_price" placeholder="Unos je obavezan" min="0"
                                    class="form-control" required>
                         </div>
                         <div class="col">
                             <label for="quantity">Količina</label>
-                            <input type="number" name="quantity" id="quantity" placeholder="Unos je obavezan" min="1"
+                            <input type="number" name="quantity" id="quantity" placeholder="Unos je obavezan" min="0"
                                    class="form-control" required>
                         </div>
                     </div>
@@ -141,7 +150,7 @@
         function displayData(data) {
             let noResult = document.getElementById('noResult');
             if (data.length === 0){
-                noResult.innerHTML = '<h2>Nema podataka, pokušajte ponovo!</h2>';
+                noResult.innerHTML = '<h2 class="btn btn-warning text-uppercase" style="width: 100%;">Nema podataka, pokušajte ponovo!</h2>';
             }else {
                 noResult.innerHTML = '';
             }

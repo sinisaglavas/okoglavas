@@ -14,7 +14,9 @@ class AddRightEyeAddToContactLensesExams extends Migration
     public function up()
     {
         Schema::table('contact_lenses_exams', function (Blueprint $table) {
-            $table->string('right_eye_add')->after('right_eye_axis')->nullable();
+            if (!Schema::hasColumn('contact_lenses_exams', 'right_eye_add')) {
+                $table->string('right_eye_add')->after('right_eye_axis')->nullable();
+            }
         });
     }
 
@@ -26,7 +28,9 @@ class AddRightEyeAddToContactLensesExams extends Migration
     public function down()
     {
         Schema::table('contact_lenses_exams', function (Blueprint $table) {
-            $table->dropColumn('right_eye_add');
+            if (!Schema::hasColumn('contact_lenses_exams', 'right_eye_add')) {
+                $table->dropColumn('right_eye_add');
+            }
         });
     }
 }

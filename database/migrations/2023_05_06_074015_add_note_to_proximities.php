@@ -14,7 +14,9 @@ class AddNoteToProximities extends Migration
     public function up()
     {
         Schema::table('proximities', function (Blueprint $table) {
-            $table->text('note')->after('left_eye_pd')->nullable();
+            if (!Schema::hasColumn('proximities', 'note')) {
+                $table->text('note')->after('left_eye_pd')->nullable();
+            }
         });
     }
 
@@ -26,7 +28,9 @@ class AddNoteToProximities extends Migration
     public function down()
     {
         Schema::table('proximities', function (Blueprint $table) {
-            $table->dropColumn('note');
+            if (!Schema::hasColumn('proximities', 'note')) {
+                $table->dropColumn('note');
+            }
         });
     }
 }

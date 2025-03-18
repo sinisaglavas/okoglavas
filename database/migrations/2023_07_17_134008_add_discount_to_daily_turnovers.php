@@ -14,7 +14,9 @@ class AddDiscountToDailyTurnovers extends Migration
     public function up()
     {
         Schema::table('daily_turnovers', function (Blueprint $table) {
-            $table->integer('discount')->after('price')->default(0);
+            if (!Schema::hasColumn('daily_turnovers', 'discount')) {
+                $table->integer('discount')->after('price')->default(0);
+            }
         });
     }
 
@@ -26,7 +28,9 @@ class AddDiscountToDailyTurnovers extends Migration
     public function down()
     {
         Schema::table('daily_turnovers', function (Blueprint $table) {
-            $table->dropColumn('discount');
+            if (!Schema::hasColumn('daily_turnovers', 'discount')) {
+                $table->dropColumn('discount');
+            }
         });
     }
 }

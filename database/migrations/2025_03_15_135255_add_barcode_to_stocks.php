@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddItemTypeToStocks extends Migration
+class AddBarcodeToStocks extends Migration
 {
     /**
      * Run the migrations.
@@ -14,9 +14,7 @@ class AddItemTypeToStocks extends Migration
     public function up()
     {
         Schema::table('stocks', function (Blueprint $table) {
-            if (!Schema::hasColumn('stocks', 'item_type')) { // Opcija osigurava da Laravel ne pokuša da doda kolonu ako ona već postoji
-                $table->string('item_type')->after('article')->nullable();
-            }
+            $table->integer('barcode')->after('describe')->default(null);
         });
     }
 
@@ -28,9 +26,7 @@ class AddItemTypeToStocks extends Migration
     public function down()
     {
         Schema::table('stocks', function (Blueprint $table) {
-            if (!Schema::hasColumn('stocks', 'item_type')) {
-                $table->dropColumn('item_type');
-            }
+            $table->dropColumn('barcode');
         });
     }
 }

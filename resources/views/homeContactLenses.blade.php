@@ -32,29 +32,34 @@
                         </form>
                     </div>
                 </div>
+
                 @if(isset($search_clients))
-                    <table class="table text-center">
+                    <h5 class="btn text-uppercase" style="background: #f5828b; color: #fff;">Rezultat pretrage:</h5>
+                    <table class="table table-hover table-bordered border-dark text-center">
                         <thead>
-                        <tr>
+                        <tr style="background: #f5828b; color: #fff;">
                             <th>Id</th>
                             <th>Ime</th>
                             <th>Datum rođenja</th>
                             <th>Adresa</th>
                             <th>Grad</th>
                             <th>Telefon</th>
+                            <th>Lična karta broj</th>
+                            <th>Kreirano</th>
                             <th></th>
-                        </tr>
                         </thead>
                         <tbody>
                         @foreach($search_clients as $search_client)
                             <tr>
                                 <td>{{ $search_client->id }}</td>
-                                <td title="Klik na istoriju pregleda"><a href="{{ route('home.singleContactLensesClient',['id'=>$search_client->id]) }}" class="text-decoration-none text-danger">{{ $search_client->name }}</a></td>
+                                <td title="Klik na istoriju pregleda"><a href="{{ route('home.singleContactLensesClient',['id'=>$search_client->id]) }}" class="text-decoration-none fw-bold">{{ $search_client->name }}</a></td>
                                 <td>{{ $search_client->date_of_birth }}</td>
                                 <td>{{ $search_client->address }}</td>
                                 <td>{{ $search_client->city }}</td>
                                 <td>{{ $search_client->phone }}</td>
-                                <td style="background-color: #f5c2c7"><a href="{{ route('editCL', ['id'=>$search_client->id]) }}" style="text-decoration: none; color: white; display: block">Promeni</a></td>
+                                <td>{{ $search_client->identity_card }}</a></td>
+                                <td>{{ $search_client->created_at->format('d.m.Y') }}</td>
+                                <td><button class="btn" style="background: #f5828b;"><a href="{{ route('editCL', ['id'=>$search_client->id]) }}" style="color: #fff; text-decoration: none">Promeni</a></button></td>
                             </tr>
                         @endforeach
                         </tbody>
@@ -63,7 +68,7 @@
                 <br>
                 <table class="table table-hover table-bordered text-center">
                     <thead>
-                    <tr class="table-danger">
+                    <tr>
                         <th>Id</th>
                         <th>Ime</th>
                         <th>Datum rođenja</th>
@@ -86,7 +91,7 @@
                             <td>{{ $client->phone }}</td>
                             <td>{{ $client->identity_card }}</a></td>
                             <td>{{ $client->created_at->format('d.m.Y') }}</td>
-                            <td style="background-color: #f5c2c7"><a href="{{ route('editCL', ['id'=>$client->id]) }}" style="text-decoration: none; color: black; display: block">Promeni</a></td>
+                            <td><button class="btn" style="background: #f5828b;"><a href="{{ route('editCL', ['id'=>$client->id]) }}" style="color: #fff; text-decoration: none">Promeni</a></button></td>
                         </tr>
                     @endforeach
                     </tbody>

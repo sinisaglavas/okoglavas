@@ -32,15 +32,11 @@
                 </div>
             @endif
             <div class="row">
-                <div class="col-6">
+                <div class="col-2">
                     <a href="{{ route('allStock') }}" class="btn btn-secondary form-control m-2">Svi artikli - LAGER</a>
-                </div>
-                <div class="col-6">
                     <a href="{{ route('turnoverByDays') }}" class="btn btn-secondary form-control m-2">Promet po danima</a>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-12">
+                <div class="col-10">
                     <form action="{{ route('dailyTurnover') }}" method="post" id="form">
                         @csrf
                         <table class="table table-striped-columns table-hover border-warning text-center">
@@ -62,7 +58,7 @@
                                 <td>
                                     <input type="hidden" name="article_id" class="form-control" id="article_id" readonly>
                                     <input type="text" name="article" class="form-control" id="search"
-                                           placeholder="Ukucaj najmanje tri karaktera" required>
+                                           placeholder="Ukucaj najmanje tri karaktera" autofocus required>
                                     <ul id="list" class="border m-0 p-0" style="display: none"></ul>
                                 </td>
                                 <td><input type="number" name="pcs" min="1" max="10" class="form-control" id="pcs"
@@ -91,9 +87,7 @@
                                     <input type="text" name="installation_type" class="form-control"
                                            id="installation_type" readonly required></td>
                                 <td>
-                                    <button type="submit" class="btn btn-secondary form-control" id="save-data">
-                                        Snimi
-                                    </button>
+                                    <button type="submit" class="btn btn-secondary form-control" id="save-data">Snimi</button>
                                 </td>
                             </tr>
                             </tbody>
@@ -106,8 +100,7 @@
                      @if(request()->has('client_id')) {{--proverava da li u URL-u postoji GET parametar client_id, bez obzira na njegovu vrednost--}}
                      <h5><span class="fw-bold text-danger text-uppercase">Upozorenje!</span><br>
                          Na ovoj stranici ako evidentirate bilo koju robu, posle skidanja sa lagera će biti dodatno povezana sa odabranim kupcem.
-                         Za evidentiranje robe bez kupca idite na <span class="fw-bold">'Početna'</span> pa na <span class="fw-bold">'Lager i evidencija prometa'</span> pa
-                         <span class="fw-bold">'Promet po danima'!</span>
+                         Za evidentiranje robe bez odabranog kupca idite na dugme iznad ↑ <span class="fw-bold">'Promet po danima'!</span>
                      </h5>
                      @endif
                      @if(session('client'))
@@ -119,16 +112,22 @@
             </div>
 
             <div class="row mt-3">
-                <div class="col-12">
+                <div class="col text-start">
                     <h4 style="display: inline-block">{{ Carbon\Carbon::parse($search_date)->format('l j. F Y.') }}</h4>
+                </div>
+                <div class="col text-center">
+                    <h4><a href="{{ route('displayTurnover', ['turnover_by_day'=>$search_date]) }}" class="btn btn-secondary">Uzlazno ↑</a>&nbsp;<a href="{{ route('descendingArticle', ['search_date'=>$search_date]) }}" class="btn btn-secondary">Silazno ↓</a></h4>
+                </div>
+                <div class="col text-end">
                     <h4 style="display:inline-block; float: right">Ukupno promet: {{ $sum }} dinara</h4>
                 </div>
             </div>
             <div class="row mt-2">
                 <div class="col-12 text-center">
-                    <table class="table table-striped-columns table-hover border-warning text-center">
+                    <table class="table table-striped-columns table-hover border border-warning text-center">
                         <thead>
                         <tr class="table table-secondary border-dark">
+                            <th>Id</th>
                             <th>Artikal</th>
                             <th>Komada</th>
                             <th>Cena</th>
@@ -141,18 +140,17 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($search_data as $data)
+                        @if(session('from_method') == 'requestedDay' || session('from_method') == 'saveDailyTurnover'
+                                                                     || session('from_method') == 'displayTurnover')
+                            @foreach($search_data as $data)
                             <tr>
                                     @if(isset($data->client->id))
-                                <td>
-                                    <a href="{{ route('clientsShow', ['id'=>$data->client->id]) }}">{{ $data->article }}</a>
-                                </td>
+                                <td>{{ $data->id }}</td>
+                                <td><a href="{{ route('clientsShow', ['id'=>$data->client->id]) }}">{{ $data->article }}</a></td>
                                     @endif
-
                                     @if(empty($data->client->id)) {{-- proveravam da li je null, false, prazan string, 0-kao nula, itd.. --}}
-                                <td>
-                                    {{ $data->article }}
-                                </td>
+                                <td>{{ $data->id }}</td>
+                                <td>{{ $data->article }}</td>
                                     @endif
                                 <td>{{ $data->pcs }}</td>
                                 <td>{{ $data->price }}</td>
@@ -161,21 +159,57 @@
                                 <td>{{ $data->describe }}</td>
                                 <td>{{ $data->material }}</td>
                                 <td>{{ $data->installation_type }}</td>
-                                        @if(request()->has('client_id'))
-                                            <td><a href="{{ route('updateBeforeDelete', ['id'=>$data->id, 'stock_id'=>$data->stock_id, 'search_date'=>$search_date, 'sum'=>$sum,
-                                                            'client_id' => request('client_id')]) }}" {{--// Dodavanje client_id iz URL-a --}}
-                                                            class="btn btn-sm btn-warning" onclick="return confirm('Da li ste sigurni?')">Obrisi
-                                                </a>
-                                            </td>
-                                        @endif
-                                        @if(!request()->has('client_id'))
-                                            <td><a href="{{ route('updateBeforeDelete', ['id'=>$data->id, 'stock_id'=>$data->stock_id, 'search_date'=>$search_date, 'sum'=>$sum]) }}"
-                                                   class="btn btn-sm btn-warning" onclick="return confirm('Da li ste sigurni?')">Obrisi
-                                                </a>
-                                            </td>
-                                        @endif
+                            @if(request()->has('client_id'))
+                                <td><a href="{{ route('updateBeforeDelete', ['id'=>$data->id, 'stock_id'=>$data->stock_id, 'search_date'=>$search_date, 'sum'=>$sum,
+                                              'client_id' => request('client_id')]) }}" {{--// Dodavanje client_id iz URL-a --}}
+                                              class="btn btn-sm btn-warning" onclick="return confirm('Da li ste sigurni?')">Obrisi
+                                    </a>
+                                </td>
+                            @endif
+                            @if(!request()->has('client_id'))
+                                 <td><a href="{{ route('updateBeforeDelete', ['id'=>$data->id, 'stock_id'=>$data->stock_id, 'search_date'=>$search_date, 'sum'=>$sum]) }}"
+                                                 class="btn btn-sm btn-warning" onclick="return confirm('Da li ste sigurni?')">Obrisi
+                                     </a>
+                                 </td>
+                            @endif
                             </tr>
-                        @endforeach
+                            @endforeach {{-- iznad ↑ 'id - asc' --}}
+                        @endif {{-- session('from_method') == 'requestedDay' --}}
+
+                        @if(session('from_method') == 'descendingArticle')
+                            @foreach($search_data as $data)
+                                <tr>
+                                    @if(isset($data->client->id))
+                                        <td>{{ $data->id }}</td>
+                                        <td><a href="{{ route('clientsShow', ['id'=>$data->client->id]) }}">{{ $data->article }}</a></td>
+                                    @endif
+                                    @if(empty($data->client->id)) {{-- proveravam da li je null, false, prazan string, 0-kao nula, itd.. --}}
+                                    <td>{{ $data->id }}</td>
+                                    <td>{{ $data->article }}</td>
+                                    @endif
+                                    <td>{{ $data->pcs }}</td>
+                                    <td>{{ $data->price }}</td>
+                                    <td>{{ $data->discount }}</td>
+                                    <td>{{ $data->total }}</td>
+                                    <td>{{ $data->describe }}</td>
+                                    <td>{{ $data->material }}</td>
+                                    <td>{{ $data->installation_type }}</td>
+                                    @if(request()->has('client_id'))
+                                        <td><a href="{{ route('updateBeforeDelete', ['id'=>$data->id, 'stock_id'=>$data->stock_id, 'search_date'=>$search_date, 'sum'=>$sum,
+                                              'client_id' => request('client_id')]) }}" {{--// Dodavanje client_id iz URL-a --}}
+                                            class="btn btn-sm btn-warning" onclick="return confirm('Da li ste sigurni?')">Obrisi
+                                            </a>
+                                        </td>
+                                    @endif
+                                    @if(!request()->has('client_id'))
+                                        <td><a href="{{ route('updateBeforeDelete', ['id'=>$data->id, 'stock_id'=>$data->stock_id, 'search_date'=>$search_date, 'sum'=>$sum]) }}"
+                                               class="btn btn-sm btn-warning" onclick="return confirm('Da li ste sigurni?')">Obrisi
+                                            </a>
+                                        </td>
+                                    @endif
+                                </tr>
+                            @endforeach {{-- iznad ↑ 'id - desc'  --}}
+                        @endif {{-- session('from_method') == 'descendingArticle' --}}
                         </tbody>
                     </table>
                 </div>
@@ -183,9 +217,7 @@
         </div>
     @endif
 
-
     <script>
-
         function writeDataInList(array) {
             document.getElementById('list').innerHTML = "";
             if (array.length === 0) {

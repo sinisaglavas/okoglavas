@@ -174,7 +174,6 @@
     </div>
 
     <script>
-
         document.addEventListener('DOMContentLoaded', function () {
             let clientData = document.getElementById('clientData');
             let clientId = clientData.getAttribute('data-id');

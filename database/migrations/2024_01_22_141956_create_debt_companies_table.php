@@ -13,12 +13,14 @@ class CreateDebtCompaniesTable extends Migration
      */
     public function up()
     {
-        Schema::create('debt_companies', function (Blueprint $table) {
-            $table->id();
-            $table->string('name_company'); // naziv kompanije
-            $table->text('other_data')->nullable(); // ostali podaci
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('debt_companies')) {
+            Schema::create('debt_companies', function (Blueprint $table) {
+                $table->id();
+                $table->string('name_company'); // naziv kompanije
+                $table->text('other_data')->nullable(); // ostali podaci
+                $table->timestamps();
+            });
+        }
     }
 
     /**
@@ -28,6 +30,8 @@ class CreateDebtCompaniesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('debt_companies');
+        if (!Schema::hasTable('debt_companies')) {
+            Schema::dropIfExists('debt_companies');
+        }
     }
 }

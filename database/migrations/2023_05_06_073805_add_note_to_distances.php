@@ -14,7 +14,9 @@ class AddNoteToDistances extends Migration
     public function up()
     {
         Schema::table('distances', function (Blueprint $table) {
-            $table->text('note')->after('left_eye_pd')->nullable();
+            if (!Schema::hasColumn('distances', 'note')) {
+                $table->text('note')->after('left_eye_pd')->nullable();
+            }
         });
     }
 
@@ -26,7 +28,9 @@ class AddNoteToDistances extends Migration
     public function down()
     {
         Schema::table('distances', function (Blueprint $table) {
-            $table->dropColumn('note');
+            if (!Schema::hasColumn('distances', 'note')) {
+                $table->dropColumn('note');
+            }
         });
     }
 }

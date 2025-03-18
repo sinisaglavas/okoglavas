@@ -26,18 +26,18 @@ class Turnover_by_dayController extends Controller
         return $total_per_day;
     }
 
-    public function displayTurnover($search_date) {
-        $search_data = Daily_turnover::where('created_at', $search_date)->get();
+    public function displayTurnover($search_date)
+    {
+        $search_data = Daily_turnover::where('created_at', $search_date)->orderBy('id', 'ASC')->get();
         $sum = DB::table('daily_turnovers')->where('created_at', $search_date)
             ->select('total')->sum('total');
+
+        session()->put('from_method', 'displayTurnover');
+        //koristimo za uslov u requestedDay - umesto flash() koristimo put() tako da podaci ostanu u sesiji dok se ručno ne obrišu
 
         return view('requestedDay', compact('search_data', 'search_date', 'sum'));
 
     }
-
-
-
-
 
 }
 

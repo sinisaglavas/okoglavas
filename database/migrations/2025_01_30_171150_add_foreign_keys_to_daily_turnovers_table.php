@@ -14,8 +14,10 @@ class AddForeignKeysToDailyTurnoversTable extends Migration
     public function up()
     {
         Schema::table('daily_turnovers', function (Blueprint $table) {
-            $table->unsignedBigInteger('client_id')->after('total')->nullable();
-            $table->foreign('client_id')->references('id')->on('clients')->cascadeOnDelete();// Veza sa klijentom
+            if (!Schema::hasColumn('daily_turnovers', 'client_id')) {
+                $table->unsignedBigInteger('client_id')->after('total')->nullable();
+                $table->foreign('client_id')->references('id')->on('clients')->cascadeOnDelete();// Veza sa klijentom
+            }
         });
     }
 
@@ -27,8 +29,10 @@ class AddForeignKeysToDailyTurnoversTable extends Migration
     public function down()
     {
         Schema::table('daily_turnovers', function (Blueprint $table) {
-            $table->dropForeign(['client_id']);  // Brišemo strani ključ client_id
-            $table->dropColumn('client_id');  // Brišemo client_id kolonu
+            if (!Schema::hasColumn('daily_turnovers', 'client_id')) {
+                $table->dropForeign(['client_id']);  // Brišemo strani ključ client_id
+                $table->dropColumn('client_id');  // Brišemo client_id kolonu
+            }
         });
     }
 }

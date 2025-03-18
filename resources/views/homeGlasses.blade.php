@@ -30,10 +30,10 @@
                 </div>
             </div>
                 @if(isset($search_clients))
-                <h5 class="btn btn-secondary">Rezultat pretrage:</h5>
-                    <table class="table table-hover table-bordered text-center">
+                <h5 class="btn btn-dark">Rezultat pretrage:</h5>
+                    <table class="table table-info table-hover table-bordered border-dark text-center">
                         <thead>
-                        <tr class="table-secondary">
+                        <tr class="table-dark">
                             <th>Id</th>
                             <th>Ime</th>
                             <th></th>

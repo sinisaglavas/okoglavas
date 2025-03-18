@@ -13,16 +13,18 @@ class CreateContactLensesClientsTable extends Migration
      */
     public function up()
     {
-    Schema::create('contact_lenses_clients', function (Blueprint $table) {
-        $table->id();
-        $table->string('name');
-        $table->string('date_of_birth');
-        $table->string('address');
-        $table->string('city');
-        $table->string('phone');
-        $table->integer('identity_card')->nullable();
-        $table->timestamps();
-        });
+        if (!Schema::hasTable('contact_lenses_clients')) {
+            Schema::create('contact_lenses_clients', function (Blueprint $table) {
+                $table->id();
+                $table->string('name');
+                $table->string('date_of_birth');
+                $table->string('address');
+                $table->string('city');
+                $table->string('phone');
+                $table->integer('identity_card')->nullable();
+                $table->timestamps();
+            });
+        }
     }
 
 /**
@@ -32,6 +34,8 @@ class CreateContactLensesClientsTable extends Migration
  */
     public function down()
     {
-    Schema::dropIfExists('contact_lenses_clients');
+        if (!Schema::hasTable('contact_lenses_clients')) {
+            Schema::dropIfExists('contact_lenses_clients');
+            }
         }
     }
