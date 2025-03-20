@@ -33,6 +33,9 @@
                     <label for="describe">Opis artikla</label>
                     <input type="text" name="describe" id="describe" class="form-control"
                            value="{{ $stock->describe }}">
+                    <label for="barcode">Bar kod</label>
+                    <input type="number" min="1000000000" max="9999999999999" name="barcode" id="barcode"
+                           class="form-control" value="{{ $stock->barcode }}">
                     <label for="material">Materijal</label>
                     <select name="material" id="material" class="form-control">
                         <option value="{{ $stock->material }}" hidden>{{ $stock->material }}</option>

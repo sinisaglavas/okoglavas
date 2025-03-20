@@ -34,16 +34,31 @@
                     <div class="col-8">
                         <h2 class="text-center">L A G E R</h2>
                     </div>
-                    <div class="col-4">
-                        <form action="{{route('searchStock')}}" method="POST">
-                            @csrf
-                            <div class="input-group">
-                                <input type="text" name="article" class="form-control"
-                                       placeholder="Pronađi po artiklu ili po opisu ili po prodajnoj ceni"
-                                       aria-label="Search client" required>
-                                <input type="submit" class="btn btn-outline-secondary" value="Traži">
+                    <div class="col">
+                        @if(session('warning'))
+                            <div id="flash-message" class="alert alert-warning text-dark fw-bold p-2">
+                                {{ session('warning') }}
                             </div>
-                        </form>
+                            <form style="display: none;" id="searchForm" action="{{route('searchStock')}}" method="POST">
+                                @csrf
+                                <div class="input-group">
+                                    <input type="text" name="article" class="form-control"
+                                           placeholder="Pronađi po artiklu ili po opisu ili po prodajnoj ceni"
+                                           aria-label="Search client" required>
+                                    <input type="submit" class="btn btn-outline-secondary" value="Traži">
+                                </div>
+                            </form>
+                        @else
+                            <form action="{{route('searchStock')}}" method="POST">
+                                @csrf
+                                <div class="input-group">
+                                    <input type="text" name="article" class="form-control"
+                                           placeholder="Pronađi po artiklu ili po opisu ili po prodajnoj ceni"
+                                           aria-label="Search client" required>
+                                    <input type="submit" class="btn btn-outline-secondary" value="Traži">
+                                </div>
+                            </form>
+                        @endif
                     </div>
                 </div>
                 @if(isset($search_stocks))
@@ -54,6 +69,7 @@
                             <th>Artikal</th>
                             <th>Tip</th>
                             <th>Opis artikla</th>
+                            <th>Bar kod</th>
                             <th>Materijal</th>
                             <th>Nabavna cena</th>
                             <th>Prodajna cena</th>
@@ -70,6 +86,7 @@
                                 <td>{{ $search_stock->article }}</a></td>
                                 <td>{{ $search_stock->item_type }}</td>
                                 <td>{{ $search_stock->describe }}</td>
+                                <td>{{ $search_stock->barcode }}</td>
                                 <td>{{ $search_stock->material }}</td>
                                 <td>{{ $search_stock->purchase_price }}</td>
                                 <td>{{ $search_stock->selling_price }}</td>
@@ -92,6 +109,7 @@
                         <th>Artikal</th>
                         <th>Tip</th>
                         <th>Opis artikla</th>
+                        <th>Bar kod</th>
                         <th>Materijal</th>
                         <th>Tip ugradnje</th>
                         <th>Nabavna cena</th>
@@ -109,6 +127,7 @@
                             <td>{{ $all_stock->article }}</a></td>
                             <td>{{ $all_stock->item_type }}</td>
                             <td>{{ $all_stock->describe }}</td>
+                            <td>{{ $all_stock->barcode }}</td>
                             <td>{{ $all_stock->material }}</td>
                             <td>{{ $all_stock->installation_type }}</td>
                             <td>{{ $all_stock->purchase_price }}</td>
@@ -126,5 +145,22 @@
             </div>
         </div>
     </div>
+
+    <script>
+        setTimeout(function() {
+            let flashMessage = document.getElementById('flash-message');
+            if (flashMessage) {
+                flashMessage.style.transition = "opacity 0.5s ease-out";
+                flashMessage.style.opacity = "0";
+                setTimeout(() => {
+                    flashMessage.remove(); // Nakon fade-out efekta, brišemo element
+                    let inputSearch = document.getElementById('searchForm'); // Dohvatimo formu
+                    inputSearch.style.display = 'block'; // Prikazujemo formu
+                }, 500); // Ovdje koristiš 500ms, što je vreme trajanja fade-out efekta
+            }
+        }, 2000); // 2000ms = 2 sekunde, kad će poruka nestati
+    </script>
+
+
 @endsection
 

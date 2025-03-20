@@ -25,6 +25,7 @@ class StockController extends Controller
         $new_stock->article = $request->article;
         $new_stock->item_type = $request->item_type;
         $new_stock->describe = $request->describe;
+        $new_stock->barcode = $request->barcode;
         $new_stock->material = $request->material;
         $new_stock->installation_type = $request->installation_type;
         $new_stock->purchase_price = $request->purchase_price;
@@ -47,8 +48,9 @@ class StockController extends Controller
 
         $article_exists = Stock::where('article','like','%'.$request.'%')->exists();
         $selling_price_exists = Stock::where('selling_price','like','%'.$request.'%')->exists();
-        $material_exists = Stock::where('material','like','%'.$request.'%')->exists();
+        //$material_exists = Stock::where('material','like','%'.$request.'%')->exists();
         $describe_exists = Stock::where('describe','like','%'.$request.'%')->exists();
+        $barcode_exists = Stock::where('barcode', 'like', '%'.$request.'%')->exists();
 
         $cl_sum = Stock::where('item_type', 'KS')->sum('quantity');
         $glasses_sum = Stock::where('item_type', 'Ram')->sum('quantity');
@@ -68,11 +70,19 @@ class StockController extends Controller
         {
             $search_stocks = Stock::where('describe','like','%'.$request.'%')->get();
             return view('stock', compact('search_stocks', 'all_stocks', 'total', 'cl_sum', 'glasses_sum', 'sunglasses_sum', 'dl_sum'));
+        }elseif ($barcode_exists && $request != "")
+        {
+            $search_stocks = Stock::where('barcode', 'like', '%'.$request.'%')->get();
+            return view('stock', compact('search_stocks', 'all_stocks', 'total', 'cl_sum', 'glasses_sum', 'sunglasses_sum', 'dl_sum'));
+
         }elseif ($request == "")
         {
+            session()->flash('warning', 'Traženi pojam nije pronađen!');
             return view('stock', compact('all_stocks', 'total', 'cl_sum', 'glasses_sum', 'sunglasses_sum', 'dl_sum'));
         }
-        elseif ($article_exists == false || $selling_price_exists == false || $material_exists == false){
+        elseif ($article_exists == false || $selling_price_exists == false || $describe_exists || $barcode_exists == false)
+        {
+            session()->flash('warning', 'Traženi pojam nije pronađen!');
             return view('stock', compact('all_stocks', 'total', 'cl_sum', 'glasses_sum', 'sunglasses_sum', 'dl_sum'));
         }
 
@@ -98,6 +108,7 @@ class StockController extends Controller
         $stock->article = $request->article;
         $stock->item_type = $request->item_type;
         $stock->describe = $request->describe;
+        $stock->barcode = $request->barcode;
         $stock->material = $request->material;
         $stock->installation_type = $request->installation_type;
         $stock->purchase_price = $request->purchase_price;

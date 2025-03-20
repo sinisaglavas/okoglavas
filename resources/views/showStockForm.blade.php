@@ -70,7 +70,7 @@
                         </div>
                         <div class="col-6">
                             <label for="barcode" class="mt-1">Uneti Bar kod</label>
-                            <input type="text" name="barcode" id="barcode" placeholder="Unos nije obavezan"
+                            <input type="number" min="1000000000" max="9999999999999" name="barcode" id="barcode" placeholder="Unos nije obavezan"
                                    class="form-control mb-3">
                         </div>
                     </div>

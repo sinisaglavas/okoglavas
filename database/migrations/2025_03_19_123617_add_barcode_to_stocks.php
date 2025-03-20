@@ -14,7 +14,10 @@ class AddBarcodeToStocks extends Migration
     public function up()
     {
         Schema::table('stocks', function (Blueprint $table) {
-            $table->integer('barcode')->after('describe')->default(null);
+            $table->unsignedBigInteger('barcode')->after('describe')->nullable();
+            //unsigned ako bar-kod ne može biti negativan
+            //bolje je koristiti bigInteger umesto integer
+            //jer bar-kodovi često imaju više cifara nego što standardni integer može da podrži
         });
     }
 
