@@ -59,19 +59,24 @@ class StockController extends Controller
 
         if ($article_exists && $request != "")
         {
+            session()->flash('normal', '');
+
             $search_stocks = Stock::where('article','like','%'.$request.'%')->get();//carobna linija koda
             return view('stock', compact('search_stocks', 'all_stocks', 'total', 'cl_sum', 'glasses_sum', 'sunglasses_sum', 'dl_sum'));
         }
         elseif ($selling_price_exists && $request != "")
         {
+            session()->flash('normal', '');
             $search_stocks = Stock::where('selling_price','like','%'.$request.'%')->get();//carobna linija koda
             return view('stock', compact('search_stocks', 'all_stocks', 'total', 'cl_sum', 'glasses_sum', 'sunglasses_sum', 'dl_sum'));
         }elseif ($describe_exists && $request != "")
         {
+            session()->flash('normal', '');
             $search_stocks = Stock::where('describe','like','%'.$request.'%')->get();
             return view('stock', compact('search_stocks', 'all_stocks', 'total', 'cl_sum', 'glasses_sum', 'sunglasses_sum', 'dl_sum'));
         }elseif ($barcode_exists && $request != "")
         {
+            session()->flash('normal', '');
             $search_stocks = Stock::where('barcode', 'like', '%'.$request.'%')->get();
             return view('stock', compact('search_stocks', 'all_stocks', 'total', 'cl_sum', 'glasses_sum', 'sunglasses_sum', 'dl_sum'));
 

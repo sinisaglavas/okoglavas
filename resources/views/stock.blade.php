@@ -48,6 +48,16 @@
                                     <input type="submit" class="btn btn-outline-secondary" value="Traži">
                                 </div>
                             </form>
+                        @elseif(session('normal'))
+                            <form action="{{route('searchStock')}}" method="POST">
+                                @csrf
+                                <div class="input-group">
+                                    <input type="text" name="article" class="form-control"
+                                           placeholder="Pronađi po artiklu ili po opisu ili po prodajnoj ceni"
+                                           aria-label="Search client" required>
+                                    <input type="submit" class="btn btn-outline-secondary" value="Traži">
+                                </div>
+                            </form>
                         @else
                             <form action="{{route('searchStock')}}" method="POST">
                                 @csrf
