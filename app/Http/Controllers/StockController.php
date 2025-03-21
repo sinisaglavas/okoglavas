@@ -45,12 +45,13 @@ class StockController extends Controller
         });
 
         $request = request()->article;
-
         $article_exists = Stock::where('article','like','%'.$request.'%')->exists();
         $selling_price_exists = Stock::where('selling_price','like','%'.$request.'%')->exists();
         //$material_exists = Stock::where('material','like','%'.$request.'%')->exists();
         $describe_exists = Stock::where('describe','like','%'.$request.'%')->exists();
-        $barcode_exists = Stock::where('barcode', 'like', '%'.$request.'%')->exists();
+
+        $barcode = request()->barcode;
+        $barcode_exists = Stock::where('barcode', 'like', '%'.$barcode.'%')->exists();
 
         $cl_sum = Stock::where('item_type', 'KS')->sum('quantity');
         $glasses_sum = Stock::where('item_type', 'Ram')->sum('quantity');
@@ -72,13 +73,13 @@ class StockController extends Controller
             $search_stocks = Stock::where('describe','like','%'.$request.'%')->get();
             return view('stock', compact('search_stocks', 'all_stocks', 'total', 'cl_sum', 'glasses_sum', 'sunglasses_sum', 'dl_sum'));
         }
-        elseif ($barcode_exists && $request != "")
+        elseif ($barcode_exists && $barcode != "")
         {
-            $search_stocks = Stock::where('barcode', 'like', '%'.$request.'%')->get();
+            $search_stocks = Stock::where('barcode', 'like', '%'.$barcode.'%')->get();
             return view('stock', compact('search_stocks', 'all_stocks', 'total', 'cl_sum', 'glasses_sum', 'sunglasses_sum', 'dl_sum'));
 
         }
-        elseif ($request == "")
+        elseif ($request == "" || $barcode == "")
         {
             session()->flash('warning', 'Traženi pojam nije pronađen!');
             return view('stock', compact('all_stocks', 'total', 'cl_sum', 'glasses_sum', 'sunglasses_sum', 'dl_sum'));

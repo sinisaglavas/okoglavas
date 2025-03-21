@@ -31,16 +31,43 @@
                     </div>
                 </div>
                 <div class="row mt-4">
-                    <div class="col-8">
+                    <div class="col">
+                        @if(session('warning'))
+                            <div class="alert alert-warning text-dark fw-bold p-2 flash-message">
+                                {{ session('warning') }}
+                            </div>
+                            @php session()->forget('warning'); @endphp <!-- Briše poruku iz sesije odmah nakon prikaza -->
+                            <form style="display: none;" class="searchForm" action="{{route('searchStock')}}" method="POST">
+                                @csrf
+                                <div class="input-group">
+                                    <input type="submit" class="btn btn-outline-secondary" value="Traži">
+                                    <input type="number" min="1000000000" max="9999999999999" name="barcode" class="form-control"
+                                           placeholder="Skeniraj ceo bar kod i pronađi"
+                                           aria-label="Search client" required>
+                                </div>
+                            </form>
+                        @else
+                            <form action="{{route('searchStock')}}" method="POST">
+                                @csrf
+                                <div class="input-group">
+                                    <input type="submit" class="btn btn-outline-secondary" value="Traži">
+                                    <input type="number" min="1000000000" max="9999999999999" name="barcode" class="form-control"
+                                           placeholder="Skeniraj ceo bar kod i pronađi"
+                                           aria-label="Search client" required>
+                                </div>
+                            </form>
+                        @endif
+                    </div>
+                    <div class="col-4">
                         <h2 class="text-center">L A G E R</h2>
                     </div>
                     <div class="col">
                         @if(session('warning'))
-                            <div id="flash-message" class="alert alert-warning text-dark fw-bold p-2">
+                            <div class="alert alert-warning text-dark fw-bold p-2 flash-message">
                                 {{ session('warning') }}
                             </div>
                             @php session()->forget('warning'); @endphp <!-- Briše poruku iz sesije odmah nakon prikaza -->
-                            <form style="display: none;" id="searchForm" action="{{route('searchStock')}}" method="POST">
+                            <form style="display: none;" class="searchForm" action="{{route('searchStock')}}" method="POST">
                                 @csrf
                                 <div class="input-group">
                                     <input type="text" name="article" class="form-control"
@@ -148,19 +175,39 @@
     </div>
 
     <script>
+        // setTimeout(function() {
+        //     let flashMessage = document.querySelectorAll('.flash-message');
+        //     if (flashMessage) {
+        //         flashMessage.style.transition = "opacity 0.5s ease-out";
+        //         flashMessage.style.opacity = "0";
+        //         setTimeout(() => {
+        //             flashMessage.remove(); // Nakon fade-out efekta, brišemo element
+        //             let inputSearch = document.querySelectorAll('.searchForm'); // Dohvatimo formu
+        //             inputSearch.style.display = 'block'; // Prikazujemo formu
+        //         }, 500); // Ovdje koristiš 500ms, što je vreme trajanja fade-out efekta
+        //     }
+        // }, 2000); // 2000ms = 2 sekunde, kad će poruka nestati
+
         setTimeout(function() {
-            let flashMessage = document.getElementById('flash-message');
-            if (flashMessage) {
+            let flashMessages = document.querySelectorAll('.flash-message');
+            flashMessages.forEach(flashMessage => {
                 flashMessage.style.transition = "opacity 0.5s ease-out";
                 flashMessage.style.opacity = "0";
                 setTimeout(() => {
                     flashMessage.remove(); // Nakon fade-out efekta, brišemo element
-                    let inputSearch = document.getElementById('searchForm'); // Dohvatimo formu
-                    inputSearch.style.display = 'block'; // Prikazujemo formu
-                }, 500); // Ovdje koristiš 500ms, što je vreme trajanja fade-out efekta
-            }
-        }, 2000); // 2000ms = 2 sekunde, kad će poruka nestati
+
+                    let inputSearchForms = document.querySelectorAll('.searchForm'); // Dohvatimo sve forme
+                    inputSearchForms.forEach(form => {
+                        form.style.display = 'block'; // Prikazujemo svaku formu sa ovom klasom
+                    });
+                }, 500); // 500ms = trajanje animacije
+            });
+        }, 2000); // 2000ms = 2 sekunde, kada će poruka početi da nestaje
+
+
     </script>
+
+
 
 
 @endsection
