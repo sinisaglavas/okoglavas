@@ -160,7 +160,9 @@ Route::middleware(['auth'])->group(function () {
     name('savePaymentContactLensesForm');
 
     Route::post('/save-stock',[App\Http\Controllers\StockController::class,'saveStock'])->name('saveStock');
-    Route::post('/search-stock',[App\Http\Controllers\StockController::class,'searchStock'])->name('searchStock');
+
+    Route::match(['get', 'post'], '/search-stock',[App\Http\Controllers\StockController::class,'searchStock'])->name('searchStock');//get za paginaciju
+    Route::match(['get', 'post'],'/search-stock-barcode',[App\Http\Controllers\StockController::class,'searchStockBarcode'])->name('searchStockBarcode');
 
     Route::get('/requested-day', [App\Http\Controllers\DailyTurnoverController::class, 'requestedDay'])->name('requestedDay');
     Route::post('/daily-turnover', [App\Http\Controllers\DailyTurnoverController::class, 'saveDailyTurnover'])->name('dailyTurnover');

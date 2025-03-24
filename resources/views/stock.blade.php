@@ -1,6 +1,26 @@
 @extends('layouts.app')
 
 @section('content')
+    <style>
+        .pagination .page-link {
+            color: black !important; /* Boja brojeva */
+        }
+
+        .pagination .page-item.active .page-link {
+            background-color: #ffc107 !important; /* Boja aktivne stranice */
+            border-color: #ffc107 !important;
+            color: white !important;
+        }
+
+        .pagination .page-item.disabled .page-link {
+            color: grey !important; /* Boja disable-ovanih linkova */
+        }
+
+    </style>
+    @php
+        use Illuminate\Support\Str;
+        $currentUrl = URL::current(); // red 84
+    @endphp
     <div class="container">
         <div class="row mb-4">
             <div class="col">
@@ -32,45 +52,51 @@
                 </div>
                 <div class="row mt-4">
                     <div class="col">
-                        @if(session('warning'))
-                            <div class="alert alert-warning text-dark fw-bold p-2 flash-message">
-                                {{ session('warning') }}
+                        @if(session('attention'))
+                            <div class="alert alert-warning text-dark fw-bold p-2 m-0 flash-message">
+                                {{ session('attention') }}
                             </div>
-                            @php session()->forget('warning'); @endphp <!-- Briše poruku iz sesije odmah nakon prikaza -->
-                            <form style="display: none;" class="searchForm" action="{{route('searchStock')}}" method="POST">
+                            <form style="display: none;" class="searchForm" action="{{route('searchStockBarcode')}}" method="POST">
                                 @csrf
                                 <div class="input-group">
                                     <input type="submit" class="btn btn-outline-secondary" value="Traži">
-                                    <input type="number" min="1000000000" max="9999999999999" name="barcode" class="form-control"
+                                    <input type="number" min="1000000000" max="9999999999999" name="barcode" value="{{ session('search_barcode') }}"
+                                           class="form-control"
                                            placeholder="Skeniraj ceo bar kod i pronađi"
-                                           aria-label="Search client" required>
+                                           aria-label="Search client" required autofocus>
                                 </div>
                             </form>
                         @else
-                            <form action="{{route('searchStock')}}" method="POST">
+                            <form action="{{route('searchStockBarcode')}}" method="POST">
                                 @csrf
                                 <div class="input-group">
                                     <input type="submit" class="btn btn-outline-secondary" value="Traži">
-                                    <input type="number" min="1000000000" max="9999999999999" name="barcode" class="form-control"
+                                    <input type="number" min="1000000000" max="9999999999999" name="barcode" value="{{ session('search_barcode') }}"
+                                           class="form-control"
                                            placeholder="Skeniraj ceo bar kod i pronađi"
-                                           aria-label="Search client" required>
+                                           aria-label="Search client" required autofocus>
                                 </div>
                             </form>
                         @endif
                     </div>
                     <div class="col-4">
-                        <h2 class="text-center">L A G E R</h2>
+                        @if(Str::contains($currentUrl, 'all-stock') || session('warning') || session('attention'))
+                            <h2 class="text-center fw-bold">L A G E R</h2>
+                        @else
+                            <h2 class="text-center text-uppercase">Rezultat pretrage:</h2>
+                        @endif
+                    @php session()->forget('attention'); @endphp <!-- Briše poruku iz sesije odmah nakon prikaza -->
+                    @php session()->forget('warning'); @endphp <!-- Briše poruku iz sesije odmah nakon prikaza -->
                     </div>
                     <div class="col">
                         @if(session('warning'))
-                            <div class="alert alert-warning text-dark fw-bold p-2 flash-message">
+                            <div class="alert alert-warning text-dark fw-bold p-2 m-0 flash-message">
                                 {{ session('warning') }}
                             </div>
-                            @php session()->forget('warning'); @endphp <!-- Briše poruku iz sesije odmah nakon prikaza -->
                             <form style="display: none;" class="searchForm" action="{{route('searchStock')}}" method="POST">
                                 @csrf
                                 <div class="input-group">
-                                    <input type="text" name="article" class="form-control"
+                                    <input type="text" name="article" value="{{ session('search_article') }}" class="form-control"
                                            placeholder="Pronađi po artiklu ili po opisu ili po prodajnoj ceni"
                                            aria-label="Search client" required>
                                     <input type="submit" class="btn btn-outline-secondary" value="Traži">
@@ -80,7 +106,7 @@
                             <form action="{{route('searchStock')}}" method="POST">
                                 @csrf
                                 <div class="input-group">
-                                    <input type="text" name="article" class="form-control"
+                                    <input type="text" name="article" value="{{ session('search_article') }}" class="form-control"
                                            placeholder="Pronađi po artiklu ili po opisu ili po prodajnoj ceni"
                                            aria-label="Search client" required>
                                     <input type="submit" class="btn btn-outline-secondary" value="Traži">
@@ -89,47 +115,11 @@
                         @endif
                     </div>
                 </div>
-                @if(isset($search_stocks))
-                    <table class="table text-center">
-                        <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>Artikal</th>
-                            <th>Tip</th>
-                            <th>Opis artikla</th>
-                            <th>Bar kod</th>
-                            <th>Materijal</th>
-                            <th>Nabavna cena</th>
-                            <th>Prodajna cena</th>
-                            <th>Količina</th>
-                            <th>Ukupna vrednost</th>
-                            <th>Kreirano</th>
-                            <th></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach($search_stocks as $search_stock)
-                            <tr>
-                                <td>{{ $search_stock->id }}</td>
-                                <td>{{ $search_stock->article }}</a></td>
-                                <td>{{ $search_stock->item_type }}</td>
-                                <td>{{ $search_stock->describe }}</td>
-                                <td>{{ $search_stock->barcode }}</td>
-                                <td>{{ $search_stock->material }}</td>
-                                <td>{{ $search_stock->purchase_price }}</td>
-                                <td>{{ $search_stock->selling_price }}</td>
-                                <td>{{ $search_stock->quantity }}</td>
-                                <td>{{ $search_stock->selling_price * $search_stock->quantity }}</td>
-                                <td>{{ $search_stock->created_at->format('d.m.Y.') }}</td>
-                                <td><a href="{{ route('editStock',['id'=>$search_stock->id]) }}"
-                                       style="text-decoration: none; color: #ffc107; display: block; font-weight: bold">PROMENI</a>
-                                </td>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
-                @endif
                 <br>
+                <div class="row justify-content-between">
+                    <div class="col-6">{{ $stocks->links('pagination::bootstrap-4') }}</div>
+                    <div class="col-2"><a href="{{ route('allStock') }}" class="btn btn-secondary form-control m-2">Vrati na LAGER</a></div>
+                </div>
                 <table class="table table-striped-columns table-hover border-warning text-center">
                     <thead>
                     <tr class="table table-secondary border-dark">
@@ -149,45 +139,33 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($all_stocks as $all_stock)
+                    @foreach($stocks as $stock)
                         <tr>
-                            <td>{{ $all_stock->id }}</td>
-                            <td>{{ $all_stock->article }}</a></td>
-                            <td>{{ $all_stock->item_type }}</td>
-                            <td>{{ $all_stock->describe }}</td>
-                            <td>{{ $all_stock->barcode }}</td>
-                            <td>{{ $all_stock->material }}</td>
-                            <td>{{ $all_stock->installation_type }}</td>
-                            <td>{{ $all_stock->purchase_price }}</td>
-                            <td>{{ $all_stock->selling_price }}</td>
-                            <td>{{ $all_stock->quantity }}</td>
-                            <td>{{ $all_stock->selling_price * $all_stock->quantity }}</td>
-                            <td>{{ $all_stock->	created_at->format('d.m.Y.') }}</td>
-                            <td style="background: #babbbc;"><a href="{{ route('editStock',['id'=>$all_stock->id]) }}"
+                            <td>{{ $stock->id }}</td>
+                            <td>{{ $stock->article }}</a></td>
+                            <td>{{ $stock->item_type }}</td>
+                            <td>{{ $stock->describe }}</td>
+                            <td>{{ $stock->barcode }}</td>
+                            <td>{{ $stock->material }}</td>
+                            <td>{{ $stock->installation_type }}</td>
+                            <td>{{ $stock->purchase_price }}</td>
+                            <td>{{ $stock->selling_price }}</td>
+                            <td>{{ $stock->quantity }}</td>
+                            <td>{{ $stock->selling_price * $stock->quantity }}</td>
+                            <td>{{ $stock->	created_at->format('d.m.Y.') }}</td>
+                            <td style="background: #babbbc;"><a href="{{ route('editStock',['id'=>$stock->id]) }}"
                                                                 class="text-decoration-none" style="color: black;">Promeni</a>
                             </td>
                         </tr>
                     @endforeach
                     </tbody>
                 </table>
+                {{ $stocks->links('pagination::bootstrap-4') }}
             </div>
         </div>
     </div>
 
     <script>
-        // setTimeout(function() {
-        //     let flashMessage = document.querySelectorAll('.flash-message');
-        //     if (flashMessage) {
-        //         flashMessage.style.transition = "opacity 0.5s ease-out";
-        //         flashMessage.style.opacity = "0";
-        //         setTimeout(() => {
-        //             flashMessage.remove(); // Nakon fade-out efekta, brišemo element
-        //             let inputSearch = document.querySelectorAll('.searchForm'); // Dohvatimo formu
-        //             inputSearch.style.display = 'block'; // Prikazujemo formu
-        //         }, 500); // Ovdje koristiš 500ms, što je vreme trajanja fade-out efekta
-        //     }
-        // }, 2000); // 2000ms = 2 sekunde, kad će poruka nestati
-
         setTimeout(function() {
             let flashMessages = document.querySelectorAll('.flash-message');
             flashMessages.forEach(flashMessage => {
@@ -203,8 +181,6 @@
                 }, 500); // 500ms = trajanje animacije
             });
         }, 2000); // 2000ms = 2 sekunde, kada će poruka početi da nestaje
-
-
     </script>
 
 

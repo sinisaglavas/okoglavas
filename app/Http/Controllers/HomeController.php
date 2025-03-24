@@ -390,7 +390,7 @@ class HomeController extends Controller
 
     public function showStock()
     {
-        $all_stocks = Stock::all();
+        $stocks = Stock::paginate(50);
         $total = Stock::all()->reduce(function ($total, $item) {  // dobijam zbirno stanje na lageru od proizvoda dve kolone
             return $total + ($item->selling_price * $item->quantity);
         });
@@ -399,7 +399,7 @@ class HomeController extends Controller
         $sunglasses_sum = Stock::where('item_type', 'Sunčane')->sum('quantity');
         $dl_sum = Stock::where('item_type', 'DS')->sum('quantity');
 
-        return view('stock', compact('all_stocks', 'total', 'cl_sum', 'glasses_sum', 'sunglasses_sum', 'dl_sum'));
+        return view('stock', compact('stocks', 'total', 'cl_sum', 'glasses_sum', 'sunglasses_sum', 'dl_sum'));
     }
 
 

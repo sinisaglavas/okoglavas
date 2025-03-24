@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Stock;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\DB;
 
 class StockController extends Controller
 {
@@ -18,6 +20,7 @@ class StockController extends Controller
         $request->validate([
             'article'=>'required',
             'item_type'=>'required',
+            'barcode' => ['nullable', 'digits_between:8,15'], ['barcode.digits_between' => 'Bar kod mora imati između 8 i 15 cifara.'],
             'quantity'=>'required',
             'selling_price'=>'required'
             ]);
@@ -36,62 +39,70 @@ class StockController extends Controller
 
     }
 
-    public function searchStock()
+    public function searchStock(Request $request)
     {
-        $all_stocks = Stock::all();
+        // Ako je došao POST zahtev, sačuvaj pretragu u sesiji
+        if ($request->isMethod('post')) {
+            $request->session()->put('search_article', $request->article);
+        }
 
-        $total = $total = Stock::all()->reduce(function ($total, $item) {  // dobijam ukupno stanje na lageru od dve kolone
-            return $total + ($item->selling_price * $item->quantity);
-        });
+        // Dohvati pretragu iz sesije (ili prazno ako ne postoji)
+        $article = session('search_article', '');
 
-        $request = request()->article;
-        $article_exists = Stock::where('article','like','%'.$request.'%')->exists();
-        $selling_price_exists = Stock::where('selling_price','like','%'.$request.'%')->exists();
-        //$material_exists = Stock::where('material','like','%'.$request.'%')->exists();
-        $describe_exists = Stock::where('describe','like','%'.$request.'%')->exists();
+        // Ako je pretraga prazna, vraćamo sve artikle
+        if (empty($article)) {
+            session()->flash('warning', 'Traženi pojam nije pronađen!');
+            return $this->returnStockView(Stock::paginate(50));
+        }
+        // Brža pretraga preko OR WHERE
+        $search_stocks = Stock::where('article', 'like', '%' . $article . '%')
+            ->orWhere('selling_price', 'like', "%$article%")
+            ->orWhere('describe', 'like', "%$article%")->paginate(10);
 
-        $barcode = request()->barcode;
-        $barcode_exists = Stock::where('barcode', 'like', '%'.$barcode.'%')->exists();
+        if ($search_stocks->isEmpty()) {
+            session()->flash('warning', 'Traženi pojam nije pronađen!');
+            return $this->returnStockView(Stock::paginate(50));
+        }
 
+        return $this->returnStockView($search_stocks);
+    }
+
+    // Pomocna metoda za generisanje view-a
+    private function returnStockView($stocks)
+    {
+        $total = Stock::sum(DB::raw('selling_price * quantity')); // Efikasnija kalkulacija ukupne vrednosti
         $cl_sum = Stock::where('item_type', 'KS')->sum('quantity');
         $glasses_sum = Stock::where('item_type', 'Ram')->sum('quantity');
         $sunglasses_sum = Stock::where('item_type', 'Sunčane')->sum('quantity');
         $dl_sum = Stock::where('item_type', 'DS')->sum('quantity');
 
-        if ($article_exists && $request != "")
-        {
-            $search_stocks = Stock::where('article','like','%'.$request.'%')->get();//carobna linija koda
-            return view('stock', compact('search_stocks', 'all_stocks', 'total', 'cl_sum', 'glasses_sum', 'sunglasses_sum', 'dl_sum'));
-        }
-        elseif ($selling_price_exists && $request != "")
-        {
-            $search_stocks = Stock::where('selling_price','like','%'.$request.'%')->get();//carobna linija koda
-            return view('stock', compact('search_stocks', 'all_stocks', 'total', 'cl_sum', 'glasses_sum', 'sunglasses_sum', 'dl_sum'));
-        }
-        elseif ($describe_exists && $request != "")
-        {
-            $search_stocks = Stock::where('describe','like','%'.$request.'%')->get();
-            return view('stock', compact('search_stocks', 'all_stocks', 'total', 'cl_sum', 'glasses_sum', 'sunglasses_sum', 'dl_sum'));
-        }
-        elseif ($barcode_exists && $barcode != "")
-        {
-            $search_stocks = Stock::where('barcode', 'like', '%'.$barcode.'%')->get();
-            return view('stock', compact('search_stocks', 'all_stocks', 'total', 'cl_sum', 'glasses_sum', 'sunglasses_sum', 'dl_sum'));
-
-        }
-        elseif ($request == "" || $barcode == "")
-        {
-            session()->flash('warning', 'Traženi pojam nije pronađen!');
-            return view('stock', compact('all_stocks', 'total', 'cl_sum', 'glasses_sum', 'sunglasses_sum', 'dl_sum'));
-        }
-        elseif ($article_exists == false || $selling_price_exists == false || $describe_exists || $barcode_exists == false)
-        {
-            session()->flash('warning', 'Traženi pojam nije pronađen!');
-            return view('stock', compact('all_stocks', 'total', 'cl_sum', 'glasses_sum', 'sunglasses_sum', 'dl_sum'));
-        }
-
+        return view('stock', compact('stocks', 'total', 'cl_sum', 'glasses_sum', 'sunglasses_sum', 'dl_sum'));
     }
 
+    public function searchStockBarcode(Request $request) // 22.03.2025. dodato - bolje radi kada je razdvojena pretraga
+    {
+        // Ako je došao POST zahtev, sačuvaj pretragu u sesiji
+        if ($request->isMethod('post')) {
+            $request->session()->put('search_barcode', $request->barcode);
+        }
+
+        // Dohvati pretragu iz sesije (ili prazno ako ne postoji)
+        $barcode = session('search_barcode', '');
+
+        if (empty($barcode)) {
+            session()->flash('attention', 'Traženi bar kod nije pronađen!');
+            return $this->returnStockView(Stock::paginate(50));
+        }
+
+        $search_stocks = Stock::where('barcode', $barcode)->paginate(10);
+
+        if ($search_stocks->isEmpty()) {
+            session()->flash('attention', 'Traženi bar kod nije pronađen!');
+            return $this->returnStockView(Stock::paginate(50));
+        }
+
+        return $this->returnStockView($search_stocks);
+    }
 
     public function editStock($id)
     {
@@ -128,18 +139,6 @@ class StockController extends Controller
         $articles = $request->input('articles');
 
         return view('showStockForm', compact('articles'));
-
-//        if (empty($articles)) {
-//            // Niz $stockData je prazan
-//            return response()->json(['message' => 'Nema dostupnih podataka.']);
-//        }
-//
-//        // Ovde možete obraditi $stockData kako želite
-//
-//
-//        // Vratite odgovor
-//        return response()->json(['message' => 'Podaci su uspešno primljeni i obradjeni.']);
-
     }
 
     public function stockContactLenses() {
