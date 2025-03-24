@@ -86,12 +86,12 @@
                             <h2 class="text-center text-uppercase">Rezultat pretrage:</h2>
                         @endif
                     @php session()->forget('attention'); @endphp <!-- Briše poruku iz sesije odmah nakon prikaza -->
-                    @php session()->forget('warning'); @endphp <!-- Briše poruku iz sesije odmah nakon prikaza -->
                     </div>
                     <div class="col">
                         @if(session('warning'))
                             <div class="alert alert-warning text-dark fw-bold p-2 m-0 flash-message">
                                 {{ session('warning') }}
+                                @php session()->forget('warning'); @endphp <!-- Briše poruku iz sesije odmah nakon prikaza -->
                             </div>
                             <form style="display: none;" class="searchForm" action="{{route('searchStock')}}" method="POST">
                                 @csrf
