@@ -115,7 +115,13 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/user-edit', [App\Http\Controllers\UserController::class, 'editUser'])->name('editUser');
     Route::get('/stock/{id}/edit', [App\Http\Controllers\StockController::class, 'editStock'])->name('editStock');
+
+    Route::get('/generate-prescription/{id}/{from_table}', [App\Http\Controllers\PrescriptionController::class, 'generatePDF'])->
+    name('generatePDF');
 });
+
+
+
 
 
 

@@ -30,10 +30,11 @@
                 </div>
             </div>
                 @if(isset($search_clients))
-                <h5 class="btn btn-dark">Rezultat pretrage:</h5>
-                    <table class="table table-info table-hover table-bordered border-dark text-center">
+            <div class="border border-dark rounded-3 p-3">
+                <h5 class="btn btn-info">Rezultat pretrage:</h5>
+                    <table class="table table-info table-hover table-bordered text-center">
                         <thead>
-                        <tr class="table-dark">
+                        <tr class="table-primary">
                             <th>Id</th>
                             <th>Ime</th>
                             <th></th>
@@ -44,51 +45,29 @@
                             <th>Lična karta broj</th>
                             <th>Kreirano</th>
                             <th></th>
-                            <th>SMS</th>
                         </tr>
                         </thead>
                         <tbody>
                         @foreach($search_clients as $search_client)
                         <tr>
                             <td>{{ $search_client->id }}</td>
-                            <td title="Klik na istoriju pregleda"><a href="{{ route('home.singleClient',['id'=>$search_client->id]) }}" class="text-decoration-none fw-bold">{{ $search_client->name }}</a></td>
-                            <td><button class="btn-purchases btn btn-secondary" data-client-id="{{ $search_client->id ?? '' }}" data-client-name="{{ $search_client->name ?? '' }}">Kupljeno</button></td>
+                            <td title="Klik na istoriju pregleda"><a href="{{ route('home.singleClient',['id'=>$search_client->id]) }}"
+                                                                     class="text-decoration-none fw-bold">{{ $search_client->name }}</a></td>
+                            <td><button class="btn-purchases btn btn-secondary" data-client-id="{{ $search_client->id ?? '' }}"
+                                        data-client-name="{{ $search_client->name ?? '' }}">Kupljeno</button></td>
                             <td>{{ $search_client->date_of_birth }}</td>
                             <td>{{ $search_client->address }}</td>
                             <td>{{ $search_client->city }}</td>
                             <td>{{ $search_client->phone }}</td>
                             <td>{{ $search_client->identity_card }}</a></td>
                             <td>{{ $search_client->created_at->format('d.m.Y') }}</td>
-                            <td><button class="btn btn-primary"><a href="/client/{{$search_client->id}}/edit" style="color: #fff; text-decoration: none">Promeni</a></button></td>
-                            <td></td>
-{{--                            @if(session('success'))--}}
-{{--                                <td>--}}
-{{--                                    <form action="{{ route('home.sendSms',['id'=>$search_client->id]) }}" method="POST">--}}
-{{--                                        @csrf--}}
-{{--                                        <input type="hidden" name="id" value="{{ $search_client->id }}">--}}
-{{--                                        <button style="background: green;" type="submit">{{ session('success') }}</button></form>--}}
-{{--                                </td>--}}
-{{--                            @elseif(session('error'))--}}
-{{--                                <td>--}}
-{{--                                    <form action="{{ route('home.sendSms',['id'=>$search_client->id]) }}" method="POST">--}}
-{{--                                        @csrf--}}
-{{--                                        <input type="hidden" name="id" value="{{ $search_client->id }}">--}}
-{{--                                        <button style="background: red;" type="submit">{{ session('error') }}</button>--}}
-{{--                                    </form>--}}
-{{--                                </td>--}}
-{{--                            @else--}}
-{{--                                <td>--}}
-{{--                                    <form action="{{ route('home.sendSms',['id'=>$search_client->id]) }}" method="POST">--}}
-{{--                                        @csrf--}}
-{{--                                        <input type="hidden" name="id" value="{{ $search_client->id }}">--}}
-{{--                                        <button type="submit">Pošalji SMS</button>--}}
-{{--                                    </form>--}}
-{{--                                </td>--}}
-{{--                            @endif--}}
+                            <td><a href="/client/{{$search_client->id}}/edit"
+                                                                   class="btn btn-primary text-decoration-none text-light">Promeni</a></td>
                         </tr>
                         @endforeach
                         </tbody>
                     </table>
+            </div>
                 @endif
             <br>
             <table class="table table-hover table-bordered text-center">
@@ -104,7 +83,6 @@
                     <th>Lična karta broj</th>
                     <th>Kreirano</th>
                     <th></th>
-                    <th>SMS</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -120,32 +98,8 @@
                         <td>{{ $client->phone }}</td>
                         <td>{{ $client->identity_card }}</a></td>
                         <td>{{ $client->created_at->format('d.m.Y') }}</td>
-                        <td><button class="btn btn-primary"><a href="/client/{{$client->id}}/edit" style="color: #fff; text-decoration: none">Promeni</a></button></td>
-                        <td></td>
-{{--                        @if(session('success'))--}}
-{{--                            <td>--}}
-{{--                                <form action="{{ route('home.sendSms',['id'=>$client->id]) }}" method="POST">--}}
-{{--                                    @csrf--}}
-{{--                                    <input type="hidden" name="id" value="{{ $client->id }}">--}}
-{{--                                    <button style="background: green;" type="submit">{{ session('success') }}</button></form>--}}
-{{--                            </td>--}}
-{{--                        @elseif(session('error'))--}}
-{{--                            <td>--}}
-{{--                                <form action="{{ route('home.sendSms',['id'=>$client->id]) }}" method="POST">--}}
-{{--                                    @csrf--}}
-{{--                                    <input type="hidden" name="id" value="{{ $client->id }}">--}}
-{{--                                    <button style="background: red;" type="submit">{{ session('error') }}</button>--}}
-{{--                                </form>--}}
-{{--                            </td>--}}
-{{--                        @else--}}
-{{--                            <td>--}}
-{{--                                <form action="{{ route('home.sendSms',['id'=>$client->id]) }}" method="POST">--}}
-{{--                                    @csrf--}}
-{{--                                    <input type="hidden" name="id" value="{{ $client->id }}">--}}
-{{--                                    <button type="submit">Pošalji SMS</button>--}}
-{{--                                </form>--}}
-{{--                            </td>--}}
-{{--                        @endif--}}
+                        <td><a href="/client/{{$client->id}}/edit"
+                                                               class=" btn btn-primary text-decoration-none text-light">Promeni</a></td>
                     </tr>
                 @endforeach
                 </tbody>

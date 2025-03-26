@@ -9,10 +9,10 @@
                    class="btn btn-light form-control m-2 border">{{ $single_client->name }} - Novi pregled</a>
             </div>
             <div class="col-8 mx-auto"> {{--mx-auto - polozaj na sredini--}}
-                <h3 class="text-center m-2 p-3 border border rounded-pill">
+                <h2 class="text-center m-2 p-3 border border rounded-pill">
                     <a class="fw-bold text-decoration-none text-uppercase text-primary" title="Klik za detalje o pacijentu" id="clientData"
                        data-id ="{{ $single_client->id }}"
-                       href="{{ route('showClientData', ['id'=>$single_client->id]) }}">{{ $single_client->name }}</a> &nbsp; &nbsp;{{ $single_client->date_of_birth }}</h3>
+                       href="{{ route('showClientData', ['id'=>$single_client->id]) }}">{{ $single_client->name }}</a></h2>
             </div>
         </div>
         <div class="row mt-2">
@@ -22,7 +22,12 @@
                         <div class="col-9">
                             <table class="table text-center table-bordered border-dark caption-top"
                                    style="background-color: rgb(165, 195, 250)">
-                                <caption class="fw-bold">{{ $distance->created_at->format('d. m. Y.') }}&nbsp;Daljina</caption>
+                                <caption class="fw-bold">{{ $distance->created_at->format('d. m. Y.') }}&nbsp;Daljina
+                                    <a href="{{ route('requestedDay', ['date'=>$distance->created_at->format('Y-m-d'), 'client_id'=>$single_client->id]) }}"
+                                       class="btn border text-decoration-none"
+                                       title="Povežite prodaju sa pacijentom">Registruj prodaju</a>
+                                    <a href="{{ route('generatePDF', [$distance->id,'distances']) }}"
+                                             class="btn border text-decoration-none float-end" target="_blank">Štampa-PDF</a></caption>
                                 <thead>
                                 <tr>
                                     <th colspan="4">Desno oko - Right Eye</th>
@@ -44,8 +49,6 @@
                                     <th></th>
                                     <th>Total pd</th>
                                     <th>Exam</th>
-                                    <th></th>
-                                    <th>{{ $distance->created_at->format('d. m. Y.') }}</th>
                                     <th></th>
                                     <th style="padding: 8px 0;"></th>
                                 </tr>
@@ -69,11 +72,6 @@
                                         <td style="background-color:#b82830;"></td>
                                     @endif
                                     <td></td>
-                                    <td style="background-color: #0720ff">
-                                        <a href="{{ route('requestedDay', ['date'=>$distance->created_at->format('Y-m-d'), 'client_id'=>$single_client->id]) }}"
-                                            style="text-decoration: none; color: #fff; display: block" title="Povežite prodaju sa pacijentom">Prodaja</a>
-                                    </td>
-                                    <td></td>
                                     <td style="background-color: #e09c09;"><a
                                             href="/distance-form/{{$distance->id}}/edit"
                                             style="text-decoration: none; color: #fff; display: block" onclick="return confirm('Da li ste sigurni?')">Promeni</a>
@@ -93,7 +91,12 @@
                     <div class="row">
                         <div class="col-9">
                             <table style="background-color: rgb(250, 250, 250)" class="table text-center table-bordered border-dark caption-top">
-                                <caption class="fw-bold">{{ $proximity->created_at->format('d. m. Y.') }}&nbsp;Blizina</caption>
+                                <caption class="fw-bold">{{ $proximity->created_at->format('d. m. Y.') }}&nbsp;Blizina
+                                    <a href="{{ route('requestedDay', ['date'=>$proximity->created_at->format('Y-m-d'), 'client_id'=>$single_client->id]) }}"
+                                       class="btn border text-decoration-none"
+                                       title="Povežite prodaju sa pacijentom">Registruj prodaju</a>
+                                    <a href="{{ route('generatePDF', [$proximity->id, 'proximities']) }}"
+                                       class="btn border text-decoration-none float-end" target="_blank">Štampa-PDF</a></caption>
                                 <thead>
                                 <tr>
                                     <th colspan="4">Desno oko - Right Eye</th>
@@ -115,8 +118,6 @@
                                     <th></th>
                                     <th>Total pd</th>
                                     <th>Exam</th>
-                                    <th></th>
-                                    <th>{{ $proximity->created_at->format('d. m. Y.') }}</th>
                                     <th></th>
                                     <th></th>
                                 </tr>
@@ -140,11 +141,6 @@
                                     @if($proximity->exam == 'red')
                                         <td style="background-color:#b82830;"></td>
                                     @endif
-                                    <td></td>
-                                    <td style="background-color: #0720ff"><a
-                                            href="{{ route('requestedDay', ['date'=>$proximity->created_at->format('Y-m-d'), 'client_id'=>$single_client->id]) }}"
-                                            style="text-decoration: none; color: #fff; display: block" title="Povežite prodaju sa pacijentom">Prodaja</a>
-                                    </td>
                                     <td></td>
                                     <td style="background-color: #e09c09;"
                                         onclick="return confirm('Da li ste sigurni?')"><a

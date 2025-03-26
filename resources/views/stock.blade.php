@@ -73,7 +73,7 @@
                                     <input type="submit" class="btn btn-outline-secondary" value="Traži">
                                     <input type="number" min="1000000000" max="9999999999999" name="barcode" value="{{ session('search_barcode') }}"
                                            class="form-control"
-                                           placeholder="Skeniraj ceo bar kod i pronađi"
+                                           placeholder="Skeniraj ili unesi ceo bar kod i pronađi"
                                            aria-label="Search client" required autofocus>
                                 </div>
                             </form>
