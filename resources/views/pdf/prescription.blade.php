@@ -43,22 +43,29 @@
     .title {
         font-size: 24px;
     }
+    .container {
+        max-width: 100%; /* Ograničava širinu da ne prelazi ekran */
 
-    .patient-info, .prescription-details {
+    }
+
+    .patient-info .prescription-details {
         margin-bottom: 20px;
     }
     .prescription-details table {
-        width: 100%;
+        width: 100%; /* Da zauzme celu širinu unutar container-a */
+        border-collapse: collapse; /* Da spoji ivice ćelija */
+        padding: 7px;
     }
 
     .prescription-details table th {
         text-align: center;
+        padding: 5px;
     }
 
     .prescription-details th, .prescription-details td {
-        border: 1px solid gray;
-        padding: 8px;
+        border: 1px solid lightgrey;
         text-align: center;
+        font-size: 12px;
 
     }
 
@@ -71,7 +78,7 @@
 
 <body>
 
-    <div class="prescription-container">
+    <div class="container">
         <div class="header">
             <div id="leftbox"><img src="{{ public_path('images/logooptika.jpg') }}" alt="Logo Optika"></div> <!-- Ako imaš logo -->
             <div id="middlebox"><span>NOVI SAD, Kornelija Stankovića 27, 060/5590883</span>
@@ -85,34 +92,40 @@
             <p class="title">Optometrijska Ordinacija i Optika</p>
         </div>
         <div class="patient-info">
-            <p><strong>Datum pregleda:</strong> {{ $patient->created_at->format('d.m.Y.') }}</p>
+            @if(isset($distance))
+                <p><strong>Datum pregleda:</strong> {{ $distance->created_at->format('d.m.Y.') }}</p>
+            @endif
+            @if(isset($proximity))
+                <p><strong>Datum pregleda:</strong> {{ $proximity->created_at->format('d.m.Y.') }}</p>
+            @endif
             <p><strong>Pacijent:</strong> {{ $patient->name }}, &nbsp;rođ:{{ $patient->date_of_birth }}</p>
             <br>
             <h3>Detalji recepta</h3>
         </div>
         @if(isset($distance))
         <div class="prescription-details">
-            <p>Korekcija za DALJINU</p>
             <table>
                 <thead>
                 <tr>
-                    <th colspan="4">Desno oko</th>
-                    <th></th>
-                    <th colspan="4">Levo oko</th>
-                    <th></th>
+                    <th>Korekcija</th>
+                    <th colspan="6">Desno oko</th>
+                    <th colspan="6">Levo oko</th>
                     <th></th>
                 </tr>
                 <tr>
+                    <th rowspan="2">Daljina</th>
                     <th>Sph</th>
                     <th>Cyl</th>
                     <th>Ax</th>
                     <th>Pd</th>
-                    <th></th>
+                    <th>Prisma</th>
+                    <th>Basis</th>
                     <th>Sph</th>
                     <th>Cyl</th>
                     <th>Ax</th>
                     <th>Pd</th>
-                    <th></th>
+                    <th>Prisma</th>
+                    <th>Basis</th>
                     <th>Total pd</th>
                 </tr>
                 </thead>
@@ -123,10 +136,12 @@
                     <td>{{ $distance->right_eye_axis }}</td>
                     <td>{{ $distance->right_eye_pd }}</td>
                     <td></td>
+                    <td></td>
                     <td>{{ $distance->left_eye_sphere }}</td>
                     <td>{{ $distance->left_eye_cylinder }}</td>
                     <td>{{ $distance->left_eye_axis }}</td>
                     <td>{{ $distance->left_eye_pd }}</td>
+                    <td></td>
                     <td></td>
                     <td>{{ $distance->right_eye_pd + $distance->left_eye_pd }}</td>
                 </tr>
@@ -136,27 +151,28 @@
         @endif
         @if(isset($proximity))
             <div class="prescription-details">
-                <p>Korekcija za BLIZINU</p>
                 <table>
                     <thead>
                     <tr>
-                        <th colspan="4">Desno oko</th>
-                        <th></th>
-                        <th colspan="4">Levo oko</th>
-                        <th></th>
+                        <th>Korekcija</th>
+                        <th colspan="6">Desno oko</th>
+                        <th colspan="6">Levo oko</th>
                         <th></th>
                     </tr>
                     <tr>
+                        <th rowspan="2">Blizina</th>
                         <th>Sph</th>
                         <th>Cyl</th>
                         <th>Ax</th>
                         <th>Pd</th>
-                        <th></th>
+                        <th>Prisma</th>
+                        <th>Basis</th>
                         <th>Sph</th>
                         <th>Cyl</th>
                         <th>Ax</th>
                         <th>Pd</th>
-                        <th></th>
+                        <th>Prisma</th>
+                        <th>Basis</th>
                         <th>Total pd</th>
                     </tr>
                     </thead>
@@ -167,10 +183,12 @@
                         <td>{{ $proximity->right_eye_axis }}</td>
                         <td>{{ $proximity->right_eye_pd }}</td>
                         <td></td>
+                        <td></td>
                         <td>{{ $proximity->left_eye_sphere }}</td>
                         <td>{{ $proximity->left_eye_cylinder }}</td>
                         <td>{{ $proximity->left_eye_axis }}</td>
                         <td>{{ $proximity->left_eye_pd }}</td>
+                        <td></td>
                         <td></td>
                         <td>{{ $proximity->right_eye_pd + $proximity->left_eye_pd }}</td>
                     </tr>
@@ -179,8 +197,9 @@
             </div>
         @endif
         <div class="doctor-signature">
+            <br>
             <p>______________________</p>
-            <p>Optom. Ime Prezime</p>
+            <p>Optometrista-Ime Prezime</p>
         </div>
     </div>
 </body>
