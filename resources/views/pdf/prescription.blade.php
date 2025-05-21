@@ -94,8 +94,7 @@
         <div class="patient-info">
             @if(isset($distance))
                 <p><strong>Datum pregleda:</strong> {{ $distance->created_at->format('d.m.Y.') }}</p>
-            @endif
-            @if(isset($proximity))
+            @elseif(isset($proximity))
                 <p><strong>Datum pregleda:</strong> {{ $proximity->created_at->format('d.m.Y.') }}</p>
             @endif
             <p><strong>Pacijent:</strong> {{ $patient->name }}, &nbsp;rođ:{{ $patient->date_of_birth }}</p>

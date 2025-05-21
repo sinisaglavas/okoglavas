@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\SendClientReportMail;
 use App\Models\Client;
 use App\Models\Contact_lense;
 use App\Models\Contact_lenses_client;
@@ -10,14 +11,16 @@ use App\Models\Diopter;
 use App\Models\Dist_pupillary;
 use App\Models\Distance;
 use App\Models\Proximity;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
 
 class ClientController extends Controller
 {
     public function index()
     {
-
         return view('welcome');
     }
 
@@ -58,9 +61,36 @@ class ClientController extends Controller
         $pureData = $request->validate([
             'name'=>'required',
             'phone'=>'required | max:14'],
-            //'identity_card'=>'required | max:9'],
             ['phone.max'=>'Ne mozete uneti vise od 14 cifara']);
-            //['identity_card.max'=>'Ne mozete uneti vise od 9 cifara']);
+
+        $rules = [
+            'email' => [
+                'nullable',
+                'regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/',
+            ],
+        ];
+        $messages = [
+            'email.regex' => 'Unesite validnu email adresu.',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
+        // Proveri da li uneti email već postoji kod drugog klijenta
+        if ($request->filled('email')) {
+            $exist = Client::where('email', $request->email)
+                ->where('id', '!=', $client->id) // Ignoriši trenutnog klijenta
+                ->exists();
+
+            if ($exist) {
+                return back()->withErrors(['email' => 'Email adresa već postoji kod drugog klijenta.'])->withInput();
+            }
+        }
+
+
 
         $client->name = $request->name;
         $client->date_of_birth = (!is_null($request->date_of_birth) ? $request->date_of_birth : "");
@@ -108,10 +138,7 @@ class ClientController extends Controller
         $client = Client::with('glasses')->findOrFail($id);  // Učitaj klijenta i naočare koje je kupio-aко клијент са тим ID-јем не постоји, баца 404 грешку (findOrFail).
 
         return redirect()->back()->with('client', $client);
-
-        //return view('requestedDay', compact('client'));
     }
-
 
     function sendViberMessage($receiverId, $message) {
         $apiToken = env('VIBER_API_TOKEN'); // Smesti token u .env fajl
@@ -135,12 +162,14 @@ class ClientController extends Controller
         return $response->json();
     }
 
-    public function showClientData($id) {
+    public function showClientData($id) { // js
         $client = Client::findOrFail($id);
 
         return response()->json($client);
 
     }
+
+
 
 
 

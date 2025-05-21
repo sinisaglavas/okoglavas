@@ -29,7 +29,9 @@
                             <th></th>
                             <th colspan="4">Levo oko - Left Eye</th>
                             <th></th>
-                            <th colspan="4"></th>
+                            <th colspan="7">Specifikacije</th>
+                            <th></th>
+                            <th colspan="3"></th>
                         </tr>
                         <tr>
                             <th>Sphere</th>
@@ -49,6 +51,7 @@
                             <th>Material</th>
                             <th>Packaging</th>
                             <th>Maximum Use</th>
+                            <th></th>
                             <th>Exam</th>
                             <th></th>
                             <th></th>
@@ -73,6 +76,7 @@
                             <td>{{ $contact_lenses_exam->material }}</td>
                             <td>{{ $contact_lenses_exam->packaging }}</td>
                             <td>{{ $contact_lenses_exam->maximum_use }}</td>
+                            <td></td>
                             @if($contact_lenses_exam->exam == 'green')
                                 <td style="background-color:#0f5907;"></td>
                             @else

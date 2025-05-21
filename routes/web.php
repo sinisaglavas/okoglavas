@@ -118,6 +118,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/generate-prescription/{id}/{from_table}', [App\Http\Controllers\PrescriptionController::class, 'generatePDF'])->
     name('generatePDF');
+    Route::get('/send-pdf/{id}/{from_table}', [App\Http\Controllers\PrescriptionController::class, 'sendPDF'])->name('sendPDF');
+
 });
 
 

@@ -12,12 +12,17 @@
                 <form action="/client/{{ $client->id }}/edit" method="post">
                     @csrf
                     @method('put')
-
-                    <label for="name">Ime</label>
-                    <input type="text" name="name" id="name" class="form-control" value="{{ $client->name }}" required>
-                    <label for="date-of-birth">Datum rođenja</label>
-                    <input type="text" name="date_of_birth" placeholder="Unos je opcionalan" id="date-of-birth" class="form-control"
-                           value="{{ $client->date_of_birth }}">
+                    <div class="row">
+                        <div class="col">
+                            <label for="name">Ime i prezime</label>
+                            <input type="text" name="name" id="name" class="form-control" value="{{ $client->name }}" required>
+                        </div>
+                        <div class="col">
+                            <label for="date-of-birth">Datum rođenja</label>
+                            <input type="text" name="date_of_birth" placeholder="Unos je opcionalan" id="date-of-birth" class="form-control"
+                                   value="{{ $client->date_of_birth }}">
+                        </div>
+                    </div>
                     <label for="address">Adresa</label>
                     <input type="text" name="address" id="address" placeholder="Unos je opcionalan" class="form-control" value="{{ $client->address }}">
                     <label for="city">Grad</label>
@@ -27,13 +32,20 @@
                     @error('phone')
                     <p class="bg-warning">{{ $errors->first('phone') }}</p>
                     @enderror
-                    <br>
-                    <label for="identity_card">Lična karta broj</label>
-                    <input type="number" name="identity_card" placeholder="Unos je opcionalan" id="identity_card" class="form-control" value="{{ $client->identity_card }}">
-{{--                    @error('identity_card')--}}
-{{--                    <p class="bg-warning">{{ $errors->first('identity_card') }}</p>--}}
-{{--                    @enderror--}}
-                    <button type="submit" class="btn btn-outline-primary form-control">Promeni</button>
+                    <label for="email">Email</label>
+                    <input type="text" name="email" id="email" value="{{ $client->email }}" class="form-control">
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul class="mb-0">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+{{--                    <label for="identity_card">Lična karta broj</label>--}}
+{{--                    <input type="number" name="identity_card" placeholder="Unos je opcionalan" id="identity_card" class="form-control mb-4" value="{{ $client->identity_card }}">--}}
+                    <button type="submit" class="btn btn-primary form-control mt-4">Promeni</button>
                 </form>
                 @if(session()->has('message'))
                     <div class="alert alert-success">

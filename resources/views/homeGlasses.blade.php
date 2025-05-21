@@ -80,7 +80,8 @@
                     <th>Adresa</th>
                     <th>Grad</th>
                     <th>Telefon</th>
-                    <th>Lična karta broj</th>
+                    <th>Email</th>
+{{--                    <th>Lična karta broj</th>--}}
                     <th>Kreirano</th>
                     <th></th>
                 </tr>
@@ -96,7 +97,8 @@
                         <td>{{ $client->address }}</td>
                         <td>{{ $client->city }}</td>
                         <td>{{ $client->phone }}</td>
-                        <td>{{ $client->identity_card }}</a></td>
+                        <td>{{ $client->email }}</td>
+{{--                        <td>{{ $client->identity_card }}</a></td>--}}
                         <td>{{ $client->created_at->format('d.m.Y') }}</td>
                         <td><a href="/client/{{$client->id}}/edit"
                                                                class=" btn btn-primary text-decoration-none text-light">Promeni</a></td>

@@ -17,11 +17,13 @@ use App\Models\Stock;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\URL;
 use Vonage\Client as VonageClient; // Alias za App\Models\Client za izbegavanje konflikta
 use Vonage\Client\Credentials\Basic;
 use Vonage\SMS\Message\SMS;
+use function PHPUnit\Framework\isFalse;
 
 class HomeController extends Controller
 {
@@ -113,15 +115,43 @@ class HomeController extends Controller
         $request->validate([
            'name'=>'required',
             'phone'=>'required | max:14'],
-            ['phone.max'=>'Ne mozete uneti vise od 14 cifara'
+            ['phone.max'=>'Ne mozete uneti vise od 14 cifara']);
 
-        ]);
+        //Почетак са једним или више алфанумеричких знакова, укључујући тачке, подвлаке и знакове процента, плус и минус.
+        //Симбол @.
+        //Назив домена који се састоји од једног или више алфанумеричких знакова, укључујући цртице и тачке.
+        //Екстензија домена од најмање два слова.
+        $rules = [
+            'email' => [
+                'nullable',
+                'regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/'],
+        ];
+        $messages = [
+            'email.regex' => 'Email nije u ispravnom formatu.',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+        // Ručna provera unikatnosti ako je unet email
+        if ($request->filled('email')) {
+            $email_exist = Client::where('email', $request->email)->exists();
+
+            if ($email_exist) {
+                return back()->withErrors(['email' => 'Email adresa već postoji u bazi.'])->withInput();
+            }
+        }
+
+
         $new_client = new AppClient();
         $new_client->name = $request->name;
         $new_client->date_of_birth = (!is_null($request->date_of_birth) ? $request->date_of_birth : "");
         $new_client->address = (!is_null($request->address) ? $request->address : "");//ako nema unosa ostavi prazno polje
         $new_client->city = (!is_null($request->city) ? $request->city : "");
         $new_client->phone = $request->phone;
+        $new_client->email = $request->email;
         $new_client->identity_card = $request->identity_card;
         $new_client->save();
         $new_client_id = AppClient::orderBy('id', 'desc')->first()->id;

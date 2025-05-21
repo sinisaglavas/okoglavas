@@ -104,7 +104,7 @@
                      </h5>
                      @endif
                      @if(session('client'))
-                    <h5>Kupac: <a href="{{ route('home.singleClient',['id'=>session('client')->id]) }}" class="text-decoration-none fw-bold">
+                    <h5>Kupac: <a href="{{ route('home.singleClient',['id'=>session('client')->id]) }}" class="text-decoration-none fw-bold" title="Idi na preglede">
                             {{ session('client')->name }}</a>, {{ session('client')->date_of_birth }}
                             {{ session('client')->city }}, telefon: {{ session('client')->phone }}</h5>
                      @endif
@@ -146,7 +146,7 @@
                             <tr>
                                     @if(isset($data->client->id))
                                 <td>{{ $data->id }}</td>
-                                <td><a href="{{ route('clientsShow', ['id'=>$data->client->id]) }}">{{ $data->article }}</a></td>
+                                <td><a href="{{ route('clientsShow', ['id'=>$data->client->id]) }}" title="Kupac: {{ $data->client->name }}">{{ $data->article }}</a></td>
                                     @endif
                                     @if(empty($data->client->id)) {{-- proveravam da li je null, false, prazan string, 0-kao nula, itd.. --}}
                                 <td>{{ $data->id }}</td>

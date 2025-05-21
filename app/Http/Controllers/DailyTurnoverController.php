@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Daily_turnover;
 use App\Models\Stock;
 use Carbon\Carbon;
+//use http\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Client;
 
 class DailyTurnoverController extends Controller
 {
@@ -90,7 +92,7 @@ class DailyTurnoverController extends Controller
     public function requestedDay(Request $request)
     {
         $search_date = $request->date;
-        $search_data = Daily_turnover::where('created_at', $search_date)->orderBy('id', 'ASC')->get();
+        $search_data = Daily_turnover::with('client')->whereDate('created_at', $search_date)->orderBy('id', 'ASC')->get();
         $sum = DB::table('daily_turnovers')->where('created_at', $search_date)
             ->select('total')->sum('total'); // dobijamo ukupan promet na trazeni dan
        // session()->flash('from_method', 'requestedDay');

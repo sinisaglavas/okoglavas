@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\SendClientReportMail;
 use App\Models\Distance;
 use App\Models\Proximity;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\Client;
+use Illuminate\Support\Facades\Mail;
 
 class PrescriptionController extends Controller
 {
@@ -61,15 +63,45 @@ class PrescriptionController extends Controller
 
     }
 
-    public function proximityGeneratePDF($id)
+    // Prikaz i upravljanje nalozima ili klijentima-tamo gde sistem pokrece slanje nalaza emailom
+    public function sendPDF($id, $fromTable)
     {
-        ini_set('max_execution_time', 300); // Povećava vreme izvršenja na 5 minuta
+        if ($fromTable === 'distances') {
+            $distance = Distance::findOrFail($id);
+            $patient = Client::findOrFail($distance->client_id);
+            $proximity = Proximity::where('client_id', $distance->client_id)
+                ->whereDate('created_at', $distance->created_at)
+                ->first();
+            return $this->generateAndSend($patient, $distance, $proximity);
+        }
 
-        $proximity = Proximity::findOrFail($id);
-        $patient = Client::findOrFail($proximity->client_id);
-        session()->put('proximity_prescription', true);
-        $pdf = PDF::loadView('pdf.prescription', compact('patient', 'proximity'));
+        if ($fromTable === 'proximities') {
+            $proximity = Proximity::findOrFail($id);
+            $patient = Client::findOrFail($proximity->client_id);
+            $distance = Distance::where('client_id', $proximity->client_id)
+                ->whereDate('created_at', $proximity->created_at)
+                ->first();
+            return $this->generateAndSend($patient, $distance, $proximity);
+        }
 
-        return $pdf->stream("Recept-{$patient->name}.pdf");
+        return back()->with('error', 'Nepoznat izvor podataka.');
     }
+
+    private function generateAndSend($patient, $distance = null, $proximity = null)
+    {
+        if (!$patient->email) {
+            return back()->with('error', 'Nije poslato! Nedostaje mail pacijenta!');
+        }
+
+        $pdf = PDF::loadView('pdf.prescription', compact('patient', 'distance', 'proximity'));
+        $pdfPath = storage_path("app/temp/prescription_{$patient->id}.pdf");
+        $pdf->save($pdfPath);
+
+        Mail::to($patient->email)->send(new SendClientReportMail($pdfPath));
+
+        unlink($pdfPath);
+
+        return back()->with('success', 'Nalaz je poslat pacijentu na mail.');
+    }
+
 }
