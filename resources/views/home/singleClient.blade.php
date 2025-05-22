@@ -23,10 +23,7 @@
                         <div class="col-9">
                             <div class="row">
                                 <div class="col-4">
-                                    <form method="POST" action="{{ route('sendPDF', [$distance->id, 'distances']) }}" class="fw-bold float-end">
-                                        @csrf
-                                        <button type="submit">Pošalji na mejl</button>
-                                    </form>
+                                    <a href="{{ route('sendPDF', [$distance->id, 'distances']) }}" class="fw-bold float-end">Pošalji na mejl</a>
                                 </div>
                                 <div class="col-4">
                                     <a href="{{ route('requestedDay', ['date'=>$distance->created_at->format('Y-m-d'), 'client_id'=>$single_client->id]) }}"

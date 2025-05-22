@@ -118,14 +118,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/generate-prescription/{id}/{from_table}', [App\Http\Controllers\PrescriptionController::class, 'generatePDF'])->
     name('generatePDF');
-    Route::post('/send-pdf/{id}/{fromTable}', [App\Http\Controllers\PrescriptionController::class, 'sendPDF'])->name('sendPDF');
+    Route::get('/send-pdf/{id}/{from_table}', [App\Http\Controllers\PrescriptionController::class, 'sendPDF'])->name('sendPDF');
 
 });
-
-
-
-
-
 
 //home
 Route::post('/home/save-client-form',[App\Http\Controllers\HomeController::class,'saveClientForm'])->
