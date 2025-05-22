@@ -151,7 +151,7 @@ class HomeController extends Controller
         $new_client->address = (!is_null($request->address) ? $request->address : "");//ako nema unosa ostavi prazno polje
         $new_client->city = (!is_null($request->city) ? $request->city : "");
         $new_client->phone = $request->phone;
-        $new_client->email = $request->email;
+        $new_client->email = (!is_null($request->email) ? $request->email : "");
         $new_client->identity_card = $request->identity_card;
         $new_client->save();
         $new_client_id = AppClient::orderBy('id', 'desc')->first()->id;

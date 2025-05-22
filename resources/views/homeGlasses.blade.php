@@ -42,7 +42,8 @@
                             <th>Adresa</th>
                             <th>Grad</th>
                             <th>Telefon</th>
-                            <th>Lična karta broj</th>
+                            <th>Email</th>
+{{--                            <th>Lična karta broj</th>--}}
                             <th>Kreirano</th>
                             <th></th>
                         </tr>
@@ -59,7 +60,8 @@
                             <td>{{ $search_client->address }}</td>
                             <td>{{ $search_client->city }}</td>
                             <td>{{ $search_client->phone }}</td>
-                            <td>{{ $search_client->identity_card }}</a></td>
+                            <td>{{ $search_client->email }}</td>
+{{--                            <td>{{ $search_client->identity_card }}</a></td>--}}
                             <td>{{ $search_client->created_at->format('d.m.Y') }}</td>
                             <td><a href="/client/{{$search_client->id}}/edit"
                                                                    class="btn btn-primary text-decoration-none text-light">Promeni</a></td>

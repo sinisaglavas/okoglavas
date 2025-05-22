@@ -8,6 +8,7 @@ use App\Models\Proximity;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\Client;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class PrescriptionController extends Controller
@@ -90,18 +91,18 @@ class PrescriptionController extends Controller
     private function generateAndSend($patient, $distance = null, $proximity = null)
     {
         if (!$patient->email) {
-            return back()->with('error', 'Nije poslato! Nedostaje mail pacijenta!');
+            return back()->with('error', 'Nije poslato! Nedostaje mail pacijenta!'); // session
         }
 
         $pdf = PDF::loadView('pdf.prescription', compact('patient', 'distance', 'proximity'));
         $pdfPath = storage_path("app/temp/prescription_{$patient->id}.pdf");
         $pdf->save($pdfPath);
-
+        //Log::info('PDF mail poslat klijentu: ' . $patient->email);
         Mail::to($patient->email)->send(new SendClientReportMail($pdfPath));
 
         unlink($pdfPath);
 
-        return back()->with('success', 'Nalaz je poslat pacijentu na mail.');
+        return back()->with('success', 'Nalaz je poslat pacijentu na mail.'); // session
     }
 
 }

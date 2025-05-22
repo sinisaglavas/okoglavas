@@ -30,8 +30,10 @@ class SendClientReportMail extends Mailable
      */
     public function build()
     {
-        return $this->subject('Vaš izveštaj sa pregleda')
+        return $this->from(config('mail.from.address'), config('mail.from.name'))
+            ->subject('Vaš nalaz vidne oštrine - OKO Glavaš')
             ->view('emails.report')
+            ->text('emails.report_plain') // <- dodaje plain tekst verziju
             ->attach($this->pdfPath, [
                 'as' => 'nalaz.pdf',
                 'mime' => 'application/pdf',

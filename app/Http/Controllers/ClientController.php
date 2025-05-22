@@ -97,6 +97,7 @@ class ClientController extends Controller
         $client->address = (!is_null($request->address) ? $request->address : "");//ako nema unosa ostavi prazno polje
         $client->city = (!is_null($request->city) ? $request->city : "");
         $client->phone = $request->phone;
+        $client->email = (!is_null($request->email) ? $request->email : "");
         $client->identity_card = $request->identity_card;
         $client->update();
 
