@@ -33,7 +33,7 @@
                     <p class="bg-warning">{{ $errors->first('phone') }}</p>
                     @enderror
                     <label for="email">Email</label>
-                    <input type="text" name="email" id="email" value="{{ $client->email }}" class="form-control">
+                    <input type="text" name="email" id="email" value="{{ $client->email }}" placeholder="Za slanje nalaza u pdf-u" class="form-control">
                     @if ($errors->any())
                         <div class="alert alert-danger">
                             <ul class="mb-0">
@@ -41,6 +41,12 @@
                                     <li>{{ $error }}</li>
                                 @endforeach
                             </ul>
+                        </div>
+                    @endif
+                    @if(session('warning'))
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert" style="max-width: 500px;">
+                            {{ session('warning') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     @endif
 {{--                    <label for="identity_card">Lična karta broj</label>--}}

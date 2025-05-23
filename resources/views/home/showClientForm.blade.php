@@ -28,14 +28,14 @@
                     <input type="text" name="address" id="address" value="{{ old('address') }}" class="form-control">
                     <label for="city">Grad</label>
                     <input type="text" name="city" id="city" class="form-control">
-                    <label for="phone">Telefon</label>
-                    <input type="tel" name="phone" id="phone" value="{{ old('phone') }}" placeholder="Unos je obavezan" class="form-control" required>
+                    <label for="phone">Mobilni tel.</label>
+                    <input type="tel" name="phone" id="phone" value="{{ old('phone') }}" placeholder="Uneti u formi +381601234567 - Unos je obavezan" class="form-control" required>
                     @error('phone')
                     <p class="bg-warning">{{ $errors->first('phone') }}</p>
                     @enderror
                     <br>
                     <label for="email">Email</label>
-                    <input type="text" name="email" id="email" value="{{ old('email') }}" class="form-control">
+                    <input type="text" name="email" id="email" value="{{ old('email') }}" placeholder="Za slanje nalaza u pdf-u" class="form-control">
                     @if ($errors->any())
                         <div class="alert alert-danger">
                             <ul class="mb-0">
@@ -45,7 +45,13 @@
                             </ul>
                         </div>
                     @endif
-{{--                    <label for="identity_card">Lična karta broj:</label>--}}
+                    @if(session('warning'))
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert" style="max-width: 500px;">
+                            {{ session('warning') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
+                    {{--                    <label for="identity_card">Lična karta broj:</label>--}}
 {{--                    <input type="number" name="identity_card" id="identity_card" value="{{ old('identity_card') }}" class="form-control"><br>--}}
                     <button type="submit" class="btn btn-primary form-control mt-4">Zapamti</button>
                 </form>

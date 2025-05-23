@@ -98,7 +98,9 @@ class PrescriptionController extends Controller
         $pdfPath = storage_path("app/temp/prescription_{$patient->id}.pdf");
         $pdf->save($pdfPath);
         //Log::info('PDF mail poslat klijentu: ' . $patient->email);
-        Mail::to($patient->email)->send(new SendClientReportMail($pdfPath));
+
+        $email = trim($patient->email); // ukloni razmake pre/posle
+        Mail::to($email)->send(new SendClientReportMail($pdfPath));
 
         unlink($pdfPath);
 

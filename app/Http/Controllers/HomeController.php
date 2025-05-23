@@ -136,14 +136,13 @@ class HomeController extends Controller
             return back()->withErrors($validator)->withInput();
         }
         // Ručna provera unikatnosti ako je unet email
-        if ($request->filled('email')) {
+        if ($request->filled('email')) { // filled - ako je popunjen email u tabeli
             $email_exist = Client::where('email', $request->email)->exists();
 
             if ($email_exist) {
-                return back()->withErrors(['email' => 'Email adresa već postoji u bazi.'])->withInput();
+                session()->flash('warning', 'Ova email adresa je već unesena za drugog klijenta.');
             }
         }
-
 
         $new_client = new AppClient();
         $new_client->name = $request->name;

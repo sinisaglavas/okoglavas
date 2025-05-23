@@ -86,7 +86,7 @@ class ClientController extends Controller
                 ->exists();
 
             if ($exist) {
-                return back()->withErrors(['email' => 'Email adresa već postoji kod drugog klijenta.'])->withInput();
+                session()->flash('warning', 'Ova email adresa je već unesena za drugog klijenta.');
             }
         }
 
@@ -101,7 +101,7 @@ class ClientController extends Controller
         $client->identity_card = $request->identity_card;
         $client->update();
 
-        return redirect('/home-glasses');
+        return redirect()->back()->with('message','Podaci od izabranog klijenta su izmenjeni!');
     }
 
     public function editDistanceForm($distance_id)
